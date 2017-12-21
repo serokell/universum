@@ -16,6 +16,7 @@ module Universum
        , module Universum.Base
        , module Universum.Bool
        , module Universum.Container
+       , module Universum.Catstraints
        , module Universum.Debug
        , module Universum.DeepSeq
        , module Universum.Exception
@@ -39,6 +40,7 @@ module Universum
 import Universum.Applicative
 import Universum.Base
 import Universum.Bool
+import Universum.Catstraints
 import Universum.Container
 import Universum.Debug
 import Universum.DeepSeq

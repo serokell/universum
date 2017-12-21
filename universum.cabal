@@ -1,5 +1,5 @@
 name:                universum
-version:             1.0.0
+version:             1.0.9
 synopsis:            Custom prelude used in Serokell
 description:         Custom prelude used in Serokell
 homepage:            https://github.com/serokell/universum
@@ -33,6 +33,7 @@ library
                            Universum.Bool
                                Universum.Bool.Guard
                                Universum.Bool.Reexport
+                           Universum.Catstraints
                            Universum.Container
                                Universum.Container.Class
                                Universum.Container.Reexport
@@ -72,12 +73,15 @@ library
   build-depends:       base >= 4.8 && < 5
                      , bytestring
                      , containers
+                     , raw-strings-qq
+                     , reflection
                      , deepseq
                      , ghc-prim
                      , hashable
                      , microlens
                      , microlens-mtl
                      , mtl
+                     , process
                      , safe-exceptions
                      , stm
                      , text
