@@ -1,3 +1,11 @@
+0.9.2
+=====
+
+* [#114](https://github.com/serokell/universum/issues/114):
+  Reexport more functions from `safe-exceptions`.
+* [#100](https://github.com/serokell/universum/issues/100):
+  Add `bug` function = `impureThrow`.
+
 0.9.1
 =====
 
