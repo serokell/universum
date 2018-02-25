@@ -303,9 +303,269 @@
 - warn: {lhs: mapMaybe leftToMaybe, rhs: lefts}
 - warn: {lhs: mapMaybe rightToMaybe, rhs: rights}
 
+############################################################################
+## Reexports
+############################################################################
+
+## Bool
+
+- warn: { name: "Use 'guard' from Universum"
+        , lhs: Control.Monad.guard, rhs: Universum.guard }
+- warn: { name: "Use 'unless' from Universum"
+        , lhs: Control.Monad.unless, rhs: Universum.unless }
+- warn: { name: "Use 'when' from Universum"
+        , lhs: Control.Monad.when, rhs: Universum.when }
+- warn: { name: "Use 'bool' from Universum"
+        , lhs: Data.Bool.bool, rhs: Universum.bool }
+
+## Container
+
+- warn: { name: "Use 'Hashable' from Universum"
+        , lhs: Data.Hashable.Hashable, rhs: Universum.Hashable }
+- warn: { name: "Use 'hashWithSalt' from Universum"
+        , lhs: Data.Hashable.hashWithSalt, rhs: Universum.hashWithSalt }
+- warn: { name: "Use 'HashMap' from Universum"
+        , lhs: Data.HashMap.Strict.HashMap, rhs: Universum.HashMap }
+- warn: { name: "Use 'HashSet' from Universum"
+        , lhs: Data.HashSet.HashSet, rhs: Universum.HashSet }
+- warn: { name: "Use 'IntMap' from Universum"
+        , lhs: Data.IntMap.Strict.IntMap, rhs: Universum.IntMap }
+- warn: { name: "Use 'IntSet' from Universum"
+        , lhs: Data.IntSet.IntSet, rhs: Universum.IntSet }
+- warn: { name: "Use 'Map' from Universum"
+        , lhs: Data.Map.Strict.Map, rhs: Universum.Map }
+- warn: { name: "Use 'Sequence' from Universum"
+        , lhs: Data.Sequence.Sequence, rhs: Universum.Sequence }
+- warn: { name: "Use 'Set' from Universum"
+        , lhs: Data.Set.Set, rhs: Universum.Set }
+- warn: { name: "Use 'swap' from Universum"
+        , lhs: Data.Tuple.swap, rhs: Universum.swap }
+- warn: { name: "Use 'Vector' from Universum"
+        , lhs: Data.Vector.Vector, rhs: Universum.Vector }
+
+## Functor
+- warn: { name: "Use '(&&&)' from Universum"
+        , lhs: Control.Arrow.(&&&), rhs: Universum.(&&&) }
+- warn: { name: "Use 'Bifunctor' from Universum"
+        , lhs: Data.Bifunctor.Bifunctor, rhs: Universum.Bifunctor }
+- warn: { name: "Use 'bimap' from Universum"
+        , lhs: Data.Bifunctor.bimap, rhs: Universum.bimap }
+- warn: { name: "Use 'first' from Universum"
+        , lhs: Data.Bifunctor.first, rhs: Universum.first }
+- warn: { name: "Use 'second' from Universum"
+        , lhs: Data.Bifunctor.second, rhs: Universum.second }
+- warn: { name: "Use 'void' from Universum"
+        , lhs: Data.Functor.void, rhs: Universum.void }
+- warn: { name: "Use '($>)' from Universum"
+        , lhs: Data.Functor.($>), rhs: Universum.($>) }
+- warn: { name: "Use 'Compose' from Universum"
+        , lhs: Data.Functor.Compose.Compose, rhs: Universum.Compose }
+- warn: { name: "Use 'getCompose' from Universum"
+        , lhs: Data.Functor.Compose.getCompose, rhs: Universum.getCompose }
+- warn: { name: "Use 'Identity' from Universum"
+        , lhs: Data.Functor.Identity.Identity, rhs: Universum.Identity }
+- warn: { name: "Use 'runIdentity' from Universum"
+        , lhs: Data.Functor.Identity.runIdentity, rhs: Universum.runIdentity }
+
+## List
+- warn: { name: "Use 'genericDrop' from Universum"
+        , lhs: Data.List.genericDrop, rhs: Universum.genericDrop }
+- warn: { name: "Use 'genericLength' from Universum"
+        , lhs: Data.List.genericLength, rhs: Universum.genericLength }
+- warn: { name: "Use 'genericReplicate' from Universum"
+        , lhs: Data.List.genericReplicate, rhs: Universum.genericReplicate }
+- warn: { name: "Use 'genericSplitAt' from Universum"
+        , lhs: Data.List.genericSplitAt, rhs: Universum.genericSplitAt }
+- warn: { name: "Use 'genericTake' from Universum"
+        , lhs: Data.List.genericTake, rhs: Universum.genericTake }
+- warn: { name: "Use 'group' from Universum"
+        , lhs: Data.List.group, rhs: Universum.group }
+- warn: { name: "Use 'inits' from Universum"
+        , lhs: Data.List.inits, rhs: Universum.inits }
+- warn: { name: "Use 'intercalate' from Universum"
+        , lhs: Data.List.intercalate, rhs: Universum.intercalate }
+- warn: { name: "Use 'intersperse' from Universum"
+        , lhs: Data.List.intersperse, rhs: Universum.intersperse }
+- warn: { name: "Use 'isPrefixOf' from Universum"
+        , lhs: Data.List.isPrefixOf, rhs: Universum.isPrefixOf }
+- warn: { name: "Use 'permutations' from Universum"
+        , lhs: Data.List.permutations, rhs: Universum.permutations }
+- warn: { name: "Use 'sort' from Universum"
+        , lhs: Data.List.sort, rhs: Universum.sort }
+- warn: { name: "Use 'sortBy' from Universum"
+        , lhs: Data.List.sortBy, rhs: Universum.sortBy }
+- warn: { name: "Use 'sortOn' from Universum"
+        , lhs: Data.List.sortOn, rhs: Universum.sortOn }
+- warn: { name: "Use 'subsequences' from Universum"
+        , lhs: Data.List.subsequences, rhs: Universum.subsequences }
+- warn: { name: "Use 'tails' from Universum"
+        , lhs: Data.List.tails, rhs: Universum.tails }
+- warn: { name: "Use 'transpose' from Universum"
+        , lhs: Data.List.transpose, rhs: Universum.transpose }
+- warn: { name: "Use 'unfoldr' from Universum"
+        , lhs: Data.List.unfoldr, rhs: Universum.unfoldr }
+
+- warn: { name: "Use 'head' from Universum"
+        , lhs: Data.List.NonEmpty.head, rhs: Universum.head }
+- warn: { name: "Use 'init' from Universum"
+        , lhs: Data.List.NonEmpty.init, rhs: Universum.init }
+- warn: { name: "Use 'last' from Universum"
+        , lhs: Data.List.NonEmpty.last, rhs: Universum.last }
+- warn: { name: "Use 'tail' from Universum"
+        , lhs: Data.List.NonEmpty.tail, rhs: Universum.tail }
+- warn: { name: "Use 'sortWith' from Universum"
+        , lhs: GHC.Exts.sortWith, rhs: Universum.sortWith }
+
+
 - warn: { name: "Use 'nonEmpty' from Universum"
         , lhs: Data.List.NonEmpty.nonEmpty, rhs: Universum.nonEmpty
         }
+
+## Monad
+- warn: { name: "Use '(>=>)' from Universum"
+        , lhs: Control.Monad.(>=>), rhs: Universum.(>=>) }
+- warn: { name: "Use '(<=<)' from Universum"
+        , lhs: Control.Monad.(<=<), rhs: Universum.(<=<) }
+- warn: { name: "Use 'forever' from Universum"
+        , lhs: Control.Monad.forever, rhs: Universum.forever }
+- warn: { name: "Use 'join' from Universum"
+        , lhs: Control.Monad.join, rhs: Universum.join }
+- warn: { name: "Use 'mfilter' from Universum"
+        , lhs: Control.Monad.mfilter, rhs: Universum.mfilter }
+- warn: { name: "Use 'filterM' from Universum"
+        , lhs: Control.Monad.filterM, rhs: Universum.filterM }
+- warn: { name: "Use 'mapAndUnzipM' from Universum"
+        , lhs: Control.Monad.mapAndUnzipM, rhs: Universum.mapAndUnzipM }
+- warn: { name: "Use 'zipWithM' from Universum"
+        , lhs: Control.Monad.zipWithM, rhs: Universum.zipWithM }
+- warn: { name: "Use 'zipWithM_' from Universum"
+        , lhs: Control.Monad.zipWithM_, rhs: Universum.zipWithM_ }
+- warn: { name: "Use 'foldM' from Universum"
+        , lhs: Control.Monad.foldM, rhs: Universum.foldM }
+- warn: { name: "Use 'foldM_' from Universum"
+        , lhs: Control.Monad.foldM_, rhs: Universum.foldM_ }
+- warn: { name: "Use 'replicateM' from Universum"
+        , lhs: Control.Monad.replicateM, rhs: Universum.replicateM }
+- warn: { name: "Use 'replicateM_' from Universum"
+        , lhs: Control.Monad.replicateM_, rhs: Universum.replicateM_ }
+- warn: { name: "Use 'liftM2' from Universum"
+        , lhs: Control.Monad.liftM2, rhs: Universum.liftM2 }
+- warn: { name: "Use 'liftM3' from Universum"
+        , lhs: Control.Monad.liftM3, rhs: Universum.liftM3 }
+- warn: { name: "Use 'liftM4' from Universum"
+        , lhs: Control.Monad.liftM4, rhs: Universum.liftM4 }
+- warn: { name: "Use 'liftM5' from Universum"
+        , lhs: Control.Monad.liftM5, rhs: Universum.liftM5 }
+- warn: { name: "Use 'ap' from Universum"
+        , lhs: Control.Monad.ap, rhs: Universum.ap }
+- warn: { name: "Use '(<$!>)' from Universum"
+        , lhs: Control.Monad.(<$!>), rhs: Universum.(<$!>) }
+
+- warn: { name: "Use 'ExceptT' from Universum"
+        , lhs: Control.Monad.Except.ExceptT, rhs: Universum.ExceptT }
+- warn: { name: "Use 'runExceptT' from Universum"
+        , lhs: Control.Monad.Except.runExceptT, rhs: Universum.runExceptT }
+
+- warn: { name: "Use 'MonadReader' from Universum"
+        , lhs: Control.Monad.Reader.MonadReader, rhs: Universum.MonadReader }
+- warn: { name: "Use 'Reader' from Universum"
+        , lhs: Control.Monad.Reader.Reader, rhs: Universum.Reader }
+- warn: { name: "Use 'ReaderT' from Universum"
+        , lhs: Control.Monad.Reader.ReaderT, rhs: Universum.ReaderT }
+- warn: { name: "Use 'runReaderT' from Universum"
+        , lhs: Control.Monad.Reader.runReaderT, rhs: Universum.runReaderT }
+- warn: { name: "Use 'ask' from Universum"
+        , lhs: Control.Monad.Reader.ask, rhs: Universum.ask }
+- warn: { name: "Use 'local' from Universum"
+        , lhs: Control.Monad.Reader.local, rhs: Universum.local }
+- warn: { name: "Use 'reader' from Universum"
+        , lhs: Control.Monad.Reader.reader, rhs: Universum.reader }
+- warn: { name: "Use 'runReader' from Universum"
+        , lhs: Control.Monad.Reader.runReader, rhs: Universum.runReader }
+
+- warn: { name: "Use 'MonadState' from Universum"
+        , lhs: Control.Monad.State.Strict.MonadState, rhs: Universum.MonadState }
+- warn: { name: "Use 'State' from Universum"
+        , lhs: Control.Monad.State.Strict.State, rhs: Universum.State }
+- warn: { name: "Use 'StateT' from Universum"
+        , lhs: Control.Monad.State.Strict.StateT, rhs: Universum.StateT }
+- warn: { name: "Use 'runStateT' from Universum"
+        , lhs: Control.Monad.State.Strict.runStateT, rhs: Universum.runStateT }
+- warn: { name: "Use 'evalState' from Universum"
+        , lhs: Control.Monad.State.Strict.evalState, rhs: Universum.evalState }
+- warn: { name: "Use 'evalStateT' from Universum"
+        , lhs: Control.Monad.State.Strict.evalStateT, rhs: Universum.evalStateT }
+- warn: { name: "Use 'execState' from Universum"
+        , lhs: Control.Monad.State.Strict.execState, rhs: Universum.execState }
+- warn: { name: "Use 'execStateT' from Universum"
+        , lhs: Control.Monad.State.Strict.execStateT, rhs: Universum.execStateT }
+- warn: { name: "Use 'get' from Universum"
+        , lhs: Control.Monad.State.Strict.get, rhs: Universum.get }
+- warn: { name: "Use 'gets' from Universum"
+        , lhs: Control.Monad.State.Strict.gets, rhs: Universum.gets }
+- warn: { name: "Use 'modify' from Universum"
+        , lhs: Control.Monad.State.Strict.modify, rhs: Universum.modify }
+- warn: { name: "Use 'modify'' from Universum"
+        , lhs: "Control.Monad.State.Strict.modify'", rhs: "Universum.modify'" }
+- warn: { name: "Use 'put' from Universum"
+        , lhs: Control.Monad.State.Strict.put, rhs: Universum.put }
+- warn: { name: "Use 'runState' from Universum"
+        , lhs: Control.Monad.State.Strict.runState, rhs: Universum.runState }
+- warn: { name: "Use 'state' from Universum"
+        , lhs: Control.Monad.State.Strict.state, rhs: Universum.state }
+- warn: { name: "Use 'withState' from Universum"
+        , lhs: Control.Monad.State.Strict.withState, rhs: Universum.withState }
+
+- warn: { name: "Use 'MonadFail' from Universum"
+        , lhs: Control.Monad.Fail.MonadFail, rhs: Universum.MonadFail }
+
+
+- warn: { name: "Use 'MonadIO' from Universum"
+        , lhs: Control.Monad.Trans.MonadIO, rhs: Universum.MonadIO }
+- warn: { name: "Use 'MonadTrans' from Universum"
+        , lhs: Control.Monad.Trans.MonadTrans, rhs: Universum.MonadTrans }
+- warn: { name: "Use 'lift' from Universum"
+        , lhs: Control.Monad.Trans.lift, rhs: Universum.lift }
+- warn: { name: "Use 'liftIO' from Universum"
+        , lhs: Control.Monad.Trans.liftIO, rhs: Universum.liftIO }
+
+- warn: { name: "Use 'IdentityT' from Universum"
+        , lhs: Control.Monad.Trans.Identity.IdentityT, rhs: Universum.IdentityT }
+- warn: { name: "Use 'runIdentityT' from Universum"
+        , lhs: Control.Monad.Trans.Identity.runIdentityT, rhs: Universum.runIdentityT }
+
+- warn: { name: "Use 'MaybeT' from Universum"
+        , lhs: Control.Monad.Trans.Maybe.MaybeT, rhs: Universum.MaybeT }
+- warn: { name: "Use 'maybeToExceptT' from Universum"
+        , lhs: Control.Monad.Trans.Maybe.maybeToExceptT, rhs: Universum.maybeToExceptT }
+- warn: { name: "Use 'exceptToMaybeT' from Universum"
+        , lhs: Control.Monad.Trans.Maybe.exceptToMaybeT, rhs: Universum.exceptToMaybeT }
+
+- warn: { name: "Use 'catMaybes' from Universum"
+        , lhs: Data.Maybe.catMaybes, rhs: Universum.catMaybes }
+- warn: { name: "Use 'fromMaybe' from Universum"
+        , lhs: Data.Maybe.fromMaybe, rhs: Universum.fromMaybe }
+- warn: { name: "Use 'isJust' from Universum"
+        , lhs: Data.Maybe.isJust, rhs: Universum.isJust }
+- warn: { name: "Use 'isNothing' from Universum"
+        , lhs: Data.Maybe.isNothing, rhs: Universum.isNothing }
+- warn: { name: "Use 'listToMaybe' from Universum"
+        , lhs: Data.Maybe.listToMaybe, rhs: Universum.listToMaybe }
+- warn: { name: "Use 'mapMaybe' from Universum"
+        , lhs: Data.Maybe.mapMaybe, rhs: Universum.mapMaybe }
+- warn: { name: "Use 'maybeToList' from Universum"
+        , lhs: Data.Maybe.maybeToList, rhs: Universum.maybeToList }
+
+- warn: { name: "Use 'isLeft' from Universum"
+        , lhs: Data.Either.isLeft, rhs: Universum.isLeft }
+- warn: { name: "Use 'isRight' from Universum"
+        , lhs: Data.Either.isRight, rhs: Universum.isRight }
+- warn: { name: "Use 'lefts' from Universum"
+        , lhs: Data.Either.lefts, rhs: Universum.lefts }
+- warn: { name: "Use 'partitionEithers' from Universum"
+        , lhs: Data.Either.partitionEithers, rhs: Universum.partitionEithers }
+- warn: { name: "Use 'rights' from Universum"
+        , lhs: Data.Either.rights, rhs: Universum.rights }
 
 - warn: { name: "Use 'newTVar' from Universum"
         , lhs: Control.Concurrent.STM.TVar.newTVar, rhs: Universum.newTVar }
@@ -337,6 +597,15 @@
 - warn: { name: "Use 'atomicWriteIORef' from Universum"
         , lhs: Data.IORef.atomicWriteIORef, rhs: Universum.atomicWriteIORef }
 
+## String
+
+- warn: { name: "Use 'ByteString' from Universum"
+        , lhs: Data.ByteString.ByteString, rhs: Universum.ByteString }
+- warn: { name: "Use 'IsString' from Universum"
+        , lhs: Data.String.IsString, rhs: Universum.IsString }
+
+- warn: { name: "Use 'Text' from Universum"
+        , lhs: Data.Text.Text, rhs: Universum.Text }
 - warn: { name: "Use 'lines' from Universum"
         , lhs: Data.Text.lines, rhs: Universum.lines }
 - warn: { name: "Use 'unlines' from Universum"
@@ -346,10 +615,33 @@
 - warn: { name: "Use 'unwords' from Universum"
         , lhs: Data.Text.unwords, rhs: Universum.unwords }
 
+- warn: { name: "Use 'Buildable' from Universum"
+        , lhs: Data.Text.Buildable, rhs: Universum.Buildable }
+- warn: { name: "Use 'decodeUtf8'' from Universum"
+        , lhs: "Data.Text.Encoding.decodeUtf8'", rhs: "Universum.decodeUtf8'" }
+- warn: { name: "Use 'decodeUtf8With' from Universum"
+        , lhs: Data.Text.Encoding.decodeUtf8With, rhs: Universum.decodeUtf8With }
+
+- warn: { name: "Use 'OnDecodeError' from Universum"
+        , lhs: Data.Text.Encoding.Error.OnDecodeError, rhs: Universum.OnDecodeError }
+- warn: { name: "Use 'OnDecodeError' from Universum"
+        , lhs: Data.Text.Encoding.Error.OnDecodeError, rhs: Universum.OnDecodeError }
+- warn: { name: "Use 'OnError' from Universum"
+        , lhs: Data.Text.Encoding.Error.OnError, rhs: Universum.OnError }
+- warn: { name: "Use 'UnicodeException' from Universum"
+        , lhs: Data.Text.Encoding.Error.UnicodeException, rhs: Universum.UnicodeException }
+- warn: { name: "Use 'lenientDecode' from Universum"
+        , lhs: Data.Text.Encoding.Error.lenientDecode, rhs: Universum.lenientDecode }
+- warn: { name: "Use 'strictDecode' from Universum"
+        , lhs: Data.Text.Encoding.Error.strictDecode, rhs: Universum.strictDecode }
+
 - warn: { name: "Use 'fromStrict' from Universum"
         , lhs: Data.Text.Lazy.fromStrict, rhs: Universum.fromStrict }
 - warn: { name: "Use 'toStrict' from Universum"
         , lhs: Data.Text.Lazy.toStrict, rhs: Universum.toStrict }
+
+- warn: { name: "Use 'readMaybe' from Universum"
+        , lhs: Text.Read.readMaybe, rhs: Universum.readMaybe }
 
 - warn: { name: "Use 'getLine' from Universum"
         , lhs: Data.Text.IO.getLine, rhs: Universum.getLine }
@@ -364,15 +656,6 @@
 - warn: { name: "Use 'getContents' from Universum"
         , lhs: Data.Text.Lazy.IO.getContents, rhs: Universum.getContents }
 
-- warn: { name: "Use '(&&&)' from Universum"
-        , lhs: (Control.Arrow.&&&), rhs: (Universum.&&&) }
-
-- warn: { name: "Use 'MaybeT' from Universum"
-        , lhs: Control.Monad.Trans.Maybe.MaybeT, rhs: Universum.MaybeT }
-- warn: { name: "Use 'maybeToExceptT' from Universum"
-        , lhs: Control.Monad.Trans.Maybe.maybeToExceptT, rhs: Universum.maybeToExceptT }
-- warn: { name: "Use 'exceptToMaybeT' from Universum"
-        , lhs: Control.Monad.Trans.Maybe.exceptToMaybeT, rhs: Universum.exceptToMaybeT }
 
 ############################################################################
 ## Lifted functions in Universum
