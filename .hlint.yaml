@@ -8,16 +8,6 @@
 # We have 'whenJust' for this
 - ignore: {name: "Use Foldable.forM_"}
 
-- warn: {lhs: either (const True) (const False), rhs: isLeft}
-- warn: {lhs: either (const False) (const True), rhs: isRight}
-
-- warn: { lhs: Data.Map.toAscList (Data.Map.fromList x)
-        , rhs: Universum.sortWith fst x
-        }
-- warn: { lhs: Data.Map.toDescList (Data.Map.fromList x)
-        , rhs: Universum.sortWith (Down . fst) x
-        }
-
 - warn: {lhs: map fst &&& map snd, rhs: unzip}
 
 
@@ -39,18 +29,65 @@
 - warn: {lhs: Control.Exception.evaluate, rhs: evaluateWHNF}
 - warn: {lhs: Control.Exception.evaluate (force x), rhs: evaluateNF x}
 - warn: {lhs: Control.Exception.evaluate (x `deepseq` ()), rhs: evaluateNF_ x}
-
 - warn: {lhs: void (evaluateWHNF x), rhs: evaluateWHNF_ x}
 - warn: {lhs: void (evaluateNF x), rhs: evaluateNF_ x}
 
-- hint: {lhs: "foldl' (flip f)", rhs: "flipfoldl' f"}
+## Monad.Trans
+
+- warn: {lhs: flip runReaderT r t, rhs: usingReaderT r t}
+- warn: {lhs: flip runReader r t, rhs: usingReader r t}
+- warn: {lhs: flip runStateT r t, rhs: usingStateT r t}
+- warn: {lhs: flip runState r t, rhs: usingState r t}
+- hint: {lhs: fst <$> usingStateT s st, rhs: evaluatingStateT s st}
+- hint: {lhs: fst (usingState s st), rhs: evaluatingState s st}
+- hint: {lhs: snd <$> usingStateT s st, rhs: executingStateT s st}
+- hint: {lhs: snd (usingState s st), rhs: executingState s st}
+
+## Containers
+- hint: {lhs: Data.HashMap.Lazy.keys, rhs: Universum.keys}
+- hint: {lhs: Data.HashMap.Strict.keys, rhs: Universum.keys}
+- hint: {lhs: Data.Map.Lazy.keys, rhs: Universum.keys}
+- hint: {lhs: Data.Map.Strict.keys, rhs: Universum.keys}
+- hint: {lhs: Data.IntMap.Lazy.keys, rhs: Universum.keys}
+- hint: {lhs: Data.IntMap.Strict.keys, rhs: Universum.keys}
+
+- hint: {lhs: Data.HashMap.Lazy.elems, rhs: Universum.elems}
+- hint: {lhs: Data.HashMap.Strict.elems, rhs: Universum.elems}
+- hint: {lhs: Data.Map.Lazy.elems, rhs: Universum.elems}
+- hint: {lhs: Data.Map.Strict.elems, rhs: Universum.elems}
+- hint: {lhs: Data.IntMap.Lazy.elems, rhs: Universum.elems}
+- hint: {lhs: Data.IntMap.Strict.elems, rhs: Universum.elems}
+
+- hint: {lhs: Data.HashMap.Lazy.toList, rhs: Universum.toPairs}
+- hint: {lhs: Data.HashMap.Strict.toList, rhs: Universum.toPairs}
+- hint: {lhs: Data.Map.Lazy.toList, rhs: Universum.toPairs}
+- hint: {lhs: Data.Map.Lazy.assocs, rhs: Universum.toPairs}
+- hint: {lhs: Data.Map.Strict.toList, rhs: Universum.toPairs}
+- hint: {lhs: Data.Map.Strict.assocs, rhs: Universum.toPairs}
+- hint: {lhs: Data.IntMap.Lazy.toList, rhs: Universum.toPairs}
+- hint: {lhs: Data.IntMap.Lazy.assocs, rhs: Universum.toPairs}
+- hint: {lhs: Data.IntMap.Strict.toList, rhs: Universum.toPairs}
+- hint: {lhs: Data.IntMap.Strict.assocs, rhs: Universum.toPairs}
+
+- warn: { lhs: Data.Map.toAscList (Data.Map.fromList x)
+        , rhs: Universum.sortWith fst x
+        }
+- warn: { lhs: Data.Map.toDescList (Data.Map.fromList x)
+        , rhs: Universum.sortWith (Down . fst) x
+        }
+
+- warn: {lhs: Data.Set.toList (Data.Set.fromList l), rhs: Universum.sortNub}
+- warn: {lhs: Data.Set.assocs (Data.Set.fromList l), rhs: Universum.sortNub}
+- warn: {lhs: Data.Set.toAscList (Data.Set.fromList l), rhs: Universum.sortNub}
+
+- warn: {lhs: Data.HashSet.toList (Data.HashSet.fromList l), rhs: Universum.unstableNub}
 
 - hint: { lhs: nub, rhs: Universum.ordNub
         , note: "'nub' is O(n^2), 'ordNub' is O(n log n)"
         }
 
-- warn: { lhs: sortBy (comparing f), rhs: Universum.sortOn f
-        , note: "If the function you are using for 'comparing' is fast (e.g. 'fst'), use 'sortWith' instead of 'sortOn', because 'sortOn' caches applications the function and 'sortWith' doesn't."
+- warn: { lhs: sortBy (comparing f), rhs: Universum.sortWith f
+        , note: "If the function you are using for 'comparing' is slow, use 'sortOn' instead of 'sortWith', because 'sortOn' caches applications the function and 'sortWith' doesn't."
         }
 
 - warn: { lhs: sortOn fst, rhs: Universum.sortWith fst
@@ -65,6 +102,13 @@
 - warn: { lhs: sortOn (Down . snd), rhs: Universum.sortWith (Down . snd)
         , note: "'sortWith' will be faster here because it doesn't do caching"
         }
+
+- hint: {lhs: "foldl' (flip f)", rhs: "flipfoldl' f"}
+
+- warn: {lhs: f >>= guard, rhs: guardM}
+- warn: {lhs: guard =<< f, rhs: guardM}
+
+- hint: {lhs: fmap (fmap f x), rhs: f <<$>> x}
 
 - warn: {lhs: fmap concat (mapM f s), rhs: Universum.concatMapM f s}
 - warn: {lhs: concat <$> mapM f s, rhs: Universum.concatMapM f s}
@@ -103,6 +147,24 @@
 
 - warn: {lhs: whenM (not <$> x), rhs: unlessM x}
 - warn: {lhs: unlessM (not <$> x), rhs: whenM x}
+
+- warn: {lhs: either (const True) (const False), rhs: isLeft}
+- warn: {lhs: either (const False) (const True), rhs: isRight}
+
+- warn: {lhs: either id (const a) x, rhs: fromLeft a x}
+- warn: {lhs: either (const b) id x, rhs: fromRight b x}
+
+- warn: {lhs: either Just (const Nothing) x, rhs: leftToMaybe x}
+- warn: {lhs: either (const Nothing) Just x, rhs: rightToMaybe x}
+- warn: {lhs: maybe (Left l) Right x, rhs: maybeToRight x}
+- warn: {lhs: maybe (Right r) Left x, rhs: maybeToLeft x}
+
+- warn: {lhs: fromMaybe mempty m, rhs: maybeToMonoid m}
+- warn: {lhs: "m ?: mempty", rhs: maybeToMonoid m}
+
+
+- hint: {lhs: pure (), rhs: pass}
+- hint: {lhs: return (), rhs: pass}
 
 # Probably will be reduced when function equality is done:
 # https://github.com/ndmitchell/hlint/issues/434
@@ -224,6 +286,19 @@
 - warn: {lhs: (m >>= either (const (pure ())  ) f), rhs: Universum.whenRightM m f}
 - warn: {lhs: (m >>= either (const (return ())) f), rhs: Universum.whenRightM m f}
 - warn: {lhs: (m >>= either (const (pass)     ) f), rhs: Universum.whenRightM m f}
+
+- warn: {lhs: (case m of [] -> return (); (x:xs) -> f (x :| xs)), rhs: Universum.whenNotNull m f}
+- warn: {lhs: (case m of [] -> pure ()  ; (x:xs) -> f (x :| xs)), rhs: Universum.whenNotNull m f}
+- warn: {lhs: (case m of [] -> pass     ; (x:xs) -> f (x :| xs)), rhs: Universum.whenNotNull m f}
+- warn: {lhs: (case m of (x:xs) -> f (x :| xs); [] -> return ()), rhs: Universum.whenNotNull m f}
+- warn: {lhs: (case m of (x:xs) -> f (x :| xs); [] -> pure ()  ), rhs: Universum.whenNotNull m f}
+- warn: {lhs: (case m of (x:xs) -> f (x :| xs); [] -> pass     ), rhs: Universum.whenNotNull m f}
+- warn: {lhs: (m >>= \case [] -> pass     ; (x:xs) -> f (x :| xs)), rhs: Universum.whenNotNullM m f}
+- warn: {lhs: (m >>= \case [] -> pure ()  ; (x:xs) -> f (x :| xs)), rhs: Universum.whenNotNullM m f}
+- warn: {lhs: (m >>= \case [] -> return (); (x:xs) -> f (x :| xs)), rhs: Universum.whenNotNullM m f}
+- warn: {lhs: (m >>= \case (x:xs) -> f (x :| xs); [] -> pass     ), rhs: Universum.whenNotNullM m f}
+- warn: {lhs: (m >>= \case (x:xs) -> f (x :| xs); [] -> pure ()  ), rhs: Universum.whenNotNullM m f}
+- warn: {lhs: (m >>= \case (x:xs) -> f (x :| xs); [] -> return ()), rhs: Universum.whenNotNullM m f}
 
 - warn: {lhs: mapMaybe leftToMaybe, rhs: lefts}
 - warn: {lhs: mapMaybe rightToMaybe, rhs: rights}
