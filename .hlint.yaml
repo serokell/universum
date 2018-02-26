@@ -548,6 +548,13 @@
 
 ## Exception
 - warn: { name: "Use 'Exception' from Universum"
+        , lhs: Control.Exception.Exception, rhs: Universum.Exception }
+- warn: { name: "Use 'toException' from Universum"
+        , lhs: Control.Exception.toException, rhs: Universum.toException }
+- warn: { name: "Use 'fromException' from Universum"
+        , lhs: Control.Exception.fromException, rhs: Universum.fromException }
+
+- warn: { name: "Use 'Exception' from Universum"
         , lhs: Control.Exception.Safe.Exception, rhs: Universum.Exception }
 - warn: { name: "Use 'toException' from Universum"
         , lhs: Control.Exception.Safe.toException, rhs: Universum.toException }
