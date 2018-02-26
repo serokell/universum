@@ -8,9 +8,6 @@
 # We have 'whenJust' for this
 - ignore: {name: "Use Foldable.forM_"}
 
-- warn: {lhs: map fst &&& map snd, rhs: unzip}
-
-
 ############################################################################
 ## Universum
 ############################################################################
@@ -34,10 +31,10 @@
 
 ## Monad.Trans
 
-- warn: {lhs: flip runReaderT r t, rhs: usingReaderT r t}
-- warn: {lhs: flip runReader r t, rhs: usingReader r t}
-- warn: {lhs: flip runStateT r t, rhs: usingStateT r t}
-- warn: {lhs: flip runState r t, rhs: usingState r t}
+- warn: {lhs: flip runReaderT , rhs: usingReaderT }
+- warn: {lhs: flip runReader  , rhs: usingReader }
+- warn: {lhs: flip runStateT  , rhs: usingStateT }
+- warn: {lhs: flip runState   , rhs: usingState }
 - hint: {lhs: fst <$> usingStateT s st, rhs: evaluatingStateT s st}
 - hint: {lhs: fst (usingState s st), rhs: evaluatingState s st}
 - hint: {lhs: snd <$> usingStateT s st, rhs: executingStateT s st}
@@ -76,39 +73,35 @@
         , rhs: Universum.sortWith (Down . fst) x
         }
 
-- warn: {lhs: Data.Set.toList (Data.Set.fromList l), rhs: Universum.sortNub}
-- warn: {lhs: Data.Set.assocs (Data.Set.fromList l), rhs: Universum.sortNub}
-- warn: {lhs: Data.Set.toAscList (Data.Set.fromList l), rhs: Universum.sortNub}
+- warn: {lhs: Data.Set.toList (Data.Set.fromList l), rhs: Universum.sortNub l}
+- warn: {lhs: Data.Set.assocs (Data.Set.fromList l), rhs: Universum.sortNub l}
+- warn: {lhs: Data.Set.toAscList (Data.Set.fromList l), rhs: Universum.sortNub l}
 
 - warn: {lhs: Data.HashSet.toList (Data.HashSet.fromList l), rhs: Universum.unstableNub}
 
 - hint: { lhs: nub, rhs: Universum.ordNub
-        , note: "'nub' is O(n^2), 'ordNub' is O(n log n)"
-        }
+        , note: "'nub' is O(n^2), 'ordNub' is O(n log n)" }
 
 - warn: { lhs: sortBy (comparing f), rhs: Universum.sortWith f
-        , note: "If the function you are using for 'comparing' is slow, use 'sortOn' instead of 'sortWith', because 'sortOn' caches applications the function and 'sortWith' doesn't."
-        }
+        , note: "If the function you are using for 'comparing' is slow, use 'sortOn' instead of 'sortWith', because 'sortOn' caches applications the function and 'sortWith' doesn't." }
 
 - warn: { lhs: sortOn fst, rhs: Universum.sortWith fst
-        , note: "'sortWith' will be faster here because it doesn't do caching"
-        }
+        , note: "'sortWith' will be faster here because it doesn't do caching" }
 - warn: { lhs: sortOn snd, rhs: Universum.sortWith snd
-        , note: "'sortWith' will be faster here because it doesn't do caching"
-        }
+        , note: "'sortWith' will be faster here because it doesn't do caching" }
 - warn: { lhs: sortOn (Down . fst), rhs: Universum.sortWith (Down . fst)
-        , note: "'sortWith' will be faster here because it doesn't do caching"
-        }
+        , note: "'sortWith' will be faster here because it doesn't do caching" }
 - warn: { lhs: sortOn (Down . snd), rhs: Universum.sortWith (Down . snd)
-        , note: "'sortWith' will be faster here because it doesn't do caching"
-        }
+        , note: "'sortWith' will be faster here because it doesn't do caching" }
+
+- warn: {lhs: map fst &&& map snd, rhs: unzip}
 
 - hint: {lhs: "foldl' (flip f)", rhs: "flipfoldl' f"}
 
 - warn: {lhs: f >>= guard, rhs: guardM}
 - warn: {lhs: guard =<< f, rhs: guardM}
 
-- hint: {lhs: fmap (fmap f x), rhs: f <<$>> x}
+- hint: {lhs: fmap (fmap f) x, rhs: f <<$>> x}
 
 - warn: {lhs: fmap concat (mapM f s), rhs: Universum.concatMapM f s}
 - warn: {lhs: concat <$> mapM f s, rhs: Universum.concatMapM f s}
@@ -119,31 +112,23 @@
 - warn: {lhs: concat <$> for f s, rhs: Universum.concatForM s f}
 
 - hint: { lhs: fmap and (sequence s), rhs: Universum.andM s
-        , note: "Applying this hint would mean that some actions\n that were being executed previously would no longer be executed."
-        }
+        , note: "Applying this hint would mean that some actions\n that were being executed previously would no longer be executed." }
 - hint: { lhs: and <$> sequence s, rhs: Universum.andM s
-        , note: "Applying this hint would mean that some actions\n that were being executed previously would no longer be executed."
-        }
+        , note: "Applying this hint would mean that some actions\n that were being executed previously would no longer be executed." }
 
 - hint: { lhs: fmap or (sequence s), rhs: Universum.orM s
-        , note: "Applying this hint would mean that some actions\n that were being executed previously would no longer be executed."
-        }
+        , note: "Applying this hint would mean that some actions\n that were being executed previously would no longer be executed." }
 - hint: { lhs: or <$> sequence s, rhs: Universum.orM s
-        , note: "Applying this hint would mean that some actions\n that were being executed previously would no longer be executed."
-        }
+        , note: "Applying this hint would mean that some actions\n that were being executed previously would no longer be executed." }
 
 - hint: { lhs: fmap and (mapM f s), rhs: Universum.allM f s
-        , note: "Applying this hint would mean that some actions\n that were being executed previously would no longer be executed."
-        }
+        , note: "Applying this hint would mean that some actions\n that were being executed previously would no longer be executed." }
 - hint: { lhs: and <$> mapM f s, rhs: Universum.allM f s
-        , note: "Applying this hint would mean that some actions\n that were being executed previously would no longer be executed."
-        }
+        , note: "Applying this hint would mean that some actions\n that were being executed previously would no longer be executed." }
 - hint: { lhs: fmap or (mapM f s), rhs: Universum.anyM f s
-        , note: "Applying this hint would mean that some actions\n that were being executed previously would no longer be executed."
-        }
+        , note: "Applying this hint would mean that some actions\n that were being executed previously would no longer be executed." }
 - hint: { lhs: or <$> mapM f s, rhs: Universum.anyM f s
-        , note: "Applying this hint would mean that some actions\n that were being executed previously would no longer be executed."
-        }
+        , note: "Applying this hint would mean that some actions\n that were being executed previously would no longer be executed." }
 
 - warn: {lhs: whenM (not <$> x), rhs: unlessM x}
 - warn: {lhs: unlessM (not <$> x), rhs: whenM x}
@@ -287,18 +272,18 @@
 - warn: {lhs: (m >>= either (const (return ())) f), rhs: Universum.whenRightM m f}
 - warn: {lhs: (m >>= either (const (pass)     ) f), rhs: Universum.whenRightM m f}
 
-- warn: {lhs: (case m of [] -> return (); (x:xs) -> f (x :| xs)), rhs: Universum.whenNotNull m f}
-- warn: {lhs: (case m of [] -> pure ()  ; (x:xs) -> f (x :| xs)), rhs: Universum.whenNotNull m f}
-- warn: {lhs: (case m of [] -> pass     ; (x:xs) -> f (x :| xs)), rhs: Universum.whenNotNull m f}
-- warn: {lhs: (case m of (x:xs) -> f (x :| xs); [] -> return ()), rhs: Universum.whenNotNull m f}
-- warn: {lhs: (case m of (x:xs) -> f (x :| xs); [] -> pure ()  ), rhs: Universum.whenNotNull m f}
-- warn: {lhs: (case m of (x:xs) -> f (x :| xs); [] -> pass     ), rhs: Universum.whenNotNull m f}
-- warn: {lhs: (m >>= \case [] -> pass     ; (x:xs) -> f (x :| xs)), rhs: Universum.whenNotNullM m f}
-- warn: {lhs: (m >>= \case [] -> pure ()  ; (x:xs) -> f (x :| xs)), rhs: Universum.whenNotNullM m f}
-- warn: {lhs: (m >>= \case [] -> return (); (x:xs) -> f (x :| xs)), rhs: Universum.whenNotNullM m f}
-- warn: {lhs: (m >>= \case (x:xs) -> f (x :| xs); [] -> pass     ), rhs: Universum.whenNotNullM m f}
-- warn: {lhs: (m >>= \case (x:xs) -> f (x :| xs); [] -> pure ()  ), rhs: Universum.whenNotNullM m f}
-- warn: {lhs: (m >>= \case (x:xs) -> f (x :| xs); [] -> return ()), rhs: Universum.whenNotNullM m f}
+- warn: {lhs: "(case m of [] -> return (); (x:xs) -> f (x :| xs))", rhs: Universum.whenNotNull m f}
+- warn: {lhs: "(case m of [] -> pure ()  ; (x:xs) -> f (x :| xs))", rhs: Universum.whenNotNull m f}
+- warn: {lhs: "(case m of [] -> pass     ; (x:xs) -> f (x :| xs))", rhs: Universum.whenNotNull m f}
+- warn: {lhs: "(case m of (x:xs) -> f (x :| xs); [] -> return ())", rhs: Universum.whenNotNull m f}
+- warn: {lhs: "(case m of (x:xs) -> f (x :| xs); [] -> pure ()  )", rhs: Universum.whenNotNull m f}
+- warn: {lhs: "(case m of (x:xs) -> f (x :| xs); [] -> pass     )", rhs: Universum.whenNotNull m f}
+- warn: {lhs: "(m >>= \\case [] -> pass     ; (x:xs) -> f (x :| xs))", rhs: Universum.whenNotNullM m f}
+- warn: {lhs: "(m >>= \\case [] -> pure ()  ; (x:xs) -> f (x :| xs))", rhs: Universum.whenNotNullM m f}
+- warn: {lhs: "(m >>= \\case [] -> return (); (x:xs) -> f (x :| xs))", rhs: Universum.whenNotNullM m f}
+- warn: {lhs: "(m >>= \\case (x:xs) -> f (x :| xs); [] -> pass     )", rhs: Universum.whenNotNullM m f}
+- warn: {lhs: "(m >>= \\case (x:xs) -> f (x :| xs); [] -> pure ()  )", rhs: Universum.whenNotNullM m f}
+- warn: {lhs: "(m >>= \\case (x:xs) -> f (x :| xs); [] -> return ())", rhs: Universum.whenNotNullM m f}
 
 - warn: {lhs: mapMaybe leftToMaybe, rhs: lefts}
 - warn: {lhs: mapMaybe rightToMaybe, rhs: rights}
@@ -306,6 +291,213 @@
 ############################################################################
 ## Reexports
 ############################################################################
+
+## Applicative
+- warn: { name: "Use 'Alternative' from Universum"
+        , lhs: Control.Applicative.Alternative, rhs: Universum.Alternative }
+- warn: { name: "Use 'empty' from Universum"
+        , lhs: Control.Applicative.empty, rhs: Universum.empty }
+- warn: { name: "Use '(<|>)' from Universum"
+        , lhs: Control.Applicative.(<|>), rhs: Universum.(<|>) }
+- warn: { name: "Use 'some' from Universum"
+        , lhs: Control.Applicative.some, rhs: Universum.some }
+- warn: { name: "Use 'many' from Universum"
+        , lhs: Control.Applicative.many, rhs: Universum.many }
+- warn: { name: "Use 'Const' from Universum"
+        , lhs: Control.Applicative.Const, rhs: Universum.Const }
+- warn: { name: "Use 'getConst' from Universum"
+        , lhs: Control.Applicative.getConst, rhs: Universum.getConst }
+- warn: { name: "Use 'ZipList' from Universum"
+        , lhs: Control.Applicative.ZipList, rhs: Universum.ZipList }
+- warn: { name: "Use 'getZipList' from Universum"
+        , lhs: Control.Applicative.getZipList, rhs: Universum.getZipList }
+- warn: { name: "Use 'liftA2' from Universum"
+        , lhs: Control.Applicative.liftA2, rhs: Universum.liftA2 }
+- warn: { name: "Use 'liftA3' from Universum"
+        , lhs: Control.Applicative.liftA3, rhs: Universum.liftA3 }
+- warn: { name: "Use 'optional' from Universum"
+        , lhs: Control.Applicative.optional, rhs: Universum.optional }
+- warn: { name: "Use '(<**>)' from Universum"
+        , lhs: Control.Applicative.(<**>), rhs: Universum.(<**>) }
+
+## Base
+- warn: { name: "Use 'xor' from Universum"
+        , lhs: Data.Bits.xor, rhs: Universum.xor }
+
+- warn: { name: "Use 'chr' from Universum"
+        , lhs: Data.Char.chr, rhs: Universum.chr }
+
+- warn: { name: "Use 'Int16' from Universum"
+        , lhs: Data.Int.Int16, rhs: Universum.Int16 }
+- warn: { name: "Use 'Int32' from Universum"
+        , lhs: Data.Int.Int32, rhs: Universum.Int32 }
+- warn: { name: "Use 'Int64' from Universum"
+        , lhs: Data.Int.Int64, rhs: Universum.Int64 }
+- warn: { name: "Use 'Int8' from Universum"
+        , lhs: Data.Int.Int8, rhs: Universum.Int8 }
+
+- warn: { name: "Use 'Word16' from Universum"
+        , lhs: Data.Word.Word16, rhs: Universum.Word16 }
+- warn: { name: "Use 'Word32' from Universum"
+        , lhs: Data.Word.Word32, rhs: Universum.Word32 }
+- warn: { name: "Use 'Word64' from Universum"
+        , lhs: Data.Word.Word64, rhs: Universum.Word64 }
+- warn: { name: "Use 'Word8' from Universum"
+        , lhs: Data.Word.Word8, rhs: Universum.Word8 }
+- warn: { name: "Use 'byteSwap16' from Universum"
+        , lhs: Data.Word.byteSwap16, rhs: Universum.byteSwap16 }
+- warn: { name: "Use 'byteSwap32' from Universum"
+        , lhs: Data.Word.byteSwap32, rhs: Universum.byteSwap32 }
+- warn: { name: "Use 'byteSwap64' from Universum"
+        , lhs: Data.Word.byteSwap64, rhs: Universum.byteSwap64 }
+
+- warn: { name: "Use 'Natural' from Universum"
+        , lhs: Numeric.Natural.Natural, rhs: Universum.Natural }
+
+- warn: { name: "Use 'Handle' from Universum"
+        , lhs: System.IO.Handle, rhs: Universum.Handle }
+- warn: { name: "Use 'IOMode' from Universum"
+        , lhs: System.IO.IOMode, rhs: Universum.IOMode }
+- warn: { name: "Use 'ReadMode' from Universum"
+        , lhs: System.IO.ReadMode, rhs: Universum.ReadMode }
+- warn: { name: "Use 'WriteMode' from Universum"
+        , lhs: System.IO.WriteMode, rhs: Universum.WriteMode }
+- warn: { name: "Use 'AppendMode' from Universum"
+        , lhs: System.IO.AppendMode, rhs: Universum.AppendMode }
+- warn: { name: "Use 'ReadWriteMode' from Universum"
+        , lhs: System.IO.ReadWriteMode, rhs: Universum.ReadWriteMode }
+- warn: { name: "Use 'stderr' from Universum"
+        , lhs: System.IO.stderr, rhs: Universum.stderr }
+- warn: { name: "Use 'stdin' from Universum"
+        , lhs: System.IO.stdin, rhs: Universum.stdin }
+- warn: { name: "Use 'stdout' from Universum"
+        , lhs: System.IO.stdout, rhs: Universum.stdout }
+- warn: { name: "Use 'withFile' from Universum"
+        , lhs: System.IO.withFile, rhs: Universum.withFile }
+
+- warn: { name: "Use 'foldlM' from Universum"
+        , lhs: Data.Foldable.foldlM, rhs: Universum.foldlM }
+- warn: { name: "Use 'foldrM' from Universum"
+        , lhs: Data.Foldable.foldrM, rhs: Universum.foldrM }
+- warn: { name: "Use 'maximumBy' from Universum"
+        , lhs: Data.Foldable.maximumBy, rhs: Universum.maximumBy }
+- warn: { name: "Use 'minimumBy' from Universum"
+        , lhs: Data.Foldable.minimumBy, rhs: Universum.minimumBy }
+
+- warn: { name: "Use 'Down' from Universum"
+        , lhs: Data.Ord.Down, rhs: Universum.Down }
+- warn: { name: "Use 'comparing' from Universum"
+        , lhs: Data.Ord.comparing, rhs: Universum.comparing }
+
+- warn: { name: "Use 'fmapDefault' from Universum"
+        , lhs: Data.Traversable.fmapDefault, rhs: Universum.fmapDefault }
+- warn: { name: "Use 'foldMapDefault' from Universum"
+        , lhs: Data.Traversable.foldMapDefault, rhs: Universum.foldMapDefault }
+- warn: { name: "Use 'forM' from Universum"
+        , lhs: Data.Traversable.forM, rhs: Universum.forM }
+- warn: { name: "Use 'mapAccumL' from Universum"
+        , lhs: Data.Traversable.mapAccumL, rhs: Universum.mapAccumL }
+- warn: { name: "Use 'mapAccumR' from Universum"
+        , lhs: Data.Traversable.mapAccumR, rhs: Universum.mapAccumR }
+
+- warn: { name: "Use 'Proxy' from Universum"
+        , lhs: Data.Proxy.Proxy, rhs: Universum.Proxy }
+
+- warn: { name: "Use 'Typeable' from Universum"
+        , lhs: Data.Typeable.Typeable, rhs: Universum.Typeable }
+
+- warn: { name: "Use 'Void' from Universum"
+        , lhs: Data.Void.Void, rhs: Universum.Void }
+- warn: { name: "Use 'absurd' from Universum"
+        , lhs: Data.Void.absurd, rhs: Universum.absurd }
+- warn: { name: "Use 'vacuous' from Universum"
+        , lhs: Data.Void.vacuous, rhs: Universum.vacuous }
+
+- warn: { name: "Use 'maxInt' from Universum"
+        , lhs: Data.Base.maxInt, rhs: Universum.maxInt }
+- warn: { name: "Use 'minInt' from Universum"
+        , lhs: Data.Base.minInt, rhs: Universum.minInt }
+- warn: { name: "Use 'ord' from Universum"
+        , lhs: Data.Base.ord, rhs: Universum.ord }
+
+- warn: { name: "Use 'boundedEnumFrom' from Universum"
+        , lhs: GHC.Enum.boundedEnumFrom, rhs: Universum.boundedEnumFrom }
+- warn: { name: "Use 'boundedEnumFromThen' from Universum"
+        , lhs: GHC.Enum.boundedEnumFromThen, rhs: Universum.boundedEnumFromThen }
+
+- warn: { name: "Use 'Constraint' from Universum"
+        , lhs: GHC.Exts.Constraint, rhs: Universum.Constraint }
+- warn: { name: "Use 'FunPtr' from Universum"
+        , lhs: GHC.Exts.FunPtr, rhs: Universum.FunPtr }
+- warn: { name: "Use 'Ptr' from Universum"
+        , lhs: GHC.Exts.Ptr, rhs: Universum.Ptr }
+
+- warn: { name: "Use 'Generic' from Universum"
+        , lhs: GHC.Generics.Generic, rhs: Universum.Generic }
+
+- warn: { name: "Use 'Ratio' from Universum"
+        , lhs: GHC.Real.Ratio, rhs: Universum.Ratio }
+- warn: { name: "Use 'Rational' from Universum"
+        , lhs: GHC.Real.Rational, rhs: Universum.Rational }
+
+- warn: { name: "Use 'CmpNat' from Universum"
+        , lhs: GHC.TypeNats.CmpNat, rhs: Universum.CmpNat }
+- warn: { name: "Use 'KnownNat' from Universum"
+        , lhs: GHC.TypeNats.KnownNat, rhs: Universum.KnownNat }
+- warn: { name: "Use 'Nat' from Universum"
+        , lhs: GHC.TypeNats.Nat, rhs: Universum.Nat }
+- warn: { name: "Use 'SomeNat' from Universum"
+        , lhs: GHC.TypeNats.SomeNat, rhs: Universum.SomeNat }
+- warn: { name: "Use 'natVal' from Universum"
+        , lhs: GHC.TypeNats.natVal, rhs: Universum.natVal }
+- warn: { name: "Use 'someNatVal' from Universum"
+        , lhs: GHC.TypeNats.someNatVal, rhs: Universum.someNatVal }
+
+- warn: { name: "Use 'CmpNat' from Universum"
+        , lhs: GHC.TypeLits.CmpNat, rhs: Universum.CmpNat }
+- warn: { name: "Use 'KnownNat' from Universum"
+        , lhs: GHC.TypeLits.KnownNat, rhs: Universum.KnownNat }
+- warn: { name: "Use 'Nat' from Universum"
+        , lhs: GHC.TypeLits.Nat, rhs: Universum.Nat }
+- warn: { name: "Use 'SomeNat' from Universum"
+        , lhs: GHC.TypeLits.SomeNat, rhs: Universum.SomeNat }
+- warn: { name: "Use 'natVal' from Universum"
+        , lhs: GHC.TypeLits.natVal, rhs: Universum.natVal }
+- warn: { name: "Use 'someNatVal' from Universum"
+        , lhs: GHC.TypeLits.someNatVal, rhs: Universum.someNatVal }
+
+- warn: { name: "Use 'Coercible' from Universum"
+        , lhs: GHC.Types.Coercible, rhs: Universum.Coercible }
+
+- warn: { name: "Use 'getStackTrace' from Universum"
+        , lhs: GHC.ExecutionStack.getStackTrace, rhs: Universum.getStackTrace }
+- warn: { name: "Use 'showStackTrace' from Universum"
+        , lhs: GHC.ExecutionStack.showStackTrace, rhs: Universum.showStackTrace }
+
+- warn: { name: "Use 'IsLabel' from Universum"
+        , lhs: GHC.OverloadedLabels.IsLabel, rhs: Universum.IsLabel }
+- warn: { name: "Use 'fromLabel' from Universum"
+        , lhs: GHC.OverloadedLabels.fromLabel, rhs: Universum.fromLabel }
+
+- warn: { name: "Use 'CallStack' from Universum"
+        , lhs: GHC.Stack.CallStack, rhs: Universum.CallStack }
+- warn: { name: "Use 'HasCallStack' from Universum"
+        , lhs: GHC.Stack.HasCallStack, rhs: Universum.HasCallStack }
+- warn: { name: "Use 'callStack' from Universum"
+        , lhs: GHC.Stack.callStack, rhs: Universum.callStack }
+- warn: { name: "Use 'currentCallStack' from Universum"
+        , lhs: GHC.Stack.currentCallStack, rhs: Universum.currentCallStack }
+- warn: { name: "Use 'getCallStack' from Universum"
+        , lhs: GHC.Stack.getCallStack, rhs: Universum.getCallStack }
+- warn: { name: "Use 'prettyCallStack' from Universum"
+        , lhs: GHC.Stack.prettyCallStack, rhs: Universum.prettyCallStack }
+- warn: { name: "Use 'prettySrcLoc' from Universum"
+        , lhs: GHC.Stack.prettySrcLoc, rhs: Universum.prettySrcLoc }
+- warn: { name: "Use 'withFrozenCallStack' from Universum"
+        , lhs: GHC.Stack.withFrozenCallStack, rhs: Universum.withFrozenCallStack }
+
+- warn: { name: "Use 'Type' from Universum"
+        , lhs: Data.Kind.Type, rhs: Universum.Type }
 
 ## Bool
 
@@ -319,7 +511,6 @@
         , lhs: Data.Bool.bool, rhs: Universum.bool }
 
 ## Container
-
 - warn: { name: "Use 'Hashable' from Universum"
         , lhs: Data.Hashable.Hashable, rhs: Universum.Hashable }
 - warn: { name: "Use 'hashWithSalt' from Universum"
@@ -342,6 +533,70 @@
         , lhs: Data.Tuple.swap, rhs: Universum.swap }
 - warn: { name: "Use 'Vector' from Universum"
         , lhs: Data.Vector.Vector, rhs: Universum.Vector }
+
+## Deepseq
+- warn: { name: "Use 'NFData' from Universum"
+        , lhs: Control.DeepSeq.NFData, rhs: Universum.NFData }
+- warn: { name: "Use 'rnf' from Universum"
+        , lhs: Control.DeepSeq.rnf, rhs: Universum.rnf }
+- warn: { name: "Use 'deepseq' from Universum"
+        , lhs: Control.DeepSeq.deepseq, rhs: Universum.deepseq }
+- warn: { name: "Use 'force' from Universum"
+        , lhs: Control.DeepSeq.force, rhs: Universum.force }
+- warn: { name: "Use '($!!)' from Universum"
+        , lhs: "Control.DeepSeq.($!!)", rhs: "Universum.($!!)" }
+
+## Exception
+- warn: { name: "Use 'Exception' from Universum"
+        , lhs: Control.Exception.Safe.Exception, rhs: Universum.Exception }
+- warn: { name: "Use 'toException' from Universum"
+        , lhs: Control.Exception.Safe.toException, rhs: Universum.toException }
+- warn: { name: "Use 'fromException' from Universum"
+        , lhs: Control.Exception.Safe.fromException, rhs: Universum.fromException }
+- warn: { name: "Use 'displayException' from Universum"
+        , lhs: Control.Exception.Safe.displayException, rhs: Universum.displayException }
+- warn: { name: "Use 'MonadCatch' from Universum"
+        , lhs: Control.Exception.Safe.MonadCatch, rhs: Universum.MonadCatch }
+- warn: { name: "Use 'MonadMask' from Universum"
+        , lhs: Control.Exception.Safe.MonadMask, rhs: Universum.MonadMask }
+- warn: { name: "Use 'mask' from Universum"
+        , lhs: Control.Exception.Safe.mask, rhs: Universum.mask }
+- warn: { name: "Use 'uninterruptibleMask' from Universum"
+        , lhs: Control.Exception.Safe.uninterruptibleMask, rhs: Universum.uninterruptibleMask }
+- warn: { name: "Use 'MonadThrow' from Universum"
+        , lhs: Control.Exception.Safe.MonadThrow, rhs: Universum.MonadThrow }
+- warn: { name: "Use 'SomeException' from Universum"
+        , lhs: Control.Exception.Safe.SomeException, rhs: Universum.SomeException }
+- warn: { name: "Use 'bracket' from Universum"
+        , lhs: Control.Exception.Safe.bracket, rhs: Universum.bracket }
+- warn: { name: "Use 'bracketOnError' from Universum"
+        , lhs: Control.Exception.Safe.bracketOnError, rhs: Universum.bracketOnError }
+- warn: { name: "Use 'bracket_' from Universum"
+        , lhs: Control.Exception.Safe.bracket_, rhs: Universum.bracket_ }
+- warn: { name: "Use 'catch' from Universum"
+        , lhs: Control.Exception.Safe.catch, rhs: Universum.catch }
+- warn: { name: "Use 'catchAny' from Universum"
+        , lhs: Control.Exception.Safe.catchAny, rhs: Universum.catchAny }
+- warn: { name: "Use 'finally' from Universum"
+        , lhs: Control.Exception.Safe.finally, rhs: Universum.finally }
+- warn: { name: "Use 'handleAny' from Universum"
+        , lhs: Control.Exception.Safe.handleAny, rhs: Universum.handleAny }
+- warn: { name: "Use 'mask_' from Universum"
+        , lhs: Control.Exception.Safe.mask_, rhs: Universum.mask_ }
+- warn: { name: "Use 'onException' from Universum"
+        , lhs: Control.Exception.Safe.onException, rhs: Universum.onException }
+- warn: { name: "Use 'throwM' from Universum"
+        , lhs: Control.Exception.Safe.throwM, rhs: Universum.throwM }
+- warn: { name: "Use 'try' from Universum"
+        , lhs: Control.Exception.Safe.try, rhs: Universum.try }
+- warn: { name: "Use 'tryAny' from Universum"
+        , lhs: Control.Exception.Safe.tryAny, rhs: Universum.tryAny }
+
+## Function
+- warn: { name: "Use 'fix' from Universum"
+        , lhs: Data.Function.fix, rhs: Universum.fix }
+- warn: { name: "Use 'on' from Universum"
+        , lhs: Data.Function.on, rhs: Universum.on }
 
 ## Functor
 - warn: { name: "Use '(&&&)' from Universum"
@@ -405,6 +660,12 @@
 - warn: { name: "Use 'unfoldr' from Universum"
         , lhs: Data.List.unfoldr, rhs: Universum.unfoldr }
 
+- warn: { name: "Use 'NonEmpty' from Universum"
+        , lhs: Data.List.NonEmpty.NonEmpty, rhs: Universum.NonEmpty }
+- warn: { name: "Use '(:|)' from Universum"
+        , lhs: "Data.List.NonEmpty.(:|)", rhs: "Universum.(:|)"}
+- warn: { name: "Use 'nonEmpty' from Universum"
+        , lhs: Data.List.NonEmpty.nonEmpty, rhs: Universum.nonEmpty}
 - warn: { name: "Use 'head' from Universum"
         , lhs: Data.List.NonEmpty.head, rhs: Universum.head }
 - warn: { name: "Use 'init' from Universum"
@@ -415,11 +676,6 @@
         , lhs: Data.List.NonEmpty.tail, rhs: Universum.tail }
 - warn: { name: "Use 'sortWith' from Universum"
         , lhs: GHC.Exts.sortWith, rhs: Universum.sortWith }
-
-
-- warn: { name: "Use 'nonEmpty' from Universum"
-        , lhs: Data.List.NonEmpty.nonEmpty, rhs: Universum.nonEmpty
-        }
 
 ## Monad
 - warn: { name: "Use '(>=>)' from Universum"
@@ -597,8 +853,50 @@
 - warn: { name: "Use 'atomicWriteIORef' from Universum"
         , lhs: Data.IORef.atomicWriteIORef, rhs: Universum.atomicWriteIORef }
 
-## String
+## Monoid
+- warn: { name: "Use 'All' from Universum"
+        , lhs: Data.Monoid.All, rhs: Universum.All }
+- warn: { name: "Use 'Alt' from Universum"
+        , lhs: Data.Monoid.Alt, rhs: Universum.Alt }
+- warn: { name: "Use 'Any' from Universum"
+        , lhs: Data.Monoid.Any, rhs: Universum.Any }
+- warn: { name: "Use 'Dual' from Universum"
+        , lhs: Data.Monoid.Dual, rhs: Universum.Dual }
+- warn: { name: "Use 'Endo' from Universum"
+        , lhs: Data.Monoid.Endo, rhs: Universum.Endo }
+- warn: { name: "Use 'First' from Universum"
+        , lhs: Data.Monoid.First, rhs: Universum.First }
+- warn: { name: "Use 'Last' from Universum"
+        , lhs: Data.Monoid.Last, rhs: Universum.Last }
+- warn: { name: "Use 'Product' from Universum"
+        , lhs: Data.Monoid.Product, rhs: Universum.Product }
+- warn: { name: "Use 'Sum' from Universum"
+        , lhs: Data.Monoid.Sum, rhs: Universum.Sum }
 
+- warn: { name: "Use 'Option' from Universum"
+        , lhs: Data.Semigroup.Option, rhs: Universum.Option }
+- warn: { name: "Use 'Semigroup' from Universum"
+        , lhs: Data.Semigroup.Semigroup, rhs: Universum.Semigroup }
+- warn: { name: "Use 'sconcat' from Universum"
+        , lhs: Data.Semigroup.sconcat, rhs: Universum.sconcat }
+- warn: { name: "Use 'stimes' from Universum"
+        , lhs: Data.Semigroup.stimes, rhs: Universum.stimes }
+- warn: { name: "Use '(<>)' from Universum"
+        , lhs: Data.Semigroup.(<>), rhs: Universum.(<>) }
+- warn: { name: "Use 'WrappedMonoid' from Universum"
+        , lhs: Data.Semigroup.WrappedMonoid, rhs: Universum.WrappedMonoid }
+- warn: { name: "Use 'cycle1' from Universum"
+        , lhs: Data.Semigroup.cycle1, rhs: Universum.cycle1 }
+- warn: { name: "Use 'mtimesDefault' from Universum"
+        , lhs: Data.Semigroup.mtimesDefault, rhs: Universum.mtimesDefault }
+- warn: { name: "Use 'stimesIdempotent' from Universum"
+        , lhs: Data.Semigroup.stimesIdempotent, rhs: Universum.stimesIdempotent }
+- warn: { name: "Use 'stimesIdempotentMonoid' from Universum"
+        , lhs: Data.Semigroup.stimesIdempotentMonoid, rhs: Universum.stimesIdempotentMonoid }
+- warn: { name: "Use 'stimesMonoid' from Universum"
+        , lhs: Data.Semigroup.stimesMonoid, rhs: Universum.stimesMonoid }
+
+## String
 - warn: { name: "Use 'ByteString' from Universum"
         , lhs: Data.ByteString.ByteString, rhs: Universum.ByteString }
 - warn: { name: "Use 'IsString' from Universum"
@@ -614,6 +912,11 @@
         , lhs: Data.Text.words, rhs: Universum.words }
 - warn: { name: "Use 'unwords' from Universum"
         , lhs: Data.Text.unwords, rhs: Universum.unwords }
+
+- warn: { name: "Use 'LText' from Universum"
+        , lhs: Data.Text.Lazy.Text, rhs: Universum.LText }
+- warn: { name: "Use 'LByteString' from Universum"
+        , lhs: Data.ByteString.Lazy.LByteString, rhs: Universum.LByteString }
 
 - warn: { name: "Use 'Buildable' from Universum"
         , lhs: Data.Text.Buildable, rhs: Universum.Buildable }
@@ -656,6 +959,25 @@
 - warn: { name: "Use 'getContents' from Universum"
         , lhs: Data.Text.Lazy.IO.getContents, rhs: Universum.getContents }
 
+## Unsafe
+- warn: { name: "Use 'head' from Universum.Unsafe"
+        , lhs: Data.List.head, rhs: Universum.Unsafe.head
+        , note: "Use 'import qualified Universum.Unsafe as Unsafe (head)'" }
+- warn: { name: "Use 'tail' from Universum.Unsafe"
+        , lhs: Data.List.tail, rhs: Universum.Unsafe.tail
+        , note: "Use 'import qualified Universum.Unsafe as Unsafe (tail)'" }
+- warn: { name: "Use 'init' from Universum.Unsafe"
+        , lhs: Data.List.init, rhs: Universum.Unsafe.init
+        , note: "Use 'import qualified Universum.Unsafe as Unsafe (init)'" }
+- warn: { name: "Use 'last' from Universum.Unsafe"
+        , lhs: Data.List.last, rhs: Universum.Unsafe.last
+        , note: "Use 'import qualified Universum.Unsafe as Unsafe (last)'" }
+- warn: { name: "Use '(!!)' from Universum.Unsafe"
+        , lhs: "Data.List.(!!)", rhs: "Universum.Unsafe.(!!)"
+        , note: "Use 'import qualified Universum.Unsafe as Unsafe ((!!))'" }
+- warn: { name: "Use 'fromJust' from Universum.Unsafe"
+        , lhs: "Data.Maybe.fromJust", rhs: "Universum.Unsafe.fromJust"
+        , note: "Use 'import qualified Universum.Unsafe as Unsafe (fromJust)'" }
 
 ############################################################################
 ## Lifted functions in Universum
@@ -664,141 +986,76 @@
 ## concurrency
 
 - warn: { name: "liftIO is not needed", lhs: liftIO newEmptyMVar, rhs: Universum.newEmptyMVar
-        , note: "If you import 'newEmptyMVar' from Universum, it's already lifted"
-        }
-
+        , note: "If you import 'newEmptyMVar' from Universum, it's already lifted" }
 - warn: { name: "liftIO is not needed", lhs: liftIO (newMVar x), rhs: Universum.newMVar x
-        , note: "If you import 'newMVar' from Universum, it's already lifted"
-        }
-
+        , note: "If you import 'newMVar' from Universum, it's already lifted" }
 - warn: { name: "liftIO is not needed", lhs: liftIO (putMVar x y), rhs: Universum.putMVar x y
-        , note: "If you import 'putMVar' from Universum, it's already lifted"
-        }
-
+        , note: "If you import 'putMVar' from Universum, it's already lifted" }
 - warn: { name: "liftIO is not needed", lhs: liftIO (readMVar x), rhs: Universum.readMVar x
-        , note: "If you import 'readMVar' from Universum, it's already lifted"
-        }
-
+        , note: "If you import 'readMVar' from Universum, it's already lifted" }
 - warn: { name: "liftIO is not needed", lhs: liftIO (swapMVar x y), rhs: Universum.swapMVar x y
-        , note: "If you import 'swapMVar' from Universum, it's already lifted"
-        }
-
+        , note: "If you import 'swapMVar' from Universum, it's already lifted" }
 - warn: { name: "liftIO is not needed", lhs: liftIO (takeMVar x), rhs: Universum.takeMVar x
-        , note: "If you import 'takeMVar' from Universum, it's already lifted"
-        }
-
+        , note: "If you import 'takeMVar' from Universum, it's already lifted" }
 - warn: { name: "liftIO is not needed", lhs: liftIO (tryPutMVar x y), rhs: Universum.tryPutMVar x y
-        , note: "If you import 'tryPutMVar' from Universum, it's already lifted"
-        }
-
+        , note: "If you import 'tryPutMVar' from Universum, it's already lifted" }
 - warn: { name: "liftIO is not needed", lhs: liftIO (tryReadMVar x), rhs: Universum.tryReadMVar x
-        , note: "If you import 'tryReadMVar' from Universum, it's already lifted"
-        }
-
+        , note: "If you import 'tryReadMVar' from Universum, it's already lifted" }
 - warn: { name: "liftIO is not needed", lhs: liftIO (tryTakeMVar x), rhs: Universum.tryTakeMVar x
-        , note: "If you import 'tryTakeMVar' from Universum, it's already lifted"
-        }
-
+        , note: "If you import 'tryTakeMVar' from Universum, it's already lifted" }
 - warn: { name: "liftIO is not needed", lhs: liftIO (atomically x), rhs: Universum.atomically x
-        , note: "If you import 'atomically' from Universum, it's already lifted"
-        }
-
+        , note: "If you import 'atomically' from Universum, it's already lifted" }
 - warn: { name: "liftIO is not needed", lhs: liftIO (newTVarIO x), rhs: Universum.newTVarIO x
-        , note: "If you import 'newTVarIO' from Universum, it's already lifted"
-        }
-
+        , note: "If you import 'newTVarIO' from Universum, it's already lifted" }
 - warn: { name: "liftIO is not needed", lhs: liftIO (readTVarIO x), rhs: Universum.readTVarIO x
-        , note: "If you import 'readTVarIO' from Universum, it's already lifted"
-        }
+        , note: "If you import 'readTVarIO' from Universum, it's already lifted" }
 
 ## IORef
 
 - warn: { name: "liftIO is not needed", lhs: liftIO (newIORef x), rhs: Universum.newIORef x
-        , note: "If you import 'newIORef' from Universum, it's already lifted"
-        }
-
+        , note: "If you import 'newIORef' from Universum, it's already lifted" }
 - warn: { name: "liftIO is not needed", lhs: liftIO (readIORef x), rhs: Universum.readIORef x
-        , note: "If you import 'readIORef' from Universum, it's already lifted"
-        }
-
+        , note: "If you import 'readIORef' from Universum, it's already lifted" }
 - warn: { name: "liftIO is not needed", lhs: liftIO (writeIORef x y), rhs: Universum.writeIORef x y
-        , note: "If you import 'writeIORef' from Universum, it's already lifted"
-        }
-
+        , note: "If you import 'writeIORef' from Universum, it's already lifted" }
 - warn: { name: "liftIO is not needed", lhs: liftIO (modifyIORef x y), rhs: Universum.modifyIORef x y
-        , note: "If you import 'modifyIORef' from Universum, it's already lifted"
-        }
-
+        , note: "If you import 'modifyIORef' from Universum, it's already lifted" }
 - warn: { name: "liftIO is not needed", lhs: "liftIO (modifyIORef' x y)", rhs: "Universum.modifyIORef' x y"
-        , note: "If you import 'modifyIORef'' from Universum, it's already lifted"
-        }
-
+        , note: "If you import 'modifyIORef'' from Universum, it's already lifted" }
 - warn: { name: "liftIO is not needed", lhs: liftIO (atomicModifyIORef x y), rhs: Universum.atomicModifyIORef x y
-        , note: "If you import 'atomicModifyIORef' from Universum, it's already lifted"
-        }
-
+        , note: "If you import 'atomicModifyIORef' from Universum, it's already lifted" }
 - warn: { name: "liftIO is not needed", lhs: "liftIO (atomicModifyIORef' x y)", rhs: "Universum.atomicModifyIORef' x y"
-        , note: "If you import 'atomicModifyIORef'' from Universum, it's already lifted"
-        }
-
+        , note: "If you import 'atomicModifyIORef'' from Universum, it's already lifted" }
 - warn: { name: "liftIO is not needed", lhs: liftIO (atomicWriteIORef x y), rhs: Universum.atomicWriteIORef x y
-        , note: "If you import 'atomicWriteIORef' from Universum, it's already lifted"
-        }
+        , note: "If you import 'atomicWriteIORef' from Universum, it's already lifted" }
 
 ## others
 
 - warn: { name: "liftIO is not needed", lhs: liftIO Universum.getContents, rhs: Universum.getContents
-        , note: "If you import 'getContents' from Universum, it's already lifted"
-        }
-
+        , note: "If you import 'getContents' from Universum, it's already lifted" }
 - warn: { name: "liftIO is not needed", lhs: liftIO Universum.getLine, rhs: Universum.getLine
-        , note: "If you import 'getLine' from Universum, it's already lifted"
-        }
-
+        , note: "If you import 'getLine' from Universum, it's already lifted" }
 - warn: { name: "liftIO is not needed", lhs: liftIO (Universum.interact x), rhs: Universum.interact x
-        , note: "If you import 'interact' from Universum, it's already lifted"
-        }
-
+        , note: "If you import 'interact' from Universum, it's already lifted" }
 - warn: { name: "liftIO is not needed", lhs: liftIO (Universum.interact x), rhs: Universum.interact x
-        , note: "If you import 'interact' from Universum, it's already lifted"
-        }
-
+        , note: "If you import 'interact' from Universum, it's already lifted" }
 - warn: { name: "liftIO is not needed", lhs: liftIO (Universum.readFile x), rhs: Universum.readFile x
-        , note: "If you import 'readFile' from Universum, it's already lifted"
-        }
-
+        , note: "If you import 'readFile' from Universum, it's already lifted" }
 - warn: { name: "liftIO is not needed", lhs: liftIO (Universum.writeFile x y), rhs: Universum.writeFile x y
-        , note: "If you import 'writeFile' from Universum, it's already lifted"
-        }
-
+        , note: "If you import 'writeFile' from Universum, it's already lifted" }
 - warn: { name: "liftIO is not needed", lhs: liftIO (Universum.appendFile x y), rhs: Universum.appendFile x y
-        , note: "If you import 'appendFile' from Universum, it's already lifted"
-        }
-
+        , note: "If you import 'appendFile' from Universum, it's already lifted" }
 - warn: { name: "liftIO is not needed", lhs: liftIO (Universum.openFile x y), rhs: Universum.openFile x y
-        , note: "If you import 'openFile' from Universum, it's already lifted"
-        }
-
+        , note: "If you import 'openFile' from Universum, it's already lifted" }
 - warn: { name: "liftIO is not needed", lhs: liftIO getArgs, rhs: Universum.getArgs
-        , note: "If you import 'getArgs' from Universum, it's already lifted"
-        }
-
+        , note: "If you import 'getArgs' from Universum, it's already lifted" }
 - warn: { name: "liftIO is not needed", lhs: liftIO (exitWith x), rhs: Universum.exitWith x
-        , note: "If you import 'exitWith' from Universum, it's already lifted"
-        }
-
+        , note: "If you import 'exitWith' from Universum, it's already lifted" }
 - warn: { name: "liftIO is not needed", lhs: liftIO exitFailure, rhs: Universum.exitFailure
-        , note: "If you import 'exitFailure' from Universum, it's already lifted"
-        }
-
+        , note: "If you import 'exitFailure' from Universum, it's already lifted" }
 - warn: { name: "liftIO is not needed", lhs: liftIO exitSuccess, rhs: Universum.exitSuccess
-        , note: "If you import 'exitSuccess' from Universum, it's already lifted"
-        }
-
+        , note: "If you import 'exitSuccess' from Universum, it's already lifted" }
 - warn: { name: "liftIO is not needed", lhs: liftIO (die x), rhs: Universum.die x
-        , note: "If you import 'die' from Universum, it's already lifted"
-        }
-
+        , note: "If you import 'die' from Universum, it's already lifted" }
 - warn: { name: "liftIO is not needed", lhs: liftIO (stToIO x), rhs: Universum.stToIO x
-        , note: "If you import 'stToIO' from Universum, it's already lifted"
-        }
+        , note: "If you import 'stToIO' from Universum, it's already lifted" }
