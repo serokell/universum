@@ -1,3 +1,5 @@
+-- | This module reexports functionality regarding 'Bool' type.
+
 module Universum.Bool.Reexport
        ( module Control.Monad
        , module Data.Bool

@@ -1,3 +1,6 @@
+-- | This module reexports functionality regarding operations with functions
+-- (composition, application, etc.)
+
 module Universum.Function
        ( module Data.Function
        , identity
