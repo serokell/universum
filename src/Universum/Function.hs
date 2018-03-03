@@ -1,5 +1,4 @@
--- | This module reexports functionality regarding operations with functions
--- (composition, application, etc.)
+-- | This module reexports very basic and primitive functions and function combinators.
 
 module Universum.Function
        ( module Data.Function

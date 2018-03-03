@@ -14,7 +14,6 @@ import Universum.Functor.Reexport (Functor (..))
 -- >>> import Universum.Base (negate)
 -- >>> import Universum.Bool (Bool (..), not)
 -- >>> import Universum.Lifted (getLine)
--- >>> import Universum.List (reverse)
 -- >>> import Universum.Monad (Maybe (..))
 -- >>> import Universum.String (toString)
 
@@ -22,8 +21,8 @@ import Universum.Functor.Reexport (Functor (..))
 
 >>> map not (Just True)
 Just False
->>> map reverse (Just "Hello!")
-Just "!olleH"
+>>> map not [True,False,True,True]
+[False,True,False,False]
 
 -}
 map :: Functor f => (a -> b) -> f a -> f b

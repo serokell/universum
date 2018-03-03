@@ -1,7 +1,7 @@
 {-# LANGUAGE CPP         #-}
 {-# LANGUAGE Trustworthy #-}
 
--- | This module reexports functionality regarding monads.
+-- | This module reexports functions to work with monads.
 
 module Universum.Monad.Reexport
        ( -- * Reexport transformers

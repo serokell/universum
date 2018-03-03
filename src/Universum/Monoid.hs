@@ -1,6 +1,6 @@
 {-# LANGUAGE CPP #-}
 
--- | This module reexports functionality regarding monoids plus adds extra useful functions.
+-- | This module reexports functions to work with monoids plus adds extra useful functions.
 
 module Universum.Monoid
        ( module Data.Monoid

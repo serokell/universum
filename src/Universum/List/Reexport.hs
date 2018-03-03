@@ -1,7 +1,7 @@
 {-# LANGUAGE CPP         #-}
 {-# LANGUAGE Trustworthy #-}
 
--- | This module reexports functionality regarding list, 'NonEmpty' list and String types.
+-- | This module reexports functinons to work with list, 'NonEmpty' and String types.
 
 module Universum.List.Reexport
        ( module Data.List

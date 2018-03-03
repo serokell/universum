@@ -1,7 +1,7 @@
 {-# LANGUAGE TypeFamilies #-}
 
--- | This module has function which allows to process instances of 'Container'
--- type class in monadic way.
+-- | This module exports functions which allow to process instances of
+-- 'Container' type class in monadic way.
 
 module Universum.Monad.Container
        ( concatMapM

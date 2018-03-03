@@ -2,7 +2,7 @@
 =====
 
 * [#73](https://github.com/serokell/universum/issues/73):
-  Add more examples to docs and fix warnigs where possible.
+  Add more examples to docs and fix warnings where possible.
 * Move reexport of `NonEmpty` to `Universum.List` module.
 
 1.1.0
