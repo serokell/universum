@@ -31,7 +31,7 @@ import Universum.Base (Int)
 import Universum.Function (flip)
 
 -- Non empty list definition for @liquidhaskell@.
-{-@ type NonEmptyList a = {xs:[a] | len xs > 0} @-}
+{-@ type NonEmptyList a = {xs : [a] | len xs > 0} @-}
 
 -- | Similar to '!!' but with flipped arguments.
 {-@ at :: n : Nat -> {xs : NonEmptyList a | len xs > n} -> a @-}

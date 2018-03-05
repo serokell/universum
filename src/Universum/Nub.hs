@@ -50,7 +50,7 @@ import qualified Data.Set as Set
       else (dups xs)}
 @-}
 
-{-@ Set.toList :: s : Set a -> ListUnique a @-}
+{-@ Set.toList :: Set a -> ListUnique a @-}
 
 -- | Like 'Prelude.nub' but runs in @O(n * log n)@ time and requires 'Ord'.
 --
