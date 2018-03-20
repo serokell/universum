@@ -32,7 +32,7 @@ import Data.Bifunctor (first)
 import Data.Either (Either)
 import Data.Function (id, (.))
 import Data.String (String)
-import Data.Text.Buildable (build)
+import Formatting.Buildable (build)
 import Data.Text.Lazy.Builder (toLazyText)
 
 import Universum.Functor ((<$>))
