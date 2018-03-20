@@ -2,3 +2,6 @@ resolver: lts-10.7
 
 nix:
   shell-file: shell.nix
+
+extra-deps:
+- formatting-6.3.1

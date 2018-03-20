@@ -4,4 +4,5 @@ nix:
   packages: [binutils, gmp]
 
 extra-deps:
+- formatting-6.3.1
 - tasty-hedgehog-0.1.0.2

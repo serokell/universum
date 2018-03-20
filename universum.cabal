@@ -73,6 +73,7 @@ library
                      , bytestring
                      , containers
                      , deepseq
+                     , formatting
                      , ghc-prim >= 0.4.0.0
                      , hashable
                      , microlens
@@ -81,7 +82,6 @@ library
                      , safe-exceptions
                      , stm
                      , text
-                     , text-format
                      , transformers
                      , type-operators
                      , unordered-containers
