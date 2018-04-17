@@ -11,15 +11,15 @@ __import__ "Universum"
 @
 
 This documentation section contains description of internal module structure to
-help navigate between modules, search for interested functionality and
+help navigate between modules, search for interesting functionalities and
 understand where you need to put your new changes.
 
 Functions and types are distributed across multiple modules and grouped by
 meaning or __theme__. Name of the module should give you hints regarding what
-this module contains. Some /themes/ contains a lot of reexported stuff and a lot
-of our own. To make it easier to maintain and understand such huge chunks of
-functions, all reexported staff is moved into separate module with name
-@Universum.SomeTheme.Reexport@ and our own functions and types are in
+this module contains. Some /themes/ contain a great amount of both reexported
+functions and functions of our own. To make it easier to understand these huge
+chunks of functions, all reexported stuff is moved into separate module with
+name @Universum.SomeTheme.Reexport@ and our own functions and types are in
 @Universum.SomeTheme.SomeName@. For example, see modules
 "Universum.Container.Class" and "Universum.Container.Reexport".
 
@@ -54,6 +54,7 @@ Below is a short description of what you can find under different modules:
     conversion functions between different textual types.
 * __"Universum.TypeOps"__: convenient and fancy type-level operators.
 * __"Universum.Unsafe"__: unsafe functions (produce 'error').
+  Not exported by "Universum" module by default.
 * __"Universum.VarArg"__: variadic composition operator '...'.
 -}
 

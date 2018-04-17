@@ -16,8 +16,8 @@ Universum
    documenation regarding internal module structure.
 2. `universum`-specific [HLint](http://hackage.haskell.org/package/hlint) rules:
    [`.hlint.yaml`](https://github.com/serokell/universum/blob/master/.hlint.yaml)
-3. Very few LiquidHaskell properties. At least LiquidHaskell is on Travis CI and
-   other properties just waiting to be added!
+3. Only a few LiquidHaskell properties right now, but LiquidHaskell is on Travis
+   CI and other properties are just waiting to be added!
 4. Focus on safety, convenience and efficiency.
 
 What is this file about?
@@ -121,11 +121,12 @@ Then add the following import to your modules:
 import Universum
 ```
 
-If you're using [Emacs](https://www.gnu.org/software/emacs/), you can
+If you're using [Emacs](https://www.gnu.org/software/emacs/) and don't want to
+type `import Universum` manually every time, you can
 [modify your configs](https://github.com/serokell/universum/issues/8#issuecomment-276444879)
-a little bit if you don't want to type `import Universum` manually every time.
+a little bit.
 
-If you want to get familiar with `universum` internal structure you can just
+If you want to get familiar with `universum` internal structure, you can just
 read top-level documentation for
 [`Universum`](http://hackage.haskell.org/package/universum/docs/Universum.html)
 module.
