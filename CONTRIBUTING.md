@@ -2,23 +2,23 @@
 
 ## :wave: Greetings Traveler!
 
-I'm really glad you're reading this, I really appreciate the effort you're
-taking. Thank you for your help in making this library awesome! :sparkles:
+I'm glad you're reading this, I really appreciate the effort you're
+putting in. Thank you for your help in making this library awesome! :sparkles:
 
 ### How to contribute
 
 #### Report bugs or feature request
-If you found any bugs or have any proposals how to make this project better
+If you have found any bugs or have proposals on how to make this project better,
 don't hesitate to create issues
 [here](https://github.com/serokell/universum/issues/new) in free format.
 
 #### Create a PR
-We love pull requests from everyone. But, please, don't create PR
-without corresponding issue. It's always better to discuss your future
-work first. Even if such issue exist it's still better to express your willing
-to do this issue under comment section. Thus you will show that you're doing
-this issue and nobody else will accidentally do it in parallel with you. And you
-also can discuss the best way to implement this issue!
+We love receiving pull requests from everyone. But, please, don't create a PR
+without a corresponding issue. It's always better to discuss your future
+work first. Even if such an issue exist it's still better to express your willing
+to do that issue under comment section. Thus you will show that you're doing
+that issue, and nobody else will accidentally do it in parallel with you. Furthermore you
+also can discuss the best way to implement that issue!
 
 To get started with this you should first fork, then clone the repo:
 
@@ -37,7 +37,7 @@ Make your changes and consider the following check list to go through before sub
 
 If you fix bugs or add new features, please add tests.
 
-After all above is done commit and push to your fork.
+After everything above is done, commit and push to your fork.
 Now you are ready to [submit a pull request][pr]!
 
 ----------
