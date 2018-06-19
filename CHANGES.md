@@ -3,8 +3,14 @@
 
 * [#170](https://github.com/serokell/universum/pull/170):
   Remove `ElementConstraint` from the `Container` class.
-  
+
   _Migration guide:_ remove `ElementConstraint` from every instance and every type signature.
+
+* [#182](https://github.com/serokell/universum/issues/182):
+  Remove `microlens` from dependencies.
+
+  _Migration guide:_ if any lens functions are used from `universum` just import them
+  from `Lens.Micro` or `Lens.Micro.Mtl` from `microlens` or `microlens-mtl` packages.
 
 1.2.0
 =====

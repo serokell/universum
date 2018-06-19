@@ -77,8 +77,6 @@ library
                      , deepseq
                      , ghc-prim >= 0.4.0.0
                      , hashable
-                     , microlens
-                     , microlens-mtl
                      , mtl
                      , safe-exceptions
                      , stm

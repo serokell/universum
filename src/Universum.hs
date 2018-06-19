@@ -78,10 +78,6 @@ module Universum
        , module Universum.String
        , module Universum.TypeOps
        , module Universum.VarArg
-
-         -- * Lenses
-       , module Lens.Micro
-       , module Lens.Micro.Mtl
        ) where
 
 import Universum.Applicative
@@ -102,8 +98,3 @@ import Universum.Print
 import Universum.String
 import Universum.TypeOps
 import Universum.VarArg
-
--- Lenses
-import Lens.Micro (Lens, Lens', Traversal, Traversal', over, set, (%~), (&), (.~), (<&>), (^.),
-                   (^..), (^?), _1, _2, _3, _4, _5)
-import Lens.Micro.Mtl (preuse, preview, use, view)
