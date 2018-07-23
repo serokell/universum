@@ -1,5 +1,5 @@
-{-# LANGUAGE CPP         #-}
-{-# LANGUAGE Trustworthy #-}
+{-# LANGUAGE CPP  #-}
+{-# LANGUAGE Safe #-}
 
 -- | This module contains safe functions to work with list type (mostly with 'NonEmpty').
 

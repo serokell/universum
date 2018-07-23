@@ -1,7 +1,7 @@
 {-| Functions to remove duplicates from a list.
 
  = Performance
- To check the performance there was done a bunch of benchmarks.
+ To check the performance many benchmarks were done.
  Benchmarks were made on lists of 'Prelude.Int's and 'Data.Text.Text's.
  There were two types of list to use:
 
@@ -32,7 +32,6 @@ import Data.Eq (Eq)
 import Data.Hashable (Hashable)
 import Data.HashSet as HashSet
 import Data.Ord (Ord)
-import Data.Set (Set)
 import Prelude (Bool, Char, (.))
 
 import qualified Data.Set as Set
@@ -42,7 +41,7 @@ import qualified Data.Set as Set
 
 {-@ predicate NoDups L = Set_emp (dups L) @-}
 
-{-@ measure dups :: [a] -> (Set a)
+{-@ measure dups :: [a] -> (Set.Set a)
     dups ([])   = {v | Set_emp v}
     dups (x:xs) = {v | v =
       if (Set_mem x (listElts xs))
@@ -50,7 +49,7 @@ import qualified Data.Set as Set
       else (dups xs)}
 @-}
 
-{-@ Set.toList :: Set a -> ListUnique a @-}
+{-@ Set.toList :: Set.Set a -> ListUnique a @-}
 
 -- | Like 'Prelude.nub' but runs in @O(n * log n)@ time and requires 'Ord'.
 --

@@ -46,7 +46,7 @@ import Prelude hiding (all, and, any, elem, foldMap, foldl, foldr, mapM_, notEle
                 product, sequence_, sum)
 
 import Universum.Applicative (Alternative (..), Const, ZipList, pass)
-import Universum.Base (Constraint, Word8)
+import Universum.Base (Word8)
 import Universum.Container.Reexport (HashMap, HashSet, Hashable, IntMap, IntSet, Map, Seq, Set,
                                      Vector)
 import Universum.Functor (Identity)
