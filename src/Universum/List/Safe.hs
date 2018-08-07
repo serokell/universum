@@ -40,6 +40,7 @@ list :: [b] -> (a -> b) -> [a] -> [b]
 list def f xs = case xs of
     [] -> def
     _  -> fmap f xs
+{-# DEPRECATED list "This function will be removed in a future version of this package, do not use it." #-}
 
 -- | Destructuring list into its head and tail if possible. This function is total.
 --
