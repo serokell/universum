@@ -1052,8 +1052,6 @@
         , note: "If you import 'appendFile' from Universum, it's already lifted" }
 - warn: { name: "liftIO is not needed", lhs: liftIO (Universum.openFile x y), rhs: Universum.openFile x y
         , note: "If you import 'openFile' from Universum, it's already lifted" }
-- warn: { name: "liftIO is not needed", lhs: liftIO getArgs, rhs: Universum.getArgs
-        , note: "If you import 'getArgs' from Universum, it's already lifted" }
 - warn: { name: "liftIO is not needed", lhs: liftIO (exitWith x), rhs: Universum.exitWith x
         , note: "If you import 'exitWith' from Universum, it's already lifted" }
 - warn: { name: "liftIO is not needed", lhs: liftIO exitFailure, rhs: Universum.exitFailure
