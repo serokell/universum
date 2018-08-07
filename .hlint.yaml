@@ -588,8 +588,6 @@
         , lhs: Control.Exception.Safe.finally, rhs: Universum.finally }
 - warn: { name: "Use 'handleAny' from Universum"
         , lhs: Control.Exception.Safe.handleAny, rhs: Universum.handleAny }
-- warn: { name: "Use 'mask_' from Universum"
-        , lhs: Control.Exception.Safe.mask_, rhs: Universum.mask_ }
 - warn: { name: "Use 'onException' from Universum"
         , lhs: Control.Exception.Safe.onException, rhs: Universum.onException }
 - warn: { name: "Use 'throwM' from Universum"
