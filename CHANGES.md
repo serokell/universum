@@ -1,10 +1,39 @@
 1.3.0
 =====
 
+* [#167](https://github.com/serokell/universum/issues/164):
+  `identity` has been deprecated.
+
+  _Migration guide:_ use `Universum.id` instead.
 * [#170](https://github.com/serokell/universum/pull/170):
   Remove `ElementConstraint` from the `Container` class.
   
   _Migration guide:_ remove `ElementConstraint` from every instance and every type signature.
+* [#174](https://github.com/serokell/universum/issues/174)
+  The `type-operators` dependency has been removed.
+* [#177](https://github.com/serokell/universum/issues/177):
+  The `mask_` reexport from `safe-exceptions` has been deprecated.
+
+  _Migration_guide:_ use `Control.Exception.Safe.mask_` from `safe-exceptions`
+  instead.
+* [#178](https://github.com/serokell/universum/issues/178):
+  `getArgs` has been deprecated. To be removed in a future version.
+
+  _Migration guide:_ use `liftIO` directly with `System.Environment.getArgs`
+  from `base`.
+* [#179](https://github.com/serokell/universum/issues/179):
+  `getContents` and `interact` have been deprecated.
+
+  _Migration guide:_ use `liftIO` directly with `Data.Text.Lazy.IO.getContents`
+  and `Data.Text.Lazy.IO.interact`, both from the `text` package.
+* [#180](https://github.com/serokell/universum/issues/180):
+  The `Lifted.ST` module has been deprecated. To be removed in a future
+  version.
+  
+  _Migration guide:_ use `liftIO` directly with functions from
+  `Control.Monad.ST` instead.
+* [#181](https://github.com/serokell/universum/issues/181):
+  `list` has been deprecated. To be removed in a future version.
 
 1.2.0
 =====
