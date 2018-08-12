@@ -85,6 +85,8 @@ While creating and maintaining a custom prelude, we are pursuing the following g
    Things like `liftIO`, `ReaderT` type, `MVar`-related functions have unambiguous names,
    are used in almost every non-trivial project, and it's really tedious to import them
    manually every time.
+5. Make changes only when there are enough good reasons to make these changes.
+   We have a [code modification policy](CONTRIBUTING.md#code-modification-policy) which semi-formally describes pre-conditions for different types of changes.
 
 Unlike `protolude`, we are:
 
