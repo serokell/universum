@@ -11,3 +11,4 @@ import Data.Function (const, fix, flip, id, on, ($), (.))
 identity :: a -> a
 identity = id
 {-# INLINE identity #-}
+{-# DEPRECATED identity "Use `id` instead" #-}

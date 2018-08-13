@@ -24,6 +24,7 @@ import qualified System.IO (hPutStrLn)
 getArgs :: MonadIO m => m [String]
 getArgs = liftIO (XIO.getArgs)
 {-# INLINE getArgs #-}
+{-# DEPRECATED getArgs "This function will be removed in a future version of this package, use `liftIO` directly with `System.Environment.getArgs` from `base`." #-}
 
 -- | Lifted version of 'System.Exit.exitWith'.
 exitWith :: MonadIO m => ExitCode -> m a

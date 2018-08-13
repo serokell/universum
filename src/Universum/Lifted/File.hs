@@ -37,6 +37,7 @@ appendFile a b = liftIO (XIO.appendFile a b)
 getContents :: MonadIO m => m L.Text
 getContents = liftIO LIO.getContents
 {-# INLINE getContents #-}
+{-# DEPRECATED getContents "This function will be removed in a future version of this package, use `liftIO` with `Data.Text.Lazy.IO.getContents` from `text` instead." #-}
 
 -- | Lifted version of 'Data.Text.getLine'.
 getLine :: MonadIO m => m Text
@@ -47,6 +48,7 @@ getLine = liftIO XIO.getLine
 interact :: MonadIO m => (L.Text -> L.Text) -> m ()
 interact a = liftIO (LIO.interact a)
 {-# INLINE interact #-}
+{-# DEPRECATED interact "This function will be removed in a future version of this package, use `liftIO` with `Data.Text.Lazy.IO.interact` from `text` instead." #-}
 
 -- | Lifted version of 'Data.Text.readFile'.
 readFile :: MonadIO m => FilePath -> m Text

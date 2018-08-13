@@ -1,6 +1,6 @@
 -- | This module contains lifted version of 'XIO.stToIO' function.
 
-module Universum.Lifted.ST
+module Universum.Lifted.ST {-# DEPRECATED "This module will be removed in a future version of this package, use `liftIO` directly with functions from `Control.Monad.ST` instead." #-}
        ( stToIO
        ) where
 

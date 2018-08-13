@@ -84,7 +84,6 @@ library
                      , stm
                      , text
                      , transformers
-                     , type-operators
                      , unordered-containers
                      , utf8-string
                      , vector
