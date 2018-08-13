@@ -4,6 +4,11 @@
   `identity` has been removed.
 
   _Migration guide:_ use `Universum.id` instead.
+* [#178](https://github.com/serokell/universum/issues/178):
+  `getArgs` has been removed.
+
+  _Migration guide:_ use `liftIO` directly with `System.Environment.getArgs`
+  from base.
 * [#181](https://github.com/serokell/universum/issues/181):
   `list` has removed.
 
