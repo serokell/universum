@@ -15,7 +15,6 @@ module Universum.Exception
        , pattern Exc
 #endif
        , note
-       , mask_
        ) where
 
 -- exceptions from safe-exceptions
@@ -23,7 +22,6 @@ import Control.Exception.Safe (Exception (..), MonadCatch, MonadMask (..), Monad
                                SomeException (..), bracket, bracketOnError, bracket_, catch,
                                catchAny, displayException, finally, handleAny, onException,
                                throwM, try, tryAny)
-import qualified Control.Exception.Safe as Safe (mask_)
 import Control.Monad.Except (MonadError, throwError)
 import Universum.Applicative (Applicative (pure))
 import Universum.Monad (Maybe (..), maybe)
@@ -49,10 +47,6 @@ instance Exception Bug where
 bug :: (HasCallStack, Exception e) => e -> a
 bug e = Safe.impureThrow (Bug (Safe.toException e) callStack)
 #endif
-
-mask_ :: MonadMask m => m a -> m a
-mask_ = Safe.mask_
-{-# DEPRECATED mask_ "This function will be removed in a future version of this package, use `Control.Exception.Safe.mask_` from `safe-exceptions` instead." #-}
 
 -- To suppress redundant applicative constraint warning on GHC 8.0
 -- | Throws error for 'Maybe' if 'Data.Maybe.Nothing' is given.

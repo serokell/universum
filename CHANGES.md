@@ -4,6 +4,11 @@
   `identity` has been removed.
 
   _Migration guide:_ use `Universum.id` instead.
+* [#177](https://github.com/serokell/universum/issues/177):
+  The `mask_` reexport from `safe-exceptions` has been removed.
+
+  _Migration_guide:_ use `Control.Exception.Safe.mask_` from `safe-exceptions`
+  instead.
 * [#178](https://github.com/serokell/universum/issues/178):
   `getArgs` has been removed.
 
