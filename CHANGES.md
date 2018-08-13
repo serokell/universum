@@ -1,3 +1,10 @@
+1.4.0
+=====
+* [#167](https://github.com/serokell/universum/issues/164):
+  `identity` has been removed.
+
+  _Migration guide:_ use `Universum.id` instead.
+
 1.3.0
 =====
 
