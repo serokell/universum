@@ -9,6 +9,11 @@
 
   _Migration guide:_ use `liftIO` directly with `System.Environment.getArgs`
   from base.
+* [#179](https://github.com/serokell/universum/issues/179):
+  `getContents` and `interact` have been removed.
+
+  _Migration guide:_ use `liftIO` directly with `Data.Text.Lazy.IO.getContents`
+  and `Data.Text.Lazy.IO.interact`, both from the `text` package.
 * [#181](https://github.com/serokell/universum/issues/181):
   `list` has removed.
 
