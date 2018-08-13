@@ -49,7 +49,6 @@ library
                                Universum.Lifted.Env
                                Universum.Lifted.File
                                Universum.Lifted.IORef
-                               Universum.Lifted.ST
                            Universum.List
                                Universum.List.Reexport
                                Universum.List.Safe

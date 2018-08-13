@@ -19,6 +19,11 @@
 
   _Migration guide:_ use `liftIO` directly with `Data.Text.Lazy.IO.getContents`
   and `Data.Text.Lazy.IO.interact`, both from the `text` package.
+* [#180](https://github.com/serokell/universum/issues/180):
+  The `Lifted.ST` module has been removed.
+  
+  _Migration guide:_ use `liftIO` directly with functions from
+  `Control.Monad.ST` instead.
 * [#181](https://github.com/serokell/universum/issues/181):
   `list` has removed.
 
