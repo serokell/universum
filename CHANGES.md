@@ -4,6 +4,8 @@
   `identity` has been removed.
 
   _Migration guide:_ use `Universum.id` instead.
+* [#181](https://github.com/serokell/universum/issues/181):
+  `list` has removed.
 
 1.3.0
 =====
