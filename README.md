@@ -357,3 +357,4 @@ Please submit a PR if you are using Universum!
 | [orgstat](https://github.com/volhovm/orgstat) |
 | [tintin](https://github.com/theam/tintin) |
 | [require](https://theam.github.io/require/) |
+| [ariadne](https://github.com/serokell/ariadne) |
