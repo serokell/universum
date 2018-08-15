@@ -28,7 +28,27 @@ import GHC.Prim (Constraint)
 import Data.Kind (Constraint)
 #endif
 
-import Control.Type.Operator (type ($), type (<+>))
+-- | Infix application.
+--
+-- @
+-- f :: Either String $ Maybe Int
+-- =
+-- f :: Either String (Maybe Int)
+-- @
+type f $ a = f a
+infixr 2 $
+
+-- | Map several constraints over a single variable.
+--
+-- @
+-- a :: [Show, Read] \<+> a => a -> a
+-- =
+-- a :: (Show a, Read a) => a -> a
+-- @
+type family (<+>) (c :: [k -> Constraint]) (a :: k) where
+    (<+>) '[] a = (() :: Constraint)
+    (<+>) (ch ': ct) a = (ch a, (<+>) ct a)
+infixl 9 <+>
 
 -- | Map several constraints over several variables.
 --
