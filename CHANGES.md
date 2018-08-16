@@ -41,7 +41,7 @@
 * [#159](https://github.com/serokell/universum/issues/159) **Breaking change**:
   Remove `text-format` dependency.
 
-  _Migration guide:_ import `Buildable` type class either from `text-format` or `formatting` or `fmt` library. Instead of `pretty` you can use [`fmt`](https://hackage.haskell.org/package/fmt-0.6/docs/Fmt.html#v:fmt) function.
+  _Migration guide:_ import `Buildable` type class either from `text-format` or `formatting` or `fmt` library. There is no direct replacement for `pretty` and `prettyL` in popular libraries. You can define `prettyL = Data.Text.Lazy.Builder.toLazyText . build` and `pretty = Data.Text.Lazy.toStrict` . prettyL`.
 * [#164](https://github.com/serokell/universum/issues/164):
   Don't reexport `log :: Floating a => a -> a`.
 
