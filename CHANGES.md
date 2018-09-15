@@ -6,6 +6,9 @@ Unreleased
   `Universum.Lifted.File` as discussed previously in
   [#186](https://github.com/serokell/universum/issues/186).
 
+* [#204](https://github.com/serokell/universum/issues/186):
+  Make `trace` non-polymorphic over text argument, add `traceIdWith` and `traceShowIdWith`.
+
 1.4.0
 =====
 

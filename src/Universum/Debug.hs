@@ -19,15 +19,17 @@ module Universum.Debug
        , trace
        , traceM
        , traceId
+       , traceIdWith
        , traceShow
        , traceShowId
+       , traceShowIdWith
        , traceShowM
        , undefined
        ) where
 
 import Control.Monad (Monad, return)
 import Data.Data (Data)
-import Data.Text (Text, unpack)
+import Data.Text (Text, pack, unpack)
 import Data.Typeable (Typeable)
 import GHC.Generics (Generic)
 import System.IO.Unsafe (unsafePerformIO)
@@ -39,13 +41,13 @@ import Universum.Base (HasCallStack)
 #endif
 
 import Universum.Applicative (pass)
-import Universum.Print (Print, putStrLn)
+import Universum.Print (putStrLn)
 
 import qualified Prelude as P
 
--- | Generalized over string version of 'Debug.Trace.trace' that leaves warnings.
+-- | Version of 'Debug.Trace.trace' that leaves warnings and takes 'Text'.
 {-# WARNING trace "'trace' remains in code" #-}
-trace :: Print b => b -> a -> a
+trace :: Text -> a -> a
 trace string expr = unsafePerformIO (do
     putStrLn string
     return expr)
@@ -62,24 +64,51 @@ error s = P.error (unpack s)
 -- | Version of 'Debug.Trace.traceShow' that leaves warning.
 {-# WARNING traceShow "'traceShow' remains in code" #-}
 traceShow :: P.Show a => a -> b -> b
-traceShow a b = trace (P.show a) b
+traceShow a b = trace (pack (P.show a)) b
 
--- | Version of 'Debug.Trace.traceShow' that leaves warning.
+-- | Version of 'Debug.Trace.traceShowId' that leaves warning.
 {-# WARNING traceShowId "'traceShowId' remains in code" #-}
 traceShowId :: P.Show a => a -> a
-traceShowId a = trace (P.show a) a
+traceShowId a = trace (pack (P.show a)) a
+
+{- | Version of 'Debug.Trace.traceId' that leaves warning.
+Useful to tag printed data, for instance:
+
+@
+traceIdWith (\x -> "My data: " <> show x) (veryLargeExpression)
+@
+
+This is especially useful with custom formatters:
+
+@
+traceIdWith (\x -> "My data: " <> pretty x) (veryLargeExpression)
+@
+-}
+{-# WARNING traceIdWith "'traceIdWith' remains in code" #-}
+traceIdWith :: (a -> Text) -> a -> a
+traceIdWith f a = trace (f a) a
+
+-- | Version of 'Debug.Trace.traceShowId' that leaves warning.
+-- Useful to tag printed data, for instance:
+--
+-- @
+-- traceShowIdWith ("My data: ", ) (veryLargeExpression)
+-- @
+{-# WARNING traceShowIdWith "'traceShowIdWith' remains in code" #-}
+traceShowIdWith :: P.Show s => (a -> s) -> a -> a
+traceShowIdWith f a = trace (pack (P.show (f a))) a
 
 -- | Version of 'Debug.Trace.traceShowM' that leaves warning.
 {-# WARNING traceShowM "'traceShowM' remains in code" #-}
 traceShowM :: (P.Show a, Monad m) => a -> m ()
-traceShowM a = trace (P.show a) pass
+traceShowM a = trace (pack (P.show a)) pass
 
 -- | Version of 'Debug.Trace.traceM' that leaves warning and takes 'Text'.
 {-# WARNING traceM "'traceM' remains in code" #-}
 traceM :: (Monad m) => Text -> m ()
-traceM s = trace (unpack s) pass
+traceM s = trace s pass
 
--- | Version of 'Debug.Trace.traceId' that leaves warning and takes 'Text'.
+-- | Version of 'Debug.Trace.traceId' that leaves warning.
 {-# WARNING traceId "'traceId' remains in code" #-}
 traceId :: Text -> Text
 traceId s = trace s s
