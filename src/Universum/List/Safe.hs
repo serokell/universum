@@ -4,8 +4,7 @@
 -- | This module contains safe functions to work with list type (mostly with 'NonEmpty').
 
 module Universum.List.Safe
-       ( list
-       , uncons
+       ( uncons
 #if ( __GLASGOW_HASKELL__ >= 800 )
        , whenNotNull
        , whenNotNullM
@@ -18,7 +17,6 @@ import Universum.List.Reexport (NonEmpty (..))
 import Universum.Monad (Monad (..))
 #endif
 
-import Universum.Functor (fmap)
 import Universum.Monad (Maybe (..))
 
 -- $setup
@@ -28,19 +26,6 @@ import Universum.Monad (Maybe (..))
 -- >>> import Universum.Container (length)
 -- >>> import Universum.Function (($))
 -- >>> import Universum.Print (print)
-
--- | Returns default list if given list is empty.
--- Otherwise applies given function to every element.
---
--- >>> list [True] even []
--- [True]
--- >>> list [True] even [1..5]
--- [False,True,False,True,False]
-list :: [b] -> (a -> b) -> [a] -> [b]
-list def f xs = case xs of
-    [] -> def
-    _  -> fmap f xs
-{-# DEPRECATED list "This function will be removed in a future version of this package, do not use it." #-}
 
 -- | Destructuring list into its head and tail if possible. This function is total.
 --
