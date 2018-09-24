@@ -1,5 +1,6 @@
 1.4.0
 =====
+
 * [#167](https://github.com/serokell/universum/issues/164):
   `identity` has been removed.
 
@@ -7,7 +8,7 @@
 * [#177](https://github.com/serokell/universum/issues/177):
   The `mask_` reexport from `safe-exceptions` has been removed.
 
-  _Migration_guide:_ use `Control.Exception.Safe.mask_` from `safe-exceptions`
+  _Migration guide:_ use `Control.Exception.Safe.mask_` from `safe-exceptions`
   instead.
 * [#178](https://github.com/serokell/universum/issues/178):
   `getArgs` has been removed.
@@ -21,7 +22,7 @@
   and `Data.Text.Lazy.IO.interact`, both from the `text` package.
 * [#180](https://github.com/serokell/universum/issues/180):
   The `Lifted.ST` module has been removed.
-  
+
   _Migration guide:_ use `liftIO` directly with functions from
   `Control.Monad.ST` instead.
 * [#181](https://github.com/serokell/universum/issues/181):
