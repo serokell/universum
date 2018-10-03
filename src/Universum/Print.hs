@@ -7,6 +7,8 @@
 
 module Universum.Print
        ( Print (..)
+       , putStr
+       , putStrLn
        , print
        , putText
        , putTextLn
@@ -18,7 +20,8 @@ import Data.Function ((.))
 
 import Universum.Monad.Reexport (MonadIO, liftIO)
 
-import qualified Prelude (print, putStr, putStrLn)
+import qualified Prelude (print)
+import qualified System.IO as SIO (hPutStr, hPutStrLn, Handle)
 
 import qualified Data.ByteString.Char8 as BS
 import qualified Data.ByteString.Lazy.Char8 as BL
@@ -33,28 +36,35 @@ import qualified Universum.Base as Base
 
 -- | Polymorfic over string and lifted to 'MonadIO' printing functions.
 class Print a where
-  putStr :: MonadIO m => a -> m ()
-  putStrLn :: MonadIO m => a -> m ()
+  hPutStr :: MonadIO m => SIO.Handle -> a -> m ()
+  hPutStrLn :: MonadIO m => SIO.Handle -> a -> m ()
 
 instance Print T.Text where
-  putStr = liftIO . T.putStr
-  putStrLn = liftIO . T.putStrLn
+  hPutStr h = liftIO . T.hPutStr h
+  hPutStrLn h = liftIO . T.hPutStrLn h
 
 instance Print TL.Text where
-  putStr = liftIO . TL.putStr
-  putStrLn = liftIO . TL.putStrLn
+  hPutStr h = liftIO . TL.hPutStr h
+  hPutStrLn h = liftIO . TL.hPutStrLn h
 
 instance Print BS.ByteString where
-  putStr = liftIO . BS.putStr
-  putStrLn = liftIO . BS.putStrLn
+  hPutStr h = liftIO . BS.hPutStr h
+  hPutStrLn h = liftIO . BS.hPutStrLn h
 
 instance Print BL.ByteString where
-  putStr = liftIO . BL.putStr
-  putStrLn = liftIO . BL.putStrLn
+  hPutStr h = liftIO . BL.hPutStr h
+  hPutStrLn h = liftIO . BL.hPutStrLn h
 
 instance Print [Base.Char] where
-  putStr = liftIO . Prelude.putStr
-  putStrLn = liftIO . Prelude.putStrLn
+  hPutStr h = liftIO . SIO.hPutStr h
+  hPutStrLn h = liftIO . SIO.hPutStrLn h
+
+
+putStr :: (Print a, MonadIO m) => a -> m ()
+putStr = hPutStr Base.stdout
+
+putStrLn :: (Print a, MonadIO m) => a -> m ()
+putStrLn = hPutStrLn Base.stdout
 
 -- | Lifted version of 'Prelude.print'.
 print :: forall a m . (MonadIO m, Base.Show a) => a -> m ()
