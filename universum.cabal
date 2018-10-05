@@ -61,6 +61,7 @@ library
                            Universum.Monoid
                            Universum.Nub
                            Universum.Print
+                               Universum.Print.Internal
                            Universum.String
                                Universum.String.Conversion
                                Universum.String.Reexport

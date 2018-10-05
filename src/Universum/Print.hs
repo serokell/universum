@@ -1,74 +1,84 @@
+{-|
+Module      : $header$
+Description : Overloaded writing for String-like types
+Copyright   : (c) Serokell 2018
+License     : MIT
+Maintainer  : Serokell <hi@serokell.io>
+Stability   : experimental
+Portability : portable
+
+Generalizes the 'Base.putStr' family of functions for String likes such as lazy
+and strict versions of 'Text' and 'ByteString'.
+
+A caveat to using overloaded functions is that printing string literals raises
+ambiguity errors in the presence of @OverloadedStrings@. To avoid this problem
+wither add a type annotation @putStr ("Hello World!" :: Text)@ or use one of the
+type constrained functions 'putText', 'putLText' etc.
+
+You may add support for your own types by importing "Universum.Print.Internal"
+and implementing 'Print'. However be advised that only the functions in this
+module should be considered stable, not the interface for 'Print'.
+-}
 {-# LANGUAGE ExplicitForAll    #-}
 {-# LANGUAGE FlexibleContexts  #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE Trustworthy       #-}
 
--- | Generalization of 'Prelude.putStr' and 'Prelude.putStrLn' functions.
-
 module Universum.Print
-       ( Print (..)
-       , putStr
+       ( putStr
        , putStrLn
        , print
+       , Print
        , putText
        , putTextLn
        , putLText
        , putLTextLn
+       -- ** Writing strings to an arbitrary 'Handle'
+       , hPutStr
+       , hPutStrLn
        ) where
 
 import Data.Function ((.))
 
 import Universum.Monad.Reexport (MonadIO, liftIO)
 
-import qualified Prelude (print)
-import qualified System.IO as SIO (hPutStr, hPutStrLn, Handle)
+import Universum.Print.Internal (Print)
+import qualified Universum.Print.Internal as I (hPutStrLn, hPutStr)
 
-import qualified Data.ByteString.Char8 as BS
-import qualified Data.ByteString.Lazy.Char8 as BL
+import qualified Prelude (print)
+import qualified System.IO as SIO (Handle)
 
 import qualified Data.Text as T
-import qualified Data.Text.IO as T
 
 import qualified Data.Text.Lazy as TL
-import qualified Data.Text.Lazy.IO as TL
 
 import qualified Universum.Base as Base
 
--- | Polymorfic over string and lifted to 'MonadIO' printing functions.
-class Print a where
-  hPutStr :: MonadIO m => SIO.Handle -> a -> m ()
-  hPutStrLn :: MonadIO m => SIO.Handle -> a -> m ()
+-- | Write a string like value @a@ to a supplied 'SIO.Handle'.
+hPutStr :: (Print a, MonadIO m) => SIO.Handle -> a -> m ()
+hPutStr h = liftIO . I.hPutStr h
+{-# SPECIALIZE hPutStr :: Print a => SIO.Handle -> a -> Base.IO () #-}
 
-instance Print T.Text where
-  hPutStr h = liftIO . T.hPutStr h
-  hPutStrLn h = liftIO . T.hPutStrLn h
+-- | Write a string like value @a@ to a supplied 'SIO.Handle', appending a
+-- newline character.
+hPutStrLn :: (Print a, MonadIO m) => SIO.Handle -> a -> m ()
+hPutStrLn h = liftIO . I.hPutStrLn h
+{-# SPECIALIZE hPutStrLn :: Print a => SIO.Handle -> a -> Base.IO () #-}
 
-instance Print TL.Text where
-  hPutStr h = liftIO . TL.hPutStr h
-  hPutStrLn h = liftIO . TL.hPutStrLn h
-
-instance Print BS.ByteString where
-  hPutStr h = liftIO . BS.hPutStr h
-  hPutStrLn h = liftIO . BS.hPutStrLn h
-
-instance Print BL.ByteString where
-  hPutStr h = liftIO . BL.hPutStr h
-  hPutStrLn h = liftIO . BL.hPutStrLn h
-
-instance Print [Base.Char] where
-  hPutStr h = liftIO . SIO.hPutStr h
-  hPutStrLn h = liftIO . SIO.hPutStrLn h
-
-
+-- | Write a string like value to @stdout@/.
 putStr :: (Print a, MonadIO m) => a -> m ()
 putStr = hPutStr Base.stdout
+{-# SPECIALIZE putStr :: Print a => a -> Base.IO () #-}
 
+-- | Write a string like value to @stdout@ appending a newline character.
 putStrLn :: (Print a, MonadIO m) => a -> m ()
 putStrLn = hPutStrLn Base.stdout
+{-# SPECIALIZE putStrLn :: Print a => a -> Base.IO () #-}
 
 -- | Lifted version of 'Prelude.print'.
 print :: forall a m . (MonadIO m, Base.Show a) => a -> m ()
 print = liftIO . Prelude.print
+{-# SPECIALIZE print :: Base.Show a => a -> Base.IO () #-}
 
 -- | Specialized to 'T.Text' version of 'putStr' or forcing type inference.
 putText :: MonadIO m => T.Text -> m ()
