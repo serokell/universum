@@ -7,18 +7,22 @@
 module Universum.Lifted.File
        ( appendFile
        , getLine
-       , openFile
        , readFile
        , writeFile
+       , withFile
+       , openFile
+       , hClose
        ) where
 
+import Control.Exception.Safe (MonadMask, bracket)
 import Control.Monad.Trans (MonadIO, liftIO)
+import Data.Function ((.))
 import Data.Text (Text)
 import Prelude (FilePath)
 import System.IO (Handle, IOMode)
 
 import qualified Data.Text.IO as XIO
-import qualified System.IO as XIO (openFile)
+import qualified System.IO as XIO (openFile, hClose)
 
 ----------------------------------------------------------------------------
 -- Text
@@ -48,5 +52,15 @@ writeFile a b = liftIO (XIO.writeFile a b)
 openFile :: MonadIO m => FilePath -> IOMode -> m Handle
 openFile a b = liftIO (XIO.openFile a b)
 {-# INLINE openFile #-}
+
+-- | Close a file handle
+hClose :: MonadIO m => Handle -> m ()
+hClose = liftIO . XIO.hClose
+{-# INLINE hClose #-}
+
+-- | 'bracket' specialized to files. This should be preferred over 'openFile' +
+-- 'hClose' as it properly deals with (asynchronous) exceptions.
+withFile :: (MonadIO m, MonadMask m) => FilePath -> IOMode -> (Handle -> m a) -> m a
+withFile filePath mode f = bracket (openFile filePath mode) hClose f
 
 -- 'withFile' can't be lifted into 'MonadIO', as it uses 'bracket'
