@@ -22,7 +22,7 @@ import Prelude (FilePath)
 import System.IO (Handle, IOMode)
 
 import qualified Data.Text.IO as XIO
-import qualified System.IO as XIO (openFile, hClose)
+import qualified System.IO as XIO (openFile, hClose, IO)
 
 ----------------------------------------------------------------------------
 -- Text
@@ -63,4 +63,10 @@ hClose = liftIO . XIO.hClose
 withFile :: (MonadIO m, MonadMask m) => FilePath -> IOMode -> (Handle -> m a) -> m a
 withFile filePath mode f = bracket (openFile filePath mode) hClose f
 
--- 'withFile' can't be lifted into 'MonadIO', as it uses 'bracket'
+{-# SPECIALIZE appendFile :: FilePath -> Text -> XIO.IO () #-}
+{-# SPECIALIZE getLine :: XIO.IO Text #-}
+{-# SPECIALIZE readFile :: FilePath -> XIO.IO Text #-}
+{-# SPECIALIZE writeFile :: FilePath -> Text -> XIO.IO () #-}
+{-# SPECIALIZE openFile :: FilePath -> IOMode -> XIO.IO Handle #-}
+{-# SPECIALIZE hClose :: Handle -> XIO.IO () #-}
+{-# SPECIALIZE withFile :: FilePath -> IOMode -> (Handle -> XIO.IO a) -> XIO.IO a #-}
