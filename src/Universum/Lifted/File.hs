@@ -49,17 +49,30 @@ writeFile a b = liftIO (XIO.writeFile a b)
 {-# INLINE writeFile #-}
 
 -- | Lifted version of 'System.IO.openFile'.
+--
+-- See also 'withFile' for more information.
 openFile :: MonadIO m => FilePath -> IOMode -> m Handle
 openFile a b = liftIO (XIO.openFile a b)
 {-# INLINE openFile #-}
 
 -- | Close a file handle
+--
+-- See also 'withFile' for more information.
 hClose :: MonadIO m => Handle -> m ()
 hClose = liftIO . XIO.hClose
 {-# INLINE hClose #-}
 
--- | 'bracket' specialized to files. This should be preferred over 'openFile' +
--- 'hClose' as it properly deals with (asynchronous) exceptions.
+-- | Opens a file, manipulates it with the provided function and closes the
+-- handle before returning. The 'Handle' can be written to using the
+-- 'Universum.Print.hPutStr' and 'Universum.Print.hPutStrLn' functions.
+--
+-- 'withFile' is essentially the 'bracket' pattern, specialized to files. This
+-- should be preferred over 'openFile' + 'hClose' as it properly deals with
+-- (asynchronous) exceptions. In cases where 'withFile' is insufficient, for
+-- instance because the it is not statically known when manipulating the
+-- 'Handle' has finished, one should consider other safe paradigms for resource
+-- usage, such as the @ResourceT@ transformer from the @resourcet@ package,
+-- before resorting to 'openFile' and 'hClose'.
 withFile :: (MonadIO m, MonadMask m) => FilePath -> IOMode -> (Handle -> m a) -> m a
 withFile filePath mode f = bracket (openFile filePath mode) hClose f
 
