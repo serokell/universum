@@ -1,3 +1,11 @@
+Unreleased
+=====
+
+* [#200](https://github.com/serokell/universum/pull/200):
+  Implemented a lifted version of `withFile` and added `hClose` to
+  `Universum.Lifted.File` as discussed previously in
+  [#186](https://github.com/serokell/universum/issues/186).
+
 1.4.0
 =====
 
@@ -37,7 +45,7 @@
   _Migration guide:_ use `Universum.id` instead.
 * [#170](https://github.com/serokell/universum/pull/170):
   Remove `ElementConstraint` from the `Container` class.
-  
+
   _Migration guide:_ remove `ElementConstraint` from every instance and every type signature.
 * [#174](https://github.com/serokell/universum/issues/174)
   The `type-operators` dependency has been removed.
@@ -59,7 +67,7 @@
 * [#180](https://github.com/serokell/universum/issues/180):
   The `Lifted.ST` module has been deprecated. To be removed in a future
   version.
-  
+
   _Migration guide:_ use `liftIO` directly with functions from
   `Control.Monad.ST` instead.
 * [#181](https://github.com/serokell/universum/issues/181):
