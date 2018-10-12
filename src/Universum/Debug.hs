@@ -10,7 +10,7 @@
 #endif
 
 -- | Functions for debugging. If you left these functions in your code
--- then warning is generated to remind you about left usages. Also some
+-- then warning is generated to remind you about left usages. Also, some
 -- functions (and data types) are convenient for prototyping.
 
 module Universum.Debug
@@ -45,7 +45,7 @@ import Universum.Print (putStrLn)
 
 import qualified Prelude as P
 
--- | Version of 'Debug.Trace.trace' that leaves warnings and takes 'Text'.
+-- | Version of 'Debug.Trace.trace' that leaves a warning and takes 'Text'.
 {-# WARNING trace "'trace' remains in code" #-}
 trace :: Text -> a -> a
 trace string expr = unsafePerformIO (do
@@ -61,17 +61,17 @@ error :: Text -> a
 #endif
 error s = P.error (unpack s)
 
--- | Version of 'Debug.Trace.traceShow' that leaves warning.
+-- | Version of 'Debug.Trace.traceShow' that leaves a warning.
 {-# WARNING traceShow "'traceShow' remains in code" #-}
 traceShow :: P.Show a => a -> b -> b
 traceShow a b = trace (pack (P.show a)) b
 
--- | Version of 'Debug.Trace.traceShowId' that leaves warning.
+-- | Version of 'Debug.Trace.traceShowId' that leaves a warning.
 {-# WARNING traceShowId "'traceShowId' remains in code" #-}
 traceShowId :: P.Show a => a -> a
 traceShowId a = trace (pack (P.show a)) a
 
-{- | Version of 'Debug.Trace.traceId' that leaves warning.
+{- | Version of 'Debug.Trace.traceId' that leaves a warning.
 Useful to tag printed data, for instance:
 
 @
@@ -88,7 +88,7 @@ traceIdWith (\x -> "My data: " <> pretty x) (veryLargeExpression)
 traceIdWith :: (a -> Text) -> a -> a
 traceIdWith f a = trace (f a) a
 
--- | Version of 'Debug.Trace.traceShowId' that leaves warning.
+-- | Version of 'Debug.Trace.traceShowId' that leaves a warning.
 -- Useful to tag printed data, for instance:
 --
 -- @
@@ -98,17 +98,17 @@ traceIdWith f a = trace (f a) a
 traceShowIdWith :: P.Show s => (a -> s) -> a -> a
 traceShowIdWith f a = trace (pack (P.show (f a))) a
 
--- | Version of 'Debug.Trace.traceShowM' that leaves warning.
+-- | Version of 'Debug.Trace.traceShowM' that leaves a warning.
 {-# WARNING traceShowM "'traceShowM' remains in code" #-}
 traceShowM :: (P.Show a, Monad m) => a -> m ()
 traceShowM a = trace (pack (P.show a)) pass
 
--- | Version of 'Debug.Trace.traceM' that leaves warning and takes 'Text'.
+-- | Version of 'Debug.Trace.traceM' that leaves a warning and takes 'Text'.
 {-# WARNING traceM "'traceM' remains in code" #-}
 traceM :: (Monad m) => Text -> m ()
 traceM s = trace s pass
 
--- | Version of 'Debug.Trace.traceId' that leaves warning.
+-- | Version of 'Debug.Trace.traceId' that leaves a warning.
 {-# WARNING traceId "'traceId' remains in code" #-}
 traceId :: Text -> Text
 traceId s = trace s s
@@ -118,7 +118,7 @@ traceId s = trace s s
 data Undefined = Undefined
     deriving (P.Eq, P.Ord, P.Show, P.Read, P.Enum, P.Bounded, Data, Typeable, Generic)
 
--- | 'P.undefined' that leaves warning in code on every usage.
+-- | 'P.undefined' that leaves a warning in code on every usage.
 {-# WARNING undefined "'undefined' function remains in code (or use 'error')" #-}
 #if ( __GLASGOW_HASKELL__ >= 800 )
 undefined :: forall (r :: RuntimeRep) . forall (a :: TYPE r) . HasCallStack => a
