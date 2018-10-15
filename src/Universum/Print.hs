@@ -36,6 +36,7 @@ module Universum.Print
        -- ** Writing strings to an arbitrary 'Handle'
        , hPutStr
        , hPutStrLn
+       , hPrint
        ) where
 
 import Data.Function ((.))
@@ -46,7 +47,7 @@ import Universum.Print.Internal (Print)
 import qualified Universum.Print.Internal as I (hPutStrLn, hPutStr)
 
 import qualified Prelude (print)
-import qualified System.IO as SIO (Handle)
+import qualified System.IO as SIO (Handle, hPrint)
 
 import qualified Data.Text as T
 
@@ -79,6 +80,11 @@ putStrLn = hPutStrLn Base.stdout
 print :: forall a m . (MonadIO m, Base.Show a) => a -> m ()
 print = liftIO . Prelude.print
 {-# SPECIALIZE print :: Base.Show a => a -> Base.IO () #-}
+
+-- | Lifted version of 'System.IO.hPrint'
+hPrint :: (MonadIO m, Base.Show a) => SIO.Handle -> a -> m ()
+hPrint h = liftIO . SIO.hPrint h
+{-# SPECIALIZE hPrint :: Base.Show a => SIO.Handle -> a -> Base.IO () #-}
 
 -- | Specialized to 'T.Text' version of 'putStr' or forcing type inference.
 putText :: MonadIO m => T.Text -> m ()
