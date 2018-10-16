@@ -63,7 +63,7 @@ import Data.Word (Word, Word16, Word32, Word64, Word8, byteSwap16, byteSwap32, b
 import Numeric.Natural (Natural)
 
 -- IO
-import System.IO (FilePath, Handle, IOMode (..), stderr, stdin, stdout, withFile)
+import System.IO (FilePath, Handle, IOMode (..), stderr, stdin, stdout)
 
 -- Base typeclasses
 import Data.Eq (Eq (..))
