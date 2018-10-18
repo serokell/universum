@@ -1,7 +1,9 @@
 {-# LANGUAGE CPP                #-}
 {-# LANGUAGE DeriveDataTypeable #-}
 {-# LANGUAGE DeriveGeneric      #-}
+{-# LANGUAGE ImplicitParams     #-}
 {-# LANGUAGE KindSignatures     #-}
+{-# LANGUAGE MagicHash          #-}
 {-# LANGUAGE PolyKinds          #-}
 {-# LANGUAGE RankNTypes         #-}
 {-# LANGUAGE Trustworthy        #-}
@@ -35,9 +37,10 @@ import GHC.Generics (Generic)
 import System.IO.Unsafe (unsafePerformIO)
 
 #if ( __GLASGOW_HASKELL__ >= 800 )
-import GHC.Exts (RuntimeRep, TYPE)
+import GHC.Exception (errorCallWithCallStackException)
+import GHC.Exts (RuntimeRep, TYPE, raise#)
 
-import Universum.Base (HasCallStack)
+import Universum.Base (HasCallStack, callStack)
 #endif
 
 import Universum.Applicative (pass)
@@ -56,10 +59,11 @@ trace string expr = unsafePerformIO (do
 #if ( __GLASGOW_HASKELL__ >= 800 )
 error :: forall (r :: RuntimeRep) . forall (a :: TYPE r) . HasCallStack
       => Text -> a
+error s = raise# (errorCallWithCallStackException (unpack s) callStack)
 #else
 error :: Text -> a
-#endif
 error s = P.error (unpack s)
+#endif
 
 -- | Version of 'Debug.Trace.traceShow' that leaves a warning.
 {-# WARNING traceShow "'traceShow' remains in code" #-}
