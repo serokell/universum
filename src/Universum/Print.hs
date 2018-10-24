@@ -1,64 +1,90 @@
+{-|
+Module      : $header$
+Description : Overloaded writing for String-like types
+Copyright   : (c) Serokell 2018
+License     : MIT
+Maintainer  : Serokell <hi@serokell.io>
+Stability   : experimental
+Portability : portable
+
+Generalizes the 'Base.putStr' family of functions for String likes such as lazy
+and strict versions of 'Text' and 'ByteString'.
+
+A caveat to using overloaded functions is that printing string literals raises
+ambiguity errors in the presence of @OverloadedStrings@. To avoid this problem
+wither add a type annotation @putStr ("Hello World!" :: Text)@ or use one of the
+type constrained functions 'putText', 'putLText' etc.
+
+You may add support for your own types by importing "Universum.Print.Internal"
+and implementing 'Print'. However be advised that only the functions in this
+module should be considered stable, not the interface for 'Print'.
+-}
 {-# LANGUAGE ExplicitForAll    #-}
 {-# LANGUAGE FlexibleContexts  #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE Trustworthy       #-}
 
--- | Generalization of 'Prelude.putStr' and 'Prelude.putStrLn' functions.
-
 module Universum.Print
-       ( Print (..)
+       ( putStr
+       , putStrLn
        , print
+       , Print
        , putText
        , putTextLn
        , putLText
        , putLTextLn
+       -- ** Writing strings to an arbitrary 'Handle'
+       , hPutStr
+       , hPutStrLn
+       , hPrint
        ) where
 
 import Data.Function ((.))
 
 import Universum.Monad.Reexport (MonadIO, liftIO)
 
-import qualified Prelude (print, putStr, putStrLn)
+import Universum.Print.Internal (Print)
+import qualified Universum.Print.Internal as I (hPutStrLn, hPutStr)
 
-import qualified Data.ByteString.Char8 as BS
-import qualified Data.ByteString.Lazy.Char8 as BL
+import qualified Prelude (print)
+import qualified System.IO as SIO (Handle, hPrint)
 
 import qualified Data.Text as T
-import qualified Data.Text.IO as T
 
 import qualified Data.Text.Lazy as TL
-import qualified Data.Text.Lazy.IO as TL
 
 import qualified Universum.Base as Base
 
--- | Polymorfic over string and lifted to 'MonadIO' printing functions.
-class Print a where
-  putStr :: MonadIO m => a -> m ()
-  putStrLn :: MonadIO m => a -> m ()
+-- | Write a string like value @a@ to a supplied 'SIO.Handle'.
+hPutStr :: (Print a, MonadIO m) => SIO.Handle -> a -> m ()
+hPutStr h = liftIO . I.hPutStr h
+{-# SPECIALIZE hPutStr :: Print a => SIO.Handle -> a -> Base.IO () #-}
 
-instance Print T.Text where
-  putStr = liftIO . T.putStr
-  putStrLn = liftIO . T.putStrLn
+-- | Write a string like value @a@ to a supplied 'SIO.Handle', appending a
+-- newline character.
+hPutStrLn :: (Print a, MonadIO m) => SIO.Handle -> a -> m ()
+hPutStrLn h = liftIO . I.hPutStrLn h
+{-# SPECIALIZE hPutStrLn :: Print a => SIO.Handle -> a -> Base.IO () #-}
 
-instance Print TL.Text where
-  putStr = liftIO . TL.putStr
-  putStrLn = liftIO . TL.putStrLn
+-- | Write a string like value to @stdout@/.
+putStr :: (Print a, MonadIO m) => a -> m ()
+putStr = hPutStr Base.stdout
+{-# SPECIALIZE putStr :: Print a => a -> Base.IO () #-}
 
-instance Print BS.ByteString where
-  putStr = liftIO . BS.putStr
-  putStrLn = liftIO . BS.putStrLn
-
-instance Print BL.ByteString where
-  putStr = liftIO . BL.putStr
-  putStrLn = liftIO . BL.putStrLn
-
-instance Print [Base.Char] where
-  putStr = liftIO . Prelude.putStr
-  putStrLn = liftIO . Prelude.putStrLn
+-- | Write a string like value to @stdout@ appending a newline character.
+putStrLn :: (Print a, MonadIO m) => a -> m ()
+putStrLn = hPutStrLn Base.stdout
+{-# SPECIALIZE putStrLn :: Print a => a -> Base.IO () #-}
 
 -- | Lifted version of 'Prelude.print'.
 print :: forall a m . (MonadIO m, Base.Show a) => a -> m ()
 print = liftIO . Prelude.print
+{-# SPECIALIZE print :: Base.Show a => a -> Base.IO () #-}
+
+-- | Lifted version of 'System.IO.hPrint'
+hPrint :: (MonadIO m, Base.Show a) => SIO.Handle -> a -> m ()
+hPrint h = liftIO . SIO.hPrint h
+{-# SPECIALIZE hPrint :: Base.Show a => SIO.Handle -> a -> Base.IO () #-}
 
 -- | Specialized to 'T.Text' version of 'putStr' or forcing type inference.
 putText :: MonadIO m => T.Text -> m ()
