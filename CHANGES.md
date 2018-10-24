@@ -9,6 +9,17 @@ Unreleased
 * [#204](https://github.com/serokell/universum/issues/186):
   Make `trace` non-polymorphic over text argument, add `traceIdWith` and `traceShowIdWith`.
 
+* [#197](https://github.com/serokell/universum/pull/197) `hPutStr`, `hPutStrLn`
+  and `hPrint` added to `Universum.Print`. The interface for the backing
+  typeclass `Universum.Print.Print` changed. It was also moved to the internal
+  module `Universum.Print.Internal` and should be considered unstable.
+
+  _Migration guide:_ The interface for the `Print` class should be considered
+  internal and may be subject to sudden change. If you **must** implement your
+  own instances, then import `Universum.Print.Internal` (be aware that there are
+  name clashes in the functions from `Universum.Print` and
+  `Universum.Print.Internal`)
+
 1.4.0
 =====
 
