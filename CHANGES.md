@@ -20,6 +20,10 @@ Unreleased
   name clashes in the functions from `Universum.Print` and
   `Universum.Print.Internal`)
 
+* [#201](https://github.com/serokell/universum/pull/201) Generalized the type of
+  `Universum.Lifted.Env.die`. Should not break existing code, apart from,
+  perhaps, type inference.
+
 1.4.0
 =====
 
