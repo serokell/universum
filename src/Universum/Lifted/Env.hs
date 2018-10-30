@@ -36,6 +36,6 @@ exitSuccess = liftIO XIO.exitSuccess
 -- | Lifted version of 'System.Exit.die'.
 -- 'XIO.die' is available since base-4.8, but it's more convenient to
 -- redefine it instead of using CPP.
-die :: MonadIO m => String -> m ()
+die :: MonadIO m => String -> m a
 die err = liftIO (System.IO.hPutStrLn stderr err) >> exitFailure
 {-# INLINE die #-}
