@@ -1,6 +1,8 @@
 Unreleased
 =====
 
+* Make `error`'s stacktrace exclude site of the `error` function itself.
+
 * [#200](https://github.com/serokell/universum/pull/200):
   Implemented a lifted version of `withFile` and added `hClose` to
   `Universum.Lifted.File` as discussed previously in
