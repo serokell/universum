@@ -1,6 +1,9 @@
 Unreleased
 =====
 
+1.5.0
+=====
+
 * Make `error`'s stacktrace exclude site of the `error` function itself.
 
 * [#200](https://github.com/serokell/universum/pull/200):
