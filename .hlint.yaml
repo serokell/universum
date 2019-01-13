@@ -1,16 +1,12 @@
-- arguments:
-  - -XTypeApplications # TypeApplications are disabled by default in HLint,
-                       # although the documentation says otherwise
+############################################################################
+## Universum
+############################################################################
 
 # There's no 'head' in Universum
 - ignore: {name: "Use head"}
 
 # We have 'whenJust' for this
 - ignore: {name: "Use Foldable.forM_"}
-
-############################################################################
-## Universum
-############################################################################
 
 - warn: {lhs: Data.Text.pack, rhs: Universum.toText}
 - warn: {lhs: Data.Text.unpack, rhs: Universum.toString}
@@ -28,17 +24,6 @@
 - warn: {lhs: Control.Exception.evaluate (x `deepseq` ()), rhs: evaluateNF_ x}
 - warn: {lhs: void (evaluateWHNF x), rhs: evaluateWHNF_ x}
 - warn: {lhs: void (evaluateNF x), rhs: evaluateNF_ x}
-
-## Monad.Trans
-
-- warn: {lhs: flip runReaderT , rhs: usingReaderT }
-- warn: {lhs: flip runReader  , rhs: usingReader }
-- warn: {lhs: flip runStateT  , rhs: usingStateT }
-- warn: {lhs: flip runState   , rhs: usingState }
-- hint: {lhs: fst <$> usingStateT s st, rhs: evaluatingStateT s st}
-- hint: {lhs: fst (usingState s st), rhs: evaluatingState s st}
-- hint: {lhs: snd <$> usingStateT s st, rhs: executingStateT s st}
-- hint: {lhs: snd (usingState s st), rhs: executingState s st}
 
 ## Containers
 - hint: {lhs: Data.HashMap.Lazy.keys, rhs: Universum.keys}
@@ -96,12 +81,8 @@
 
 - warn: {lhs: map fst &&& map snd, rhs: unzip}
 
-- hint: {lhs: "foldl' (flip f)", rhs: "flipfoldl' f"}
-
 - warn: {lhs: f >>= guard, rhs: guardM}
 - warn: {lhs: guard =<< f, rhs: guardM}
-
-- hint: {lhs: fmap (fmap f) x, rhs: f <<$>> x}
 
 - warn: {lhs: fmap concat (mapM f s), rhs: Universum.concatMapM f s}
 - warn: {lhs: concat <$> mapM f s, rhs: Universum.concatMapM f s}
