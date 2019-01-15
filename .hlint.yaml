@@ -1,3 +1,10 @@
+# This is a custom hlint config with rules that suggest
+# using Universum functions whenever it has a suitable
+# alternative. You may either copy-paste this config into
+# your .hlint.yaml or run hlint twice: once with your
+# default config, and the second time with this one.
+# This config is *not* intended for Universum developers.
+
 ############################################################################
 ## Universum
 ############################################################################
