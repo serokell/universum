@@ -1,6 +1,10 @@
 Unreleased
 =====
 
+* [#207](https://github.com/serokell/universum/pull/207):
+  Remove various monad transformer combinators, `flipfoldl'`, and `<<$>>`
+  from the list of changes suggested in `.hlint.yaml`.
+
 1.5.0
 =====
 
