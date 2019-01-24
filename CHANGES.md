@@ -61,7 +61,7 @@ Unreleased
   _Migration guide:_ use `liftIO` directly with functions from
   `Control.Monad.ST` instead.
 * [#181](https://github.com/serokell/universum/issues/181):
-  `list` has removed.
+  `list` has been removed.
 
 1.3.0
 =====
