@@ -13,7 +13,7 @@ Universum
 1. **Excellent documentation**: tutorial, migration guide from `Prelude`,
    Haddock with examples for (almost) every function,
    all examples are tested with [`doctest`](http://hackage.haskell.org/package/doctest),
-   documenation regarding internal module structure.
+   documentation regarding internal module structure.
 2. `universum`-specific [HLint](http://hackage.haskell.org/package/hlint) rules:
    [`.hlint.yaml`](https://github.com/serokell/universum/blob/master/.hlint.yaml)
 3. Only a few LiquidHaskell properties right now, but LiquidHaskell is on Travis
