@@ -24,6 +24,7 @@ main = defaultMain
   , bgroupConcatMap
   , bgroupMember
   , bgroupFold
+  , bgroupTextConversion
   ]
 
 bgroupList :: forall a .
@@ -171,3 +172,11 @@ bgroupFold = do
     bgroup "foldl'" [ bench "flipped" $ nf flipFoldl' testList
                     , bench "base"    $ nf ghcFoldl'  testList
                     ]
+
+bgroupTextConversion :: Benchmark
+bgroupTextConversion =
+  let str = replicate 100000 'a'
+  in bench "toText/toString" $ whnf (countLength . toText) str
+  where
+    countLength :: Text -> Int
+    countLength x = length (toString x)

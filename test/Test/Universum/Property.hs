@@ -1,4 +1,4 @@
-{-# LANGUAGE CPP #-}
+{-# LANGUAGE CPP          #-}
 {-# LANGUAGE TypeFamilies #-}
 
 module Test.Universum.Property
@@ -8,23 +8,28 @@ module Test.Universum.Property
 import Universum
 
 import Data.List (nub)
-import Hedgehog (Property, Gen, MonadGen, forAll, property, assert, (===))
+import Hedgehog (Gen, MonadGen, Property, assert, forAll, property, (===))
 #if MIN_VERSION_hedgehog(1,0,0)
 import Hedgehog (GenBase)
 #endif
-import Test.Tasty (testGroup, TestTree)
+import Test.Tasty (TestTree, testGroup)
 import Test.Tasty.Hedgehog
 
+import qualified Data.ByteString as B
+import qualified Data.ByteString.Lazy as LB
+import qualified Data.Text as T
+import qualified Data.Text.Lazy as LT
+import qualified Hedgehog.Gen as Gen
+import qualified Hedgehog.Range as Range
 import qualified Universum as U
-import qualified Hedgehog.Gen              as Gen
-import qualified Hedgehog.Range            as Range
-import qualified Data.ByteString           as B
-import qualified Data.ByteString.Lazy      as LB
-import qualified Data.Text                 as T
-import qualified Data.Text.Lazy            as LT
 
 hedgehogTestTree :: TestTree
-hedgehogTestTree = testGroup "Tests" [utfProps, listProps, boolMProps]
+hedgehogTestTree = testGroup "Tests" [stringProps, utfProps, listProps, boolMProps]
+
+stringProps :: TestTree
+stringProps = testGroup "String conversions"
+    [ testProperty "toString . toText = id" prop_StringToTextAndBack
+    ]
 
 utfProps :: TestTree
 utfProps = testGroup "utf8 conversion property tests"
@@ -47,6 +52,9 @@ unicode' = do
 utf8String :: Gen U.String
 utf8String = Gen.string (Range.linear 0 10000) unicode'
 
+unicodeAllString :: Gen U.String
+unicodeAllString = Gen.string (Range.linear 0 10000) Gen.unicodeAll
+
 utf8Text :: Gen T.Text
 utf8Text = Gen.text (Range.linear 0 10000) unicode'
 
@@ -57,6 +65,11 @@ utf8Bytes = Gen.utf8 (Range.linear 0 10000) unicode'
 -- > import qualified Data.ByteString.UTF8 as BU
 -- > BU.toString (BU.fromString "\65534") == "\65533"
 -- > True
+
+prop_StringToTextAndBack :: Property
+prop_StringToTextAndBack = property $ do
+  str <- forAll unicodeAllString
+  toString (toText str) === str
 
 prop_StringToBytes :: Property
 prop_StringToBytes = property $ do

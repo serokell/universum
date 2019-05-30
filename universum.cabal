@@ -82,7 +82,9 @@ library
                      , mtl
                      , safe-exceptions
                      , stm
-                     , text
+                     -- Make sure that "toString-toText-rewritting" note
+                     -- is still valid when bumping this constraint.
+                     , text >= 1.0.0.0 && <= 1.2.3.1
                      , transformers
                      , unordered-containers
                      , utf8-string

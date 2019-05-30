@@ -160,6 +160,7 @@ Gotchas [↑](#structure-of-this-tutorial)
 * As a consequence of previous point, some functions like `traverse_`, `forM_`, `sequenceA_`, etc.
   are generalized over `Container` type classes.
 * `error` takes `Text`.
+* We are exporting a rewrite rule which replaces `toString . toText :: Text -> Text` with `id`. Note that this changes semantics in some corner cases.
 
 
 Things that you were already using, but now you don't have to import them explicitly [↑](#structure-of-this-tutorial)
