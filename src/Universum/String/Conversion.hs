@@ -162,24 +162,24 @@ instance ToString T.Text where
 instance ToString LT.Text where
     toString = LT.unpack
 
-{- [Note toString-toText-rewritting]
+{-
 
 @toString . toText@ pattern may occur quite often after inlining because
 we tend to use 'Text' rather than 'String' in function signatures, but
 there are still some libraries which use 'String's and thus make us perform
 conversions back and forth.
 
-Herewith, it's tempting to define the following rule:
+Note that @toString . toText@ is not strictly equal to identity function, see
+explanation in the comment below.
+-}
 
-@
-{-# RULES T.unpack (T.pack s) = s #-}.
-@
+{-# RULES "pack/unpack" [~0]
+    forall s. T.unpack (T.pack s) = s
+#-}
 
-This would make as to mark 'T.unpack' and 'T.pack' as non-inlinable at the
-first phases of simplifier pass because if they get inlined then obviously
-our rule cannot be applied.
-We can go this way, but we can do even better if take rules defined in
-'Data.Text' into account.
+{- [Note toString-toText-rewritting]
+
+We can do even better if take rules defined in 'Data.Text' into account.
 
 Quoting investigation of @int-index:
 
@@ -246,12 +246,16 @@ We hope that in most cases it's fine.
 And if it's not, one can mark his function using either @pack@ or @unpack@
 with @NOINLINE@ pragma to prevent the rule from firing.
 
-So eventually we end up with the following rule:
+So, eventually, we add the following rule:
 -}
-{-# RULES "pack/unpack" [1]
+{-# RULES "pack/unpack internal" [1]
     forall s. TF.unstreamList (TF.map T.safe (TF.streamList s)) = s
 #-}
 
+{- In case if GHC didn't manage to inline and rewrite everything in
+the remaining phases (@Data.Text.pack@ is inlined at 1-st phase),
+we still have this rule. Hopefully, one of them will fire.
+-}
 -- | Polymorhpic version of 'Text.Read.readEither'.
 --
 -- >>> readEither @Text @Int "123"

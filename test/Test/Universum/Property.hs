@@ -29,6 +29,8 @@ hedgehogTestTree = testGroup "Tests" [stringProps, utfProps, listProps, boolMPro
 stringProps :: TestTree
 stringProps = testGroup "String conversions"
     [ testProperty "toString . toText = id" prop_StringToTextAndBack
+    , testProperty "`toString . toText` for UTF-16 surrogate"
+        prop_StringToTextAndBackSurrogate
     ]
 
 utfProps :: TestTree
@@ -69,6 +71,23 @@ utf8Bytes = Gen.utf8 (Range.linear 0 10000) unicode'
 prop_StringToTextAndBack :: Property
 prop_StringToTextAndBack = property $ do
   str <- forAll unicodeAllString
+  toString (toText str) === str
+
+-- | See comment to this function:
+-- <http://hackage.haskell.org/package/text-1.2.3.1/docs/src/Data.Text.Internal.html#safe>
+--
+-- While 'String' may contain surrogate UTF-16 code points, actually UTF-8
+-- doesn't allow them, as well as 'Text'. 'Data.Text.pack' replaces invalid
+-- characters with unicode replacement character, so by default
+-- @toString . toText@ is not identity.
+--
+-- However, we have a rewrite rule by which we /replace/ @toString . toText@
+-- occurrences with the identity function.
+prop_StringToTextAndBackSurrogate :: Property
+prop_StringToTextAndBackSurrogate = property $ do
+  -- Surrogate character like this one should remain intact
+  -- Without rewrite rule this string would be transformed to "\9435"
+  let str = "\xD800"
   toString (toText str) === str
 
 prop_StringToBytes :: Property
