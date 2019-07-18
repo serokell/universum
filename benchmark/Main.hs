@@ -3,6 +3,7 @@ module Main where
 import Universum hiding (show)
 
 import Data.List (nub, zip5)
+import qualified Data.Text as T
 import Gauge (Benchmark, bench, bgroup, nf, whnf)
 import Gauge.Main (defaultMain)
 import Prelude (show)
@@ -175,8 +176,12 @@ bgroupFold = do
 
 bgroupTextConversion :: Benchmark
 bgroupTextConversion =
-  let str = replicate 100000 'a'
-  in bench "toText/toString" $ whnf (countLength . toText) str
-  where
-    countLength :: Text -> Int
-    countLength x = length (toString x)
+  bgroup "text conversions"
+    [ let str = replicate 100000 'a'
+          countLength x = length (toString x)
+      in bench "toString . toText" $ whnf (countLength . toText) str
+
+    , let txt = T.replicate 100000 (T.singleton 'a')
+          countLength x = length (toText x)
+      in bench "toText . toString" $ whnf (countLength . toString) txt
+    ]

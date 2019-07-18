@@ -254,8 +254,21 @@ So, eventually, we add the following rule:
 
 {- In case if GHC didn't manage to inline and rewrite everything in
 the remaining phases (@Data.Text.pack@ is inlined at 1-st phase),
-we still have this rule. Hopefully, one of them will fire.
+we still have "pack/unpack" rule. Hopefully, one of them will fire.
 -}
+
+{- The opposite rule is safe to have because 'T.safe' /is/ the identity
+function for strings made up from valid characters, and text is guaranteed
+to have only valid ones.
+However, for this case there is no @unstream (stream s) = id@ rule,
+so we don't delve deep into internals. As long as @stream@ and @unstream@
+only perform conversion between text and stream of characters, they should
+be safe to collapse.
+-}
+{-# RULES "unpack/pack" [~0]
+    forall s. T.pack (T.unpack s) = s
+#-}
+
 -- | Polymorhpic version of 'Text.Read.readEither'.
 --
 -- >>> readEither @Text @Int "123"

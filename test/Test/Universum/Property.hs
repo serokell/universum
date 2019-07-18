@@ -31,6 +31,7 @@ stringProps = testGroup "String conversions"
     [ testProperty "toString . toText = id" prop_StringToTextAndBack
     , testProperty "`toString . toText` for UTF-16 surrogate"
         prop_StringToTextAndBackSurrogate
+    , testProperty "toText . toString = id" prop_TextToStringAndBack
     ]
 
 utfProps :: TestTree
@@ -59,6 +60,9 @@ unicodeAllString = Gen.string (Range.linear 0 10000) Gen.unicodeAll
 
 utf8Text :: Gen T.Text
 utf8Text = Gen.text (Range.linear 0 10000) unicode'
+
+unicodeAllText :: Gen T.Text
+unicodeAllText = Gen.text (Range.linear 0 10000) Gen.unicodeAll
 
 utf8Bytes :: Gen B.ByteString
 utf8Bytes = Gen.utf8 (Range.linear 0 10000) unicode'
@@ -89,6 +93,11 @@ prop_StringToTextAndBackSurrogate = property $ do
   -- Without rewrite rule this string would be transformed to "\9435"
   let str = "\xD800"
   toString (toText str) === str
+
+prop_TextToStringAndBack :: Property
+prop_TextToStringAndBack = property $ do
+  txt <- forAll unicodeAllText
+  toText (toString txt) === txt
 
 prop_StringToBytes :: Property
 prop_StringToBytes = property $ do

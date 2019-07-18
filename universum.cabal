@@ -135,6 +135,7 @@ benchmark universum-benchmark
                      , universum
                      , containers
                      , gauge
+                     , text
                      , unordered-containers
 
   default-extensions:  NoImplicitPrelude
