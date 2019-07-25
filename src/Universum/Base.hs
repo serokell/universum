@@ -117,8 +117,6 @@ import Data.Kind (Type)
 -- 3
 -- >>> const 3 $! Prelude.undefined
 -- *** Exception: Prelude.undefined
--- CallStack (from HasCallStack):
---   error, called at libraries/base/GHC/Err.hs:79:14 in base:GHC.Err
 -- ...
 ($!) :: (a -> b) -> a -> b
 f $! x = let !vx = x in f vx
