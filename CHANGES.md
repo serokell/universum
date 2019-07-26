@@ -4,6 +4,8 @@ Unreleased
 * [#207](https://github.com/serokell/universum/pull/207):
   Remove various monad transformer combinators, `flipfoldl'`, and `<<$>>`
   from the list of changes suggested in `.hlint.yaml`.
+* [#214](https://github.com/serokell/universum/issues/214):
+  Update supported GHC versions (replace 7.10.3 with 8.6.5).
 
 1.5.0
 =====

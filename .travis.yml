@@ -1,6 +1,6 @@
 sudo: true
 language: haskell
-
+dist: xenial
 
 git:
   depth: 5
@@ -15,9 +15,6 @@ cache:
 matrix:
   include:
 
-  - ghc: 7.10.3
-    env: GHCVER='7.10.3' STACK_YAML="$HOME/build/serokell/universum/stack-$GHCVER.yaml"
-
   - ghc: 8.0.2
     env: GHCVER='8.0.2' STACK_YAML="$HOME/build/serokell/universum/stack-$GHCVER.yaml"
 
@@ -25,6 +22,9 @@ matrix:
     env: GHCVER='8.2.2' STACK_YAML="$HOME/build/serokell/universum/stack-$GHCVER.yaml"
 
   - ghc: 8.4.3
+    env: GHCVER='8.4.3' STACK_YAML="$HOME/build/serokell/universum/stack-$GHCVER.yaml"
+
+  - ghc: 8.6.5
     env: GHCVER='8.4.3' STACK_YAML="$HOME/build/serokell/universum/stack.yaml"
 
   - ghc: 8.2.2
@@ -47,9 +47,10 @@ before_install:
   - travis_retry curl -L 'https://www.stackage.org/stack/linux-x86_64' | tar xz --wildcards --strip-components=1 -C ~/.local/bin '*/stack'
   - stack --version
 
-  # Install Z3
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo add-apt-repository ppa:hvr/z3 -y > /dev/null; sudo apt-key -qq update /dev/null; sudo apt-get -qq update; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get -qq install z3 -y --force-yes; fi
+  # Install Z3 (for Liquid Haskell)
+  - if [ "$STACK_YAML" == "$HOME/build/serokell/universum/stack-liquid.yaml" ]; then
+      sudo apt-get -q install z3 -y;
+    fi
 
 install:
 
@@ -63,7 +64,7 @@ install:
     if [ "$STACK_YAML" == "$HOME/build/serokell/universum/stack-liquid.yaml" ]; then
       stack install liquidhaskell-0.8.2.4
     else
-      echo "Skipping `liquidhaskell` installation"
+      echo "Skipping 'liquidhaskell' installation"
     fi
 
 script:
@@ -74,7 +75,7 @@ script:
       stack exec -- liquid --totalhaskell src/Universum/Unsafe.hs
       stack exec -- liquid --totalhaskell src/Universum/Nub.hs
     else
-      echo "Skipping `liquidhaskell` running"
+      echo "Skipping 'liquidhaskell' running"
     fi
 
 notifications:

@@ -13,10 +13,10 @@ stability:           stable
 build-type:          Simple
 cabal-version:       >=1.18
 bug-reports:         https://github.com/serokell/universum/issues
-tested-with:         GHC == 7.10.3
-                   , GHC == 8.0.2
+tested-with:         GHC == 8.0.2
                    , GHC == 8.2.2
                    , GHC == 8.4.3
+                   , GHC == 8.6.5
 extra-doc-files:     CHANGES.md
                    , CONTRIBUTING.md
                    , README.md
@@ -134,8 +134,6 @@ benchmark universum-benchmark
                      , containers
                      , gauge
                      , unordered-containers
-  if impl(ghc == 7.10.3)
-     build-depends:   semigroups >= 0.18
 
   default-extensions:  NoImplicitPrelude
                        ScopedTypeVariables
