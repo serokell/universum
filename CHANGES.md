@@ -7,6 +7,11 @@ Unreleased
 * [#214](https://github.com/serokell/universum/issues/214):
   Update supported GHC versions (replace 7.10.3 with 8.6.5).
 
+* [#212](https://github.com/serokell/universum/issues/212)
+  Added rewrite rule for `toString . toText` case.
+  This may change semantics in some corner cases
+  (because `toString . toText` is not strictly the identity function).
+
 1.5.0
 =====
 

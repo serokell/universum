@@ -3,6 +3,7 @@ module Main where
 import Universum hiding (show)
 
 import Data.List (nub, zip5)
+import qualified Data.Text as T
 import Gauge (Benchmark, bench, bgroup, nf, whnf)
 import Gauge.Main (defaultMain)
 import Prelude (show)
@@ -24,6 +25,7 @@ main = defaultMain
   , bgroupConcatMap
   , bgroupMember
   , bgroupFold
+  , bgroupTextConversion
   ]
 
 bgroupList :: forall a .
@@ -171,3 +173,15 @@ bgroupFold = do
     bgroup "foldl'" [ bench "flipped" $ nf flipFoldl' testList
                     , bench "base"    $ nf ghcFoldl'  testList
                     ]
+
+bgroupTextConversion :: Benchmark
+bgroupTextConversion =
+  bgroup "text conversions"
+    [ let str = replicate 100000 'a'
+          countLength x = length (toString x)
+      in bench "toString . toText" $ whnf (countLength . toText) str
+
+    , let txt = T.replicate 100000 (T.singleton 'a')
+          countLength x = length (toText x)
+      in bench "toText . toString" $ whnf (countLength . toString) txt
+    ]

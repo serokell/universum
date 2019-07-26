@@ -3,6 +3,7 @@
 {-# LANGUAGE FlexibleInstances     #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE TypeSynonymInstances  #-}
+{-# OPTIONS_GHC -Wno-orphans  #-}
 
 -- | This module implements type class which allow to have conversion to and
 -- from 'Text', 'String' and 'ByteString' types (including both strict and lazy
@@ -30,6 +31,8 @@ import Data.Bifunctor (first)
 import Data.Either (Either)
 import Data.Function (id, (.))
 import Data.String (String)
+import qualified Data.Text.Internal as T
+import qualified Data.Text.Internal.Fusion.Common as TF
 
 import Universum.Functor ((<$>))
 import Universum.String.Reexport (ByteString, IsString, Read, Text, fromString)
@@ -158,6 +161,113 @@ instance ToString T.Text where
 
 instance ToString LT.Text where
     toString = LT.unpack
+
+{-
+
+@toString . toText@ pattern may occur quite often after inlining because
+we tend to use 'Text' rather than 'String' in function signatures, but
+there are still some libraries which use 'String's and thus make us perform
+conversions back and forth.
+
+Note that @toString . toText@ is not strictly equal to identity function, see
+explanation in the comment below.
+-}
+
+{-# RULES "pack/unpack" [~0]
+    forall s. T.unpack (T.pack s) = s
+#-}
+
+{- [Note toString-toText-rewritting]
+
+We can do even better if take rules defined in 'Data.Text' into account.
+
+Quoting investigation of @int-index:
+
+If we look at @unpack@ and @pack@ they are defined as
+
+@
+unpack = S.unstreamList . stream
+{-# INLINE [1] unpack #-}
+
+pack = unstream . S.map safe . S.streamList
+{-# INLINE [1] pack #-}
+@
+
+After they get inlined, the rule seems to be
+
+@
+(S.unstreamList . stream) ((unstream . S.map safe . S.streamList) a)
+@
+
+If we also inline function composition, we get
+
+@
+S.unstreamList (stream (unstream (S.map safe (S.streamList a))))
+@
+
+`stream` and `unstream` surely cancel out via this rule:
+
+@
+{-# RULES "STREAM stream/unstream fusion" forall s. stream (unstream s) = s #-}
+@
+
+So we are left with
+
+@
+S.unstreamList (S.map safe (S.streamList a))
+@
+
+Now, what's this 'safe' function? Turns out it's defined as
+
+@
+safe :: Char -> Char
+safe c
+    | ord c .&. 0x1ff800 /= 0xd800 = c
+    | otherwise                    = '\xfffd'
+@
+
+Aha, so it's mapping some codepoints to @'\xfffd'@!
+There's a comment on top of it to explain this:
+
+```
+-- UTF-16 surrogate code points are not included in the set of Unicode
+-- scalar values, but are unfortunately admitted as valid 'Char'
+-- values by Haskell.  They cannot be represented in a 'Text'.  This
+-- function remaps those code points to the Unicode replacement
+-- character (U+FFFD, \'&#xfffd;\'), and leaves other code points
+-- unchanged.
+```
+
+This logic is lost with the mentioned rewrite rule.
+Not a huge loss, but it does mean that this rewrite rule isn't meaning preserving.
+
+
+We hope that in most cases it's fine.
+And if it's not, one can mark his function using either @pack@ or @unpack@
+with @NOINLINE@ pragma to prevent the rule from firing.
+
+So, eventually, we add the following rule:
+-}
+{-# RULES "pack/unpack internal" [1]
+    forall s. TF.unstreamList (TF.map T.safe (TF.streamList s)) = s
+#-}
+
+{- In case if GHC didn't manage to inline and rewrite everything in
+the remaining phases (@Data.Text.pack@ is inlined at 1-st phase),
+we still have "pack/unpack" rule. Hopefully, one of them will fire.
+-}
+
+{- The opposite rule is safe to have because 'T.safe' /is/ the identity
+function for strings made up from valid characters, and text is guaranteed
+to have only valid ones.
+However, for this case there is no @unstream (stream s) = id@ rule,
+so we don't delve deep into internals. As long as @stream@ and @unstream@
+only perform conversion between text and stream of characters, they should
+be safe to collapse.
+-}
+{-# RULES "unpack/pack" [~0]
+    forall s. T.pack (T.unpack s) = s
+#-}
 
 -- | Polymorhpic version of 'Text.Read.readEither'.
 --
