@@ -12,6 +12,10 @@ Unreleased
   This may change semantics in some corner cases
   (because `toString . toText` is not strictly the identity function).
 
+* [#215](https://github.com/serokell/universum/pull/215):
+  Fix docstrings in `Universum.Lifted.File` to mention correct module when
+  referencing related functions.
+
 1.5.0
 =====
 
