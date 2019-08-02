@@ -28,22 +28,22 @@ import qualified System.IO as XIO (openFile, hClose, IO)
 -- Text
 ----------------------------------------------------------------------------
 
--- | Lifted version of 'Data.Text.appendFile'.
+-- | Lifted version of 'Data.Text.IO.appendFile'.
 appendFile :: MonadIO m => FilePath -> Text -> m ()
 appendFile a b = liftIO (XIO.appendFile a b)
 {-# INLINE appendFile #-}
 
--- | Lifted version of 'Data.Text.getLine'.
+-- | Lifted version of 'Data.Text.IO.getLine'.
 getLine :: MonadIO m => m Text
 getLine = liftIO XIO.getLine
 {-# INLINE getLine #-}
 
--- | Lifted version of 'Data.Text.readFile'.
+-- | Lifted version of 'Data.Text.IO.readFile'.
 readFile :: MonadIO m => FilePath -> m Text
 readFile a = liftIO (XIO.readFile a)
 {-# INLINE readFile #-}
 
--- | Lifted version of 'Data.Text.writeFile'.
+-- | Lifted version of 'Data.Text.IO.writeFile'.
 writeFile :: MonadIO m => FilePath -> Text -> m ()
 writeFile a b = liftIO (XIO.writeFile a b)
 {-# INLINE writeFile #-}
