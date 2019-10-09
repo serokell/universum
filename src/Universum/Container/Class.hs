@@ -217,7 +217,7 @@ class Container t where
     -- >>> null @Text "aba"
     -- False
     null :: t -> Bool
-    default null :: (Foldable f, t ~ f a, Element t ~ a) => t -> Bool
+    default null :: (Foldable f, t ~ f a) => t -> Bool
     null = Foldable.null
     {-# INLINE null #-}
 
@@ -237,7 +237,7 @@ class Container t where
     {-# INLINE foldl' #-}
 
     length :: t -> Int
-    default length :: (Foldable f, t ~ f a, Element t ~ a) => t -> Int
+    default length :: (Foldable f, t ~ f a) => t -> Int
     length = Foldable.length
     {-# INLINE length #-}
 
