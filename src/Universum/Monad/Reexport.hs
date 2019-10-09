@@ -1,5 +1,4 @@
-{-# LANGUAGE CPP         #-}
-{-# LANGUAGE Trustworthy #-}
+{-# LANGUAGE CPP #-}
 
 -- | This module reexports functions to work with monads.
 
