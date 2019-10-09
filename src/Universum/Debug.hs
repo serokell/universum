@@ -32,7 +32,6 @@ module Universum.Debug
 import Control.Monad (Monad, return)
 import Data.Data (Data)
 import Data.Text (Text, pack, unpack)
-import Data.Typeable (Typeable)
 import GHC.Generics (Generic)
 import System.IO.Unsafe (unsafePerformIO)
 
@@ -120,7 +119,7 @@ traceId s = trace s s
 -- | Similar to 'undefined' but data type.
 {-# WARNING Undefined "'Undefined' type remains in code" #-}
 data Undefined = Undefined
-    deriving (P.Eq, P.Ord, P.Show, P.Read, P.Enum, P.Bounded, Data, Typeable, Generic)
+    deriving (P.Eq, P.Ord, P.Show, P.Read, P.Enum, P.Bounded, Data, Generic)
 
 -- | 'P.undefined' that leaves a warning in code on every usage.
 {-# WARNING undefined "'undefined' function remains in code (or use 'error')" #-}
