@@ -42,6 +42,7 @@ module Universum.Container.Class
        ) where
 
 import Data.Coerce (Coercible, coerce)
+import Data.Kind (Type)
 import Prelude hiding (all, and, any, elem, foldMap, foldl, foldr, mapM_, notElem, null, or, print,
                 product, sequence_, sum)
 
@@ -111,9 +112,9 @@ import qualified Data.Vector.Unboxed as VU
 class ToPairs t where
     {-# MINIMAL toPairs #-}
     -- | Type of keys of the mapping.
-    type Key t :: *
+    type Key t :: Type
     -- | Type of value of the mapping.
-    type Val t :: *
+    type Val t :: Type
 
     -- | Converts the structure to the list of the key-value pairs.
     -- >>> toPairs (HashMap.fromList [('a', "xxx"), ('b', "yyy")])
@@ -173,7 +174,7 @@ instance ToPairs (Map k v) where
 ----------------------------------------------------------------------------
 
 -- | Default implementation of 'Element' associated type family.
-type family ElementDefault (t :: *) :: * where
+type family ElementDefault (t :: Type) :: Type where
     ElementDefault (f a) = a
 
 -- | Very similar to 'Foldable' but also allows instances for monomorphic types
@@ -195,7 +196,7 @@ class Container t where
     -- so we can't implement nice interface using old higher-kinded types
     -- approach. Implementing this as an associated type family instead of
     -- top-level family gives you more control over element types.
-    type Element t :: *
+    type Element t :: Type
     type Element t = ElementDefault t
 
     -- | Convert container to list of elements.
