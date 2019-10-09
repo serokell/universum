@@ -32,7 +32,7 @@ import Data.Eq (Eq)
 import Data.Hashable (Hashable)
 import Data.HashSet as HashSet
 import Data.Ord (Ord)
-import Prelude ((.))
+import Prelude (Bool, Char, (.))
 
 import qualified Data.Set as Set
 
@@ -48,6 +48,12 @@ import qualified Data.Set as Set
       then (Set_cup (Set_sng x) (dups xs))
       else (dups xs)}
 @-}
+
+-- We do not use `Char` or `Bool` in this module, but
+-- Liquid Haskell fails if we don't import them.
+-- So we need to suppress warning about redundant imports.
+_unusedFunctionForLiquidHaskell :: Bool -> Char
+_unusedFunctionForLiquidHaskell _ = ' '
 
 {-@ Set.toList :: Set.Set a -> ListUnique a @-}
 
