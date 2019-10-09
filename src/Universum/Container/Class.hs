@@ -175,7 +175,7 @@ instance ToPairs (Map k v) where
 
 -- | Default implementation of 'Element' associated type family.
 type family ElementDefault (t :: Type) :: Type where
-    ElementDefault (f a) = a
+    ElementDefault (_ a) = a
 
 -- | Very similar to 'Foldable' but also allows instances for monomorphic types
 -- like 'Text' but forbids instances for 'Maybe' and similar. This class is used as

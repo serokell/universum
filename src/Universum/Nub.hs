@@ -32,7 +32,7 @@ import Data.Eq (Eq)
 import Data.Hashable (Hashable)
 import Data.HashSet as HashSet
 import Data.Ord (Ord)
-import Prelude (Bool, Char, (.))
+import Prelude ((.))
 
 import qualified Data.Set as Set
 

@@ -46,7 +46,7 @@ infixr 2 $
 -- a :: (Show a, Read a) => a -> a
 -- @
 type family (<+>) (c :: [k -> Constraint]) (a :: k) where
-    (<+>) '[] a = (() :: Constraint)
+    (<+>) '[] _ = (() :: Constraint)
     (<+>) (ch ': ct) a = (ch a, (<+>) ct a)
 infixl 9 <+>
 
@@ -65,7 +65,7 @@ infixl 9 <+>
 -- f :: Each '[Show] [a, b] => a -> b -> String
 -- @
 type family Each (c :: [k -> Constraint]) (as :: [k]) where
-    Each c '[] = (() :: Constraint)
+    Each _ '[] = (() :: Constraint)
     Each c (h ': t) = (c <+> h, Each c t)
 
 -- | Map several constraints over a single variable.
