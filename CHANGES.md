@@ -1,6 +1,9 @@
 Unreleased
 =====
 
+* [#219](https://github.com/serokell/universum/issues/219):
+  Bump upper bound on `text`.
+
 1.6.0
 =====
 
