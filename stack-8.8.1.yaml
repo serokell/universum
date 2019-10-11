@@ -1,0 +1,4 @@
+resolver: nightly-2019-10-07
+
+nix:
+  shell-file: shell.nix
