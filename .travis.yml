@@ -25,7 +25,10 @@ matrix:
     env: GHCVER='8.4.3' STACK_YAML="$HOME/build/serokell/universum/stack-$GHCVER.yaml"
 
   - ghc: 8.6.5
-    env: GHCVER='8.4.3' STACK_YAML="$HOME/build/serokell/universum/stack.yaml"
+    env: GHCVER='8.6.5' STACK_YAML="$HOME/build/serokell/universum/stack.yaml"
+
+  - ghc: 8.8.1
+    env: GHCVER='8.8.1' STACK_YAML="$HOME/build/serokell/universum/stack-$GHCVER.yaml"
 
   - ghc: 8.2.2
     env: GHCVER='8.2.2' STACK_YAML="$HOME/build/serokell/universum/stack-liquid.yaml"
