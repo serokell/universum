@@ -51,7 +51,7 @@ There is also the `type:unclear` label for issues which don't have a list of spe
 Processing of an issue depends on its category. Specifically:
 1. A `not-code` issue can be resolved at any time.
 PRs can be merged whenever GitHub allows it.
-Minimal number of approvals is set to 2 in GitHub settings.
+Minimal number of approvals is set in GitHub settings.
 2. Rules for the `fix` issues are the same as for `not-code` with an additional rule that PRs for such issues should increase the last component in the version and this version should be uploaded to Hackage as soon as the PR is merged (also new tag and release are created).
 3. Work on the `feature` issues is organized in milestones.
 Each milestone corresponds to a release which increases at least the third (`feature`) version component.
