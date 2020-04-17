@@ -1,4 +1,3 @@
-{-# LANGUAGE CPP  #-}
 {-# LANGUAGE Safe #-}
 
 -- | Lifted versions of functions working with files and common IO.
@@ -22,7 +21,7 @@ import Prelude (FilePath)
 import System.IO (Handle, IOMode)
 
 import qualified Data.Text.IO as XIO
-import qualified System.IO as XIO (openFile, hClose, IO)
+import qualified System.IO as XIO (IO, hClose, openFile)
 
 ----------------------------------------------------------------------------
 -- Text

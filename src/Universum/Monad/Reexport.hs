@@ -1,5 +1,3 @@
-{-# LANGUAGE CPP #-}
-
 -- | This module reexports functions to work with monads.
 
 module Universum.Monad.Reexport
@@ -64,35 +62,4 @@ import Data.Maybe (Maybe (..), catMaybes, fromMaybe, isJust, isNothing, listToMa
 import Data.Either (Either (..), either, isLeft, isRight, lefts, partitionEithers, rights)
 
 import Control.Monad hiding (fail)
-
-#if __GLASGOW_HASKELL__ >= 800
 import Control.Monad.Fail (MonadFail (..))
-#else
-import Prelude (String)
-import Text.ParserCombinators.ReadP (ReadP)
-import Text.ParserCombinators.ReadPrec (ReadPrec)
-
-import Universum.Base (IO)
-
-import qualified Prelude as P (fail)
-
--- | Class for 'Monad's that can 'fail'.
--- Copied from 'fail' by Herbert Valerio Riedel (the library is under BSD3).
-class Monad m => MonadFail m where
-    fail :: String -> m a
-
-instance MonadFail Maybe where
-    fail _ = Nothing
-
-instance MonadFail [] where
-    fail _ = []
-
-instance MonadFail IO where
-    fail = P.fail
-
-instance MonadFail ReadPrec where
-    fail = P.fail -- = P (\_ -> fail s)
-
-instance MonadFail ReadP where
-    fail = P.fail
-#endif

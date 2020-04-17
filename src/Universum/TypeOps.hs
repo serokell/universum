@@ -1,18 +1,12 @@
-{-# LANGUAGE CPP                #-}
 {-# LANGUAGE ConstraintKinds    #-}
 {-# LANGUAGE DataKinds          #-}
 {-# LANGUAGE ExplicitNamespaces #-}
 {-# LANGUAGE KindSignatures     #-}
 {-# LANGUAGE NoImplicitPrelude  #-}
 {-# LANGUAGE PolyKinds          #-}
+{-# LANGUAGE Safe               #-}
 {-# LANGUAGE TypeFamilies       #-}
 {-# LANGUAGE TypeOperators      #-}
-
-#if __GLASGOW_HASKELL__ <= 710
-{-# LANGUAGE Trustworthy        #-}
-#else
-{-# LANGUAGE Safe               #-}
-#endif
 
 -- | Type operators for writing convenient type signatures.
 
@@ -22,11 +16,7 @@ module Universum.TypeOps
        , type ($)
        ) where
 
-#if __GLASGOW_HASKELL__ <= 710
-import GHC.Prim (Constraint)
-#else
 import Data.Kind (Constraint)
-#endif
 
 -- | Infix application.
 --

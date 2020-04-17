@@ -35,14 +35,11 @@ import Data.Text (Text, pack, unpack)
 import GHC.Generics (Generic)
 import System.IO.Unsafe (unsafePerformIO)
 
-#if ( __GLASGOW_HASKELL__ >= 800 )
 import GHC.Exception (errorCallWithCallStackException)
 import GHC.Exts (RuntimeRep, TYPE, raise#)
 
-import Universum.Base (HasCallStack, callStack)
-#endif
-
 import Universum.Applicative (pass)
+import Universum.Base (HasCallStack, callStack)
 import Universum.Print (putStrLn)
 
 import qualified Prelude as P
@@ -55,14 +52,9 @@ trace string expr = unsafePerformIO (do
     return expr)
 
 -- | 'P.error' that takes 'Text' as an argument.
-#if ( __GLASGOW_HASKELL__ >= 800 )
 error :: forall (r :: RuntimeRep) . forall (a :: TYPE r) . HasCallStack
       => Text -> a
 error s = raise# (errorCallWithCallStackException (unpack s) callStack)
-#else
-error :: Text -> a
-error s = P.error (unpack s)
-#endif
 
 -- | Version of 'Debug.Trace.traceShow' that leaves a warning.
 {-# WARNING traceShow "'traceShow' remains in code" #-}
@@ -123,9 +115,5 @@ data Undefined = Undefined
 
 -- | 'P.undefined' that leaves a warning in code on every usage.
 {-# WARNING undefined "'undefined' function remains in code (or use 'error')" #-}
-#if ( __GLASGOW_HASKELL__ >= 800 )
 undefined :: forall (r :: RuntimeRep) . forall (a :: TYPE r) . HasCallStack => a
-#else
-undefined :: a
-#endif
 undefined = P.undefined

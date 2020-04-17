@@ -1,4 +1,3 @@
-{-# LANGUAGE CPP                     #-}
 {-# LANGUAGE ConstrainedClassMethods #-}
 {-# LANGUAGE ConstraintKinds         #-}
 {-# LANGUAGE DataKinds               #-}
@@ -54,15 +53,11 @@ import Universum.Functor (Identity)
 import Universum.Monad.Reexport (fromMaybe)
 import Universum.Monoid (All (..), Any (..), Dual, First (..), Last, Product, Sum)
 
-#if __GLASGOW_HASKELL__ >= 800
 import GHC.Err (errorWithoutStackTrace)
 import GHC.TypeLits (ErrorMessage (..), Symbol, TypeError)
-#endif
 
-#if ( __GLASGOW_HASKELL__ >= 800 )
 import qualified Data.List.NonEmpty as NE
 import Universum.List.Reexport (NonEmpty)
-#endif
 
 import qualified Data.Foldable as Foldable
 
@@ -275,13 +270,8 @@ class Container t where
 
     foldr1 :: (Element t -> Element t -> Element t) -> t -> Element t
     foldr1 f xs =
-#if __GLASGOW_HASKELL__ >= 800
       fromMaybe (errorWithoutStackTrace "foldr1: empty structure")
                 (foldr mf Nothing xs)
-#else
-      fromMaybe (error "foldr1: empty structure")
-                (foldr mf Nothing xs)
-#endif
       where
         mf x m = Just (case m of
                            Nothing -> x
@@ -290,13 +280,8 @@ class Container t where
 
     foldl1 :: (Element t -> Element t -> Element t) -> t -> Element t
     foldl1 f xs =
-#if __GLASGOW_HASKELL__ >= 800
       fromMaybe (errorWithoutStackTrace "foldl1: empty structure")
                 (foldl mf Nothing xs)
-#else
-      fromMaybe (error "foldl1: empty structure")
-                (foldl mf Nothing xs)
-#endif
       where
         mf m y = Just (case m of
                            Nothing -> y
@@ -515,7 +500,6 @@ instance (Eq v, Hashable v) => Container (HashSet v) where
 instance Container [a]
 instance Container (Const a b)
 
-#if __GLASGOW_HASKELL__ >= 800
 -- Algebraic types
 instance Container (Dual a)
 instance Container (First a)
@@ -524,7 +508,6 @@ instance Container (Product a)
 instance Container (Sum a)
 instance Container (NonEmpty a)
 instance Container (ZipList a)
-#endif
 
 -- Containers
 instance Container (HashMap k v)
@@ -549,7 +532,6 @@ flipfoldl' :: (Container t, Element t ~ a) => (a -> b -> b) -> b -> t -> b
 flipfoldl' f = foldl' (flip f)
 {-# INLINE flipfoldl' #-}
 
-#if MIN_VERSION_base(4,10,1)
 -- | Stricter version of 'Prelude.sum'.
 --
 -- >>> sum [1..10]
@@ -569,11 +551,9 @@ flipfoldl' f = foldl' (flip f)
 --           use
 --               maybeToMonoid :: Monoid m => Maybe m -> m
 -- ...
-#endif
 sum :: (Container t, Num (Element t)) => t -> Element t
 sum = foldl' (+) 0
 
-#if MIN_VERSION_base(4,10,1)
 -- | Stricter version of 'Prelude.product'.
 --
 -- >>> product [1..10]
@@ -593,7 +573,6 @@ sum = foldl' (+) 0
 --           use
 --               maybeToMonoid :: Monoid m => Maybe m -> m
 -- ...
-#endif
 product :: (Container t, Num (Element t)) => t -> Element t
 product = foldl' (*) 1
 
@@ -687,7 +666,6 @@ asum = foldr (<|>) empty
 -- Disallowed instances
 ----------------------------------------------------------------------------
 
-#if __GLASGOW_HASKELL__ >= 800
 type family DisallowInstance (z :: Symbol) :: ErrorMessage where
     DisallowInstance z  = Text "Do not use 'Foldable' methods on " :<>: Text z
         :$$: Text "Suggestions:"
@@ -702,20 +680,11 @@ type family DisallowInstance (z :: Symbol) :: ErrorMessage where
         :$$: Text "    use"
         :$$: Text "        maybeToMonoid :: Monoid m => Maybe m -> m"
         :$$: Text ""
-#endif
 
-#if __GLASGOW_HASKELL__ >= 800
 instance TypeError (DisallowInstance "tuple")    => Container (a, b)
 instance TypeError (DisallowInstance "Maybe")    => Container (Maybe a)
 instance TypeError (DisallowInstance "Either")   => Container (Either a b)
 instance TypeError (DisallowInstance "Identity") => Container (Identity a)
-#else
-class ForbiddenFoldable a
-instance ForbiddenFoldable (a, b)       => Container (a, b)
-instance ForbiddenFoldable (Maybe a)    => Container (Maybe a)
-instance ForbiddenFoldable (Either a b) => Container (Either a b)
-instance ForbiddenFoldable (Identity a) => Container (Identity a)
-#endif
 
 ----------------------------------------------------------------------------
 -- One
@@ -743,12 +712,10 @@ instance One [a] where
     one = (:[])
     {-# INLINE one #-}
 
-#if ( __GLASGOW_HASKELL__ >= 800 )
 instance One (NE.NonEmpty a) where
     type OneItem (NE.NonEmpty a) = a
     one = (NE.:|[])
     {-# INLINE one #-}
-#endif
 
 instance One (SEQ.Seq a) where
     type OneItem (SEQ.Seq a) = a
