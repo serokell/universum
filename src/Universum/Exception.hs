@@ -1,3 +1,4 @@
+{-# LANGUAGE DerivingStrategies    #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE PatternSynonyms       #-}
 {-# LANGUAGE Safe                  #-}
@@ -32,7 +33,7 @@ import qualified Control.Exception.Safe as Safe (displayException, impureThrow, 
 -- | Type that represents exceptions used in cases when a particular codepath
 -- is not meant to be ever executed, but happens to be executed anyway.
 data Bug = Bug SomeException CallStack
-    deriving (Show)
+    deriving stock (Show)
 
 instance Exception Bug where
     displayException (Bug e cStack) = Safe.displayException e ++ "\n"
