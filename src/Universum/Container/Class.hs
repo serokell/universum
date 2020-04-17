@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP                     #-}
 {-# LANGUAGE ConstrainedClassMethods #-}
 {-# LANGUAGE ConstraintKinds         #-}
 {-# LANGUAGE DataKinds               #-}
@@ -53,7 +54,9 @@ import Universum.Functor (Identity)
 import Universum.Monad.Reexport (fromMaybe)
 import Universum.Monoid (All (..), Any (..), Dual, First (..), Last, Product, Sum)
 
+#if ( __GLASGOW_HASKELL__ < 808 )
 import GHC.Err (errorWithoutStackTrace)
+#endif
 import GHC.TypeLits (ErrorMessage (..), Symbol, TypeError)
 
 import qualified Data.List.NonEmpty as NE
