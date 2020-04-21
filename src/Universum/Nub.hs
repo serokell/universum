@@ -49,6 +49,12 @@ import qualified Data.Set as Set
       else (dups xs)}
 @-}
 
+-- We do not use `Char` or `Bool` in this module, but
+-- Liquid Haskell fails if we don't import them.
+-- So we need to suppress warning about redundant imports.
+_unusedFunctionForLiquidHaskell :: Bool -> Char
+_unusedFunctionForLiquidHaskell _ = ' '
+
 {-@ Set.toList :: Set.Set a -> ListUnique a @-}
 
 -- | Like 'Prelude.nub' but runs in @O(n * log n)@ time and requires 'Ord'.

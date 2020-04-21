@@ -1,23 +1,16 @@
-{-# LANGUAGE CPP  #-}
 {-# LANGUAGE Safe #-}
 
 -- | This module contains safe functions to work with list type (mostly with 'NonEmpty').
 
 module Universum.List.Safe
        ( uncons
-#if ( __GLASGOW_HASKELL__ >= 800 )
        , whenNotNull
        , whenNotNullM
-#endif
        ) where
 
-#if ( __GLASGOW_HASKELL__ >= 800 )
 import Universum.Applicative (Applicative, pass)
 import Universum.List.Reexport (NonEmpty (..))
-import Universum.Monad (Monad (..))
-#endif
-
-import Universum.Monad (Maybe (..))
+import Universum.Monad (Maybe (..), Monad (..))
 
 -- $setup
 -- >>> import Universum.Applicative (pure)
@@ -39,7 +32,6 @@ uncons :: [a] -> Maybe (a, [a])
 uncons []     = Nothing
 uncons (x:xs) = Just (x, xs)
 
-#if ( __GLASGOW_HASKELL__ >= 800 )
 {- | Performs given action over 'NonEmpty' list if given list is non empty.
 
 >>> whenNotNull [] $ \(b :| _) -> print (not b)
@@ -56,4 +48,3 @@ whenNotNull (x:xs) f = f (x :| xs)
 whenNotNullM :: Monad m => m [a] -> (NonEmpty a -> m ()) -> m ()
 whenNotNullM ml f = ml >>= \l -> whenNotNull l f
 {-# INLINE whenNotNullM #-}
-#endif

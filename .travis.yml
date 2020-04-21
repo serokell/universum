@@ -15,9 +15,6 @@ cache:
 matrix:
   include:
 
-  - ghc: 8.0.2
-    env: GHCVER='8.0.2' STACK_YAML="$HOME/build/serokell/universum/stack-$GHCVER.yaml"
-
   - ghc: 8.2.2
     env: GHCVER='8.2.2' STACK_YAML="$HOME/build/serokell/universum/stack-$GHCVER.yaml"
 
@@ -61,7 +58,7 @@ install:
   - stack ghc -- --version
 
   - travis_wait 40 stack build --only-dependencies --no-terminal
-  - travis_wait 40 stack build --test --bench --haddock --no-run-tests --no-run-benchmarks --no-haddock-deps --no-terminal
+  - travis_wait 40 stack build --test --bench --haddock --no-run-tests --no-run-benchmarks --no-haddock-deps --no-terminal --ghc-options -Werror
 
   - |
     if [ "$STACK_YAML" == "$HOME/build/serokell/universum/stack-liquid.yaml" ]; then

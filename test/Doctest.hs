@@ -2,7 +2,7 @@
 
 module Main (main) where
 
-#if defined(mingw32_HOST_OS) || __GLASGOW_HASKELL__ < 802
+#if defined(mingw32_HOST_OS)
 
 main :: IO ()
 main = return ()

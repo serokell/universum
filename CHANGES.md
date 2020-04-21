@@ -1,6 +1,9 @@
 Unreleased
 =====
 
+* [#185](https://github.com/serokell/universum/issues/185):
+  Enable more warnings, fix all warnings.
+
 1.6.1
 =====
 

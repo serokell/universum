@@ -1,9 +1,7 @@
 {-# LANGUAGE BangPatterns #-}
-{-# LANGUAGE CPP          #-}
 {-# LANGUAGE Unsafe       #-}
 
--- | Reexports from @GHC.*@ modules of <https://www.stackage.org/lts-8.9/package/base-4.9.1.0 base>
--- package.
+-- | Reexports from @GHC.*@ modules of the <https://hackage.haskell.org/package/base> package.
 
 module Universum.Base
        ( -- * Base types
@@ -35,22 +33,15 @@ module Universum.Base
        , module GHC.Num
        , module GHC.Real
        , module GHC.Show
-
-#if MIN_VERSION_base(4,10,0)
        , module GHC.TypeNats
-#else
-       , module GHC.TypeLits
-#endif
        , module GHC.Types
-
-#if ( __GLASGOW_HASKELL__ >= 800 )
        , module GHC.OverloadedLabels
        , module GHC.ExecutionStack
        , module GHC.Stack
 
          -- * Data.Kind
+       , Constraint
        , Type
-#endif
 
        , ($!)
        ) where
@@ -68,44 +59,29 @@ import System.IO (FilePath, Handle, IOMode (..), stderr, stdin, stdout)
 -- Base typeclasses
 import Data.Eq (Eq (..))
 import Data.Foldable (Foldable, concat, concatMap, foldlM, foldrM, maximumBy, minimumBy)
+import Data.Kind (Constraint, Type)
 import Data.Ord (Down (..), Ord (..), Ordering (..), comparing)
 import Data.Traversable (Traversable (..), fmapDefault, foldMapDefault, forM, mapAccumL, mapAccumR)
 
 -- Base GHC types
-#if ( __GLASGOW_HASKELL__ >= 710 )
 import Data.Proxy (Proxy (..))
 import Data.Typeable (Typeable)
 import Data.Void (Void, absurd, vacuous)
-#endif
 
 import GHC.Base (String, asTypeOf, maxInt, minInt, ord, seq)
 import GHC.Enum (Bounded (..), Enum (..), boundedEnumFrom, boundedEnumFromThen)
-import GHC.Exts (Constraint, FunPtr, Ptr)
+import GHC.ExecutionStack (getStackTrace, showStackTrace)
+import GHC.Exts (FunPtr, Ptr)
 import GHC.Float (Double (..), Float (..), Floating (acos, acosh, asin, asinh, atan, atanh, cos, cosh, exp, logBase, pi, sin, sinh, sqrt, tan, tanh, (**)))
 import GHC.Generics (Generic)
 import GHC.Num (Integer, Num (..), subtract)
+import GHC.OverloadedLabels (IsLabel (..))
 import GHC.Real hiding (showSigned, (%))
 import GHC.Show (Show)
-#if MIN_VERSION_base(4,10,0)
-import GHC.TypeNats (CmpNat, KnownNat, Nat, SomeNat (..), natVal, someNatVal)
-#else
-import GHC.TypeLits (CmpNat, KnownNat, Nat, SomeNat (..), natVal, someNatVal)
-#endif
-
-import GHC.Types (Bool, Char, Coercible, IO, Int, Ordering, Word)
-
-
-#if ( __GLASGOW_HASKELL__ >= 800 )
-import GHC.ExecutionStack (getStackTrace, showStackTrace)
-import GHC.OverloadedLabels (IsLabel (..))
 import GHC.Stack (CallStack, HasCallStack, callStack, currentCallStack, getCallStack,
                   prettyCallStack, prettySrcLoc, withFrozenCallStack)
-#endif
-
-#if ( __GLASGOW_HASKELL__ >= 800 )
--- TODO: move Constraint here later
-import Data.Kind (Type)
-#endif
+import GHC.TypeNats (CmpNat, KnownNat, Nat, SomeNat (..), natVal, someNatVal)
+import GHC.Types (Bool, Char, Coercible, IO, Int, Ordering, Word)
 
 -- $setup
 -- >>> import Universum.Function (const, ($))
