@@ -6,7 +6,16 @@ module Universum.List.Safe
        ( uncons
        , whenNotNull
        , whenNotNullM
+       , foldr1
+       , foldl1
+       , minimum
+       , maximum
+       , minimumBy
+       , maximumBy
        ) where
+
+import qualified Data.Foldable as F
+import Data.Ord (Ord, Ordering)
 
 import Universum.Applicative (Applicative, pass)
 import Universum.List.Reexport (NonEmpty (..))
@@ -14,7 +23,7 @@ import Universum.Monad (Maybe (..), Monad (..))
 
 -- $setup
 -- >>> import Universum.Applicative (pure)
--- >>> import Universum.Base ((==), even)
+-- >>> import Universum.Base ((==), (+), even)
 -- >>> import Universum.Bool (Bool (..), not)
 -- >>> import Universum.Container (length)
 -- >>> import Universum.Function (($))
@@ -48,3 +57,49 @@ whenNotNull (x:xs) f = f (x :| xs)
 whenNotNullM :: Monad m => m [a] -> (NonEmpty a -> m ()) -> m ()
 whenNotNullM ml f = ml >>= \l -> whenNotNull l f
 {-# INLINE whenNotNullM #-}
+
+-- | A variant of 'foldl' that has no base case, and thus may only be
+-- applied to 'NonEmpty'.
+--
+-- >>> foldl1 (+) (1 :| [2,3,4,5])
+-- 15
+foldl1 :: (a -> a -> a) -> NonEmpty a -> a
+foldl1 = F.foldl1
+{-# INLINE foldl1 #-}
+
+-- | A variant of 'foldr' that has no base case, and thus may only be
+-- applied to 'NonEmpty'.
+--
+-- >>> foldr1 (+) (1 :| [2,3,4,5])
+-- 15
+foldr1 :: (a -> a -> a) -> NonEmpty a -> a
+foldr1 = F.foldr1
+{-# INLINE foldr1 #-}
+
+-- | The least element of a 'NonEmpty' with respect to the given
+-- comparison function.
+minimumBy :: (a -> a -> Ordering) -> NonEmpty a -> a
+minimumBy = F.minimumBy
+{-# INLINE minimumBy #-}
+
+-- | The least element of a 'NonEmpty'.
+--
+-- >>> minimum (1 :| [2,3,4,5])
+-- 1
+minimum :: Ord a => NonEmpty a -> a
+minimum = F.minimum
+{-# INLINE minimum #-}
+
+-- | The largest element of a 'NonEmpty' with respect to the given
+-- comparison function.
+maximumBy :: (a -> a -> Ordering) -> NonEmpty a -> a
+maximumBy = F.maximumBy
+{-# INLINE maximumBy #-}
+
+-- | The largest element of a 'NonEmpty'.
+--
+-- >>> maximum (1 :| [2,3,4,5])
+-- 5
+maximum :: Ord a => NonEmpty a -> a
+maximum = F.maximum
+{-# INLINE maximum #-}
