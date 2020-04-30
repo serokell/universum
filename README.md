@@ -130,8 +130,8 @@ module.
 Gotchas [↑](#structure-of-this-tutorial)
 -------
 
-* `head`, `tail`, `last`, `init` work with `NonEmpty a` instead of `[a]`.
-* Safe analogue for `head` function: `safeHead :: [a] -> Maybe a`.
+* `head`, `tail`, `last`, `init`, `foldl1`, `minimum` and other were-partial functions work with `NonEmpty a` instead of `[a]`.
+* Safe analogue for `head`, `foldl1`, `foldr1`, `minimum`, `maximum` functions, for instance: `safeHead :: [a] -> Maybe a`.
 * `undefined` triggers a compiler warning, which is probably not what you want. Either use `throwIO`, `Except`, `error` or `bug`.
 * `map` is `fmap` now.
 * Multiple sorting functions are available without imports:
@@ -300,7 +300,7 @@ In order to replace default `Prelude` with `universum` you should start with ins
 This section describes what you need to change to make your code compile with `universum`.
 
 1. Enable `-XOverloadedStrings` and `-XTypeFamilies` extension by default for your project.
-2. Since `head`, `tail`, `last` and `init` work for `NonEmpty` you should
+2. Since `head`, `tail`, `minimum` and some other functions work for `NonEmpty` you should
    refactor your code in one of the multiple ways described below:
    1. Change `[a]` to `NonEmpty a` where it makes sense.
    2. Use functions which return `Maybe`. They can be implemented using `nonEmpty` function. Like `head <$> nonEmpty l`.
