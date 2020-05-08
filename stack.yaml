@@ -1,7 +1,4 @@
-resolver: lts-13.29
+resolver: lts-15.11
 
 nix:
   shell-file: shell.nix
-
-extra-deps:
-- tasty-hedgehog-0.2.0.0
