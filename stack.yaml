@@ -1,4 +1,1 @@
 resolver: lts-15.11
-
-nix:
-  shell-file: shell.nix
