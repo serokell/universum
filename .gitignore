@@ -11,5 +11,3 @@ TAGS
 
 .dir-locals.el
 *.html
-
-*.liquid

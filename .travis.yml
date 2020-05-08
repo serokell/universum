@@ -27,9 +27,6 @@ matrix:
   - ghc: 8.8.1
     env: GHCVER='8.8.1' STACK_YAML="$HOME/build/serokell/universum/stack-$GHCVER.yaml"
 
-  - ghc: 8.2.2
-    env: GHCVER='8.2.2' STACK_YAML="$HOME/build/serokell/universum/stack-liquid.yaml"
-
 
 addons:
   apt:
@@ -47,11 +44,6 @@ before_install:
   - travis_retry curl -L 'https://www.stackage.org/stack/linux-x86_64' | tar xz --wildcards --strip-components=1 -C ~/.local/bin '*/stack'
   - stack --version
 
-  # Install Z3 (for Liquid Haskell)
-  - if [ "$STACK_YAML" == "$HOME/build/serokell/universum/stack-liquid.yaml" ]; then
-      sudo apt-get -q install z3 -y;
-    fi
-
 install:
 
   - travis_wait 30 stack setup --no-terminal
@@ -60,23 +52,9 @@ install:
   - travis_wait 40 stack build --only-dependencies --no-terminal
   - travis_wait 40 stack build --test --bench --haddock --no-run-tests --no-run-benchmarks --no-haddock-deps --no-terminal --ghc-options -Werror
 
-  - |
-    if [ "$STACK_YAML" == "$HOME/build/serokell/universum/stack-liquid.yaml" ]; then
-      stack install liquidhaskell-0.8.2.4
-    else
-      echo "Skipping 'liquidhaskell' installation"
-    fi
-
 script:
 
   - travis_wait 40 stack build --test --no-terminal
-  - |
-    if [ "$STACK_YAML" == "$HOME/build/serokell/universum/stack-liquid.yaml" ]; then
-      stack exec -- liquid --totalhaskell src/Universum/Unsafe.hs
-      stack exec -- liquid --totalhaskell src/Universum/Nub.hs
-    else
-      echo "Skipping 'liquidhaskell' running"
-    fi
 
 notifications:
   email: false
