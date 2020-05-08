@@ -15,9 +15,6 @@ cache:
 matrix:
   include:
 
-  - ghc: 8.2.2
-    env: GHCVER='8.2.2' STACK_YAML="$HOME/build/serokell/universum/stack-$GHCVER.yaml"
-
   - ghc: 8.4.3
     env: GHCVER='8.4.3' STACK_YAML="$HOME/build/serokell/universum/stack-$GHCVER.yaml"
 

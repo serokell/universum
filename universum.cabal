@@ -13,8 +13,7 @@ stability:           stable
 build-type:          Simple
 cabal-version:       >=1.18
 bug-reports:         https://github.com/serokell/universum/issues
-tested-with:         GHC == 8.2.2
-                   , GHC == 8.4.3
+tested-with:         GHC == 8.4.3
                    , GHC == 8.6.5
                    , GHC == 8.8.1
 extra-doc-files:     CHANGES.md
