@@ -1,8 +1,7 @@
 Universum
 =========
 
-[![Build Status](https://travis-ci.org/serokell/universum.svg?branch=master)](https://travis-ci.org/serokell/universum)
-[![Windows build status](https://ci.appveyor.com/api/projects/status/github/serokell/universum?branch=master&svg=true)](https://ci.appveyor.com/project/gromakovsky/universum)
+[![GitHub CI](https://github.com/serokell/universum/workflows/CI/badge.svg)](https://github.com/serokell/universum/actions)
 [![Hackage](https://img.shields.io/hackage/v/universum.svg)](https://hackage.haskell.org/package/universum)
 [![Stackage LTS](http://stackage.org/package/universum/badge/lts)](http://stackage.org/lts/package/universum)
 [![Stackage Nightly](http://stackage.org/package/universum/badge/nightly)](http://stackage.org/nightly/package/universum)
@@ -90,8 +89,7 @@ Unlike `protolude`, we are:
 
 1. Not trying to be as general as possible (thus we don't export much from
    [`GHC.Generics`](https://github.com/sdiehl/protolude/blob/41710698eedc66fb0bfc5623d3c3a672421fbab5/src/Protolude.hs#L365)).
-2. Not trying to maintain every version of `ghc` compiler (but [at least the
-   latest 3](https://github.com/serokell/universum/blob/b6353285859e9ed3544bddbf55d70237330ad64a/.travis.yml#L15)).
+2. Not trying to maintain every version of `ghc` compiler (but [at least the latest 3](/.github/workflows/ci.yml)).
 3. Trying to make writing production code easier (see
    [enhancements and fixes](https://github.com/serokell/universum/issues)).
 

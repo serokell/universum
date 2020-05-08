@@ -1,0 +1,10 @@
+-- Sadly we can't pass `--ghc-options=-Werror` to `cabal build`
+-- because it applies it to dependencies as well.
+-- See: https://github.com/haskell/cabal/issues/3883
+-- So we need this file.
+
+packages:
+  universum.cabal
+
+package universum
+  ghc-options: -Werror
