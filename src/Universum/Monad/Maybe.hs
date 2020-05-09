@@ -13,8 +13,7 @@ module Universum.Monad.Maybe
        ) where
 
 import Universum.Applicative (Applicative, pass, pure)
-import Universum.Monad.Reexport (fromMaybe)
-import Universum.Monad.Reexport (Maybe (..), Monad (..))
+import Universum.Monad.Reexport (Maybe (..), Monad (..), fromMaybe)
 
 -- $setup
 -- >>> import Universum.Bool (Bool (..), not)

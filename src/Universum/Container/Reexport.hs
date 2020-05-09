@@ -1,3 +1,5 @@
+{-# LANGUAGE Trustworthy #-}
+
 -- | This module reexports all container related stuff from 'Prelude'.
 
 module Universum.Container.Reexport

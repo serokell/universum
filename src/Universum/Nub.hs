@@ -1,3 +1,5 @@
+{-# LANGUAGE Safe #-}
+
 {-| Functions to remove duplicates from a list.
 
  = Performance

@@ -40,6 +40,7 @@ common common-options
                        -Wno-implicit-prelude
   if impl(ghc >= 8.10.1)
     ghc-options:       -Wno-prepositive-qualified-module
+                       -Wno-inferred-safe-imports
 
   default-language:    Haskell2010
 
@@ -126,6 +127,9 @@ test-suite universum-test
                      , tasty
                      , tasty-hedgehog
 
+  if impl(ghc >= 8.10.1)
+    ghc-options:         -Wno-missing-safe-haskell-mode
+
   ghc-options:         -threaded
 
 test-suite universum-doctest
@@ -139,6 +143,9 @@ test-suite universum-doctest
 
   build-depends:       doctest
                      , Glob
+
+  if impl(ghc >= 8.10.1)
+    ghc-options:         -Wno-missing-safe-haskell-mode
 
   ghc-options:         -threaded
 
@@ -154,6 +161,9 @@ benchmark universum-benchmark
                      , gauge
                      , text
                      , unordered-containers
+
+  if impl(ghc >= 8.10.1)
+    ghc-options:         -Wno-missing-safe-haskell-mode
 
   default-extensions:  NoImplicitPrelude
                        ScopedTypeVariables

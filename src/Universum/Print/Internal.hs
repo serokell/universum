@@ -12,9 +12,11 @@ advised however that this module is an internal API and may be subject to change
 __even for minor version increments__.
 -}
 {-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE Trustworthy       #-}
+
 module Universum.Print.Internal (Print(..)) where
 
-import qualified System.IO as SIO (hPutStr, hPutStrLn, Handle)
+import qualified System.IO as SIO (Handle, hPutStr, hPutStrLn)
 
 import qualified Data.ByteString.Char8 as BS
 import qualified Data.ByteString.Lazy.Char8 as BL
