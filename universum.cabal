@@ -38,6 +38,8 @@ common common-options
                        -Wno-missing-local-signatures
                        -Wno-monomorphism-restriction
                        -Wno-implicit-prelude
+  if impl(ghc >= 8.10.1)
+    ghc-options:       -Wno-prepositive-qualified-module
 
   default-language:    Haskell2010
 
