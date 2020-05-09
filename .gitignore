@@ -1,13 +1,7 @@
-*.sw[pon]
-.stack-work
+.stack-work/
 dist
 .cabal-sandbox
 cabal.sandbox.config
 *.hi
 *.o
-TAGS
-
-*~
-
-.dir-locals.el
-*.html
+/dist-newstyle/
