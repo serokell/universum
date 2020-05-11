@@ -123,7 +123,6 @@ test-suite universum-test
   build-depends:       universum
                      , bytestring
                      , text
-                     , utf8-string
                      , hedgehog
                      , tasty
                      , tasty-hedgehog
