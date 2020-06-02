@@ -1,3 +1,5 @@
+{-# LANGUAGE Safe #-}
+
 -- | This module reexports functions to work with monads.
 
 module Universum.Monad.Reexport

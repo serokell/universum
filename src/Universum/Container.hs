@@ -1,3 +1,5 @@
+{-# LANGUAGE Safe #-}
+
 -- | This module exports all container-related stuff.
 
 module Universum.Container

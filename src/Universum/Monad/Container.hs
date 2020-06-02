@@ -1,3 +1,4 @@
+{-# LANGUAGE Trustworthy  #-}
 {-# LANGUAGE TypeFamilies #-}
 
 -- | This module exports functions which allow to process instances of

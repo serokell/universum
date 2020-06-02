@@ -1,3 +1,5 @@
+{-# LANGUAGE Safe #-}
+
 {-| Functions to remove duplicates from a list.
 
  = Performance
@@ -32,30 +34,9 @@ import Data.Eq (Eq)
 import Data.Hashable (Hashable)
 import Data.HashSet as HashSet
 import Data.Ord (Ord)
-import Prelude (Bool, Char, (.))
+import Prelude ((.))
 
 import qualified Data.Set as Set
-
--- Liquid Haskell check for duplicates.
-{-@ type ListUnique a = {v : [a] | NoDups v} @-}
-
-{-@ predicate NoDups L = Set_emp (dups L) @-}
-
-{-@ measure dups :: [a] -> (Set.Set a)
-    dups ([])   = {v | Set_emp v}
-    dups (x:xs) = {v | v =
-      if (Set_mem x (listElts xs))
-      then (Set_cup (Set_sng x) (dups xs))
-      else (dups xs)}
-@-}
-
--- We do not use `Char` or `Bool` in this module, but
--- Liquid Haskell fails if we don't import them.
--- So we need to suppress warning about redundant imports.
-_unusedFunctionForLiquidHaskell :: Bool -> Char
-_unusedFunctionForLiquidHaskell _ = ' '
-
-{-@ Set.toList :: Set.Set a -> ListUnique a @-}
 
 -- | Like 'Prelude.nub' but runs in @O(n * log n)@ time and requires 'Ord'.
 --
@@ -87,7 +68,6 @@ hashNub = go HashSet.empty
 --
 -- >>> sortNub [3, 3, 3, 2, 2, -1, 1]
 -- [-1,1,2,3]
-{-@ sortNub :: [a] -> ListUnique a @-}
 sortNub :: (Ord a) => [a] -> [a]
 sortNub = Set.toList . Set.fromList
 

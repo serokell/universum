@@ -1,3 +1,5 @@
+{-# LANGUAGE Trustworthy #-}
+
 -- | This module contains useful functions to evaluate expressions to weak-head
 -- normal form or just normal form. Useful to force traces or @error@ inside
 -- monadic computation or to remove space leaks.

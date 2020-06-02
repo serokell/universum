@@ -1,3 +1,5 @@
+{-# LANGUAGE Safe #-}
+
 -- | Type classes for convertion between different string representations.
 
 module Universum.String

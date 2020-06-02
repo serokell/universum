@@ -1,0 +1,108 @@
+# SPDX-FileCopyrightText: 2020 Kowainik
+# SPDX-FileCopyrightText: 2020 Serokell <https://serokell.io/>
+#
+# SPDX-License-Identifier: MPL-2.0
+
+# Sources:
+# • https://github.com/kowainik/validation-selective/blob/5b46cd4810bbaa09b704062ebbfa2bb47137425d/.github/workflows/ci.yml
+# • https://kodimensional.dev/github-actions
+
+name: CI
+
+# Trigger the workflow on push or pull request, but only for the master branch
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+jobs:
+  cabal:
+    name: ${{ matrix.os }} / ghc ${{ matrix.ghc }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macOS-latest, windows-latest]
+        cabal: ["3.2"]
+        # If you update this list of supported compiler versions,
+        # make sure to update the `tested-with` section of `universum.cabal`.
+        ghc:
+          - "8.4.4"
+          - "8.6.5"
+          - "8.8.3"
+          - "8.10.1"
+        exclude:
+          - os: macOS-latest
+            ghc: 8.10.1
+          - os: macOS-latest
+            ghc: 8.6.5
+          - os: macOS-latest
+            ghc: 8.4.4
+          - os: windows-latest
+            ghc: 8.8.3
+          - os: windows-latest
+            ghc: 8.6.5
+          - os: windows-latest
+            ghc: 8.4.4
+
+    steps:
+    - uses: actions/checkout@v2
+      if: github.event.action == 'opened' || github.event.action == 'synchronize' || github.event.ref == 'refs/heads/master'
+
+    - uses: actions/setup-haskell@v1.1
+      id: setup-haskell-cabal
+      name: Setup Haskell
+      with:
+        ghc-version: ${{ matrix.ghc }}
+        cabal-version: ${{ matrix.cabal }}
+
+    - uses: actions/cache@v1
+      name: Cache cabal-store
+      with:
+        path: ${{ steps.setup-haskell-cabal.outputs.cabal-store }}
+        key: ${{ runner.os }}-${{ matrix.ghc }}-cabal
+
+    - name: Build
+      run: |
+        cabal update
+        cabal build --project-file=cabal.project.ci --enable-tests --enable-benchmarks --write-ghc-environment-files=always
+
+    - name: Test
+      run: |
+        cabal test --project-file=cabal.project.ci all
+
+    - name: Haddock
+      # Run haddock for all components
+      run: |
+        cabal haddock --project-file=cabal.project.ci --haddock-all
+
+  stack:
+    name: stack / ghc ${{ matrix.ghc }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        stack: ["2.3"]
+        ghc: ["8.8.3"]
+
+    steps:
+    - uses: actions/checkout@v2
+      if: github.event.action == 'opened' || github.event.action == 'synchronize' || github.event.ref == 'refs/heads/master'
+
+    - uses: actions/setup-haskell@v1.1
+      name: Setup Haskell Stack
+      with:
+        ghc-version: ${{ matrix.ghc }}
+        stack-version: ${{ matrix.stack }}
+
+    - uses: actions/cache@v1
+      name: Cache ~/.stack
+      with:
+        path: ~/.stack
+        key: ${{ runner.os }}-${{ matrix.ghc }}-stack
+
+    - name: Build
+      run: |
+        stack build --system-ghc --test --bench --no-run-tests --no-run-benchmarks --ghc-options '-Werror' --haddock --no-haddock-deps
+
+    - name: Test
+      run: |
+        stack test --system-ghc

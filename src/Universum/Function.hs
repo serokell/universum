@@ -1,3 +1,5 @@
+{-# LANGUAGE Safe #-}
+
 -- | This module reexports very basic and primitive functions and function combinators.
 
 module Universum.Function

@@ -1,3 +1,5 @@
+{-# LANGUAGE Safe #-}
+
 -- | This module reexports functions to work with monoids plus adds extra useful functions.
 
 module Universum.Monoid
