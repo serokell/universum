@@ -23,6 +23,7 @@ module Universum.Container.Class
        ( -- * Foldable-like classes and methods
          ToPairs   (..)
        , Container (..)
+       , checkingNotNull
 
        , flipfoldl'
 
@@ -51,12 +52,8 @@ import Universum.Base (Word8)
 import Universum.Container.Reexport (HashMap, HashSet, Hashable, IntMap, IntSet, Map, Seq, Set,
                                      Vector)
 import Universum.Functor (Identity)
-import Universum.Monad.Reexport (fromMaybe)
 import Universum.Monoid (All (..), Any (..), Dual, First (..), Last, Product, Sum)
 
-#if ( __GLASGOW_HASKELL__ < 808 )
-import GHC.Err (errorWithoutStackTrace)
-#endif
 import GHC.TypeLits (ErrorMessage (..), Symbol, TypeError)
 
 import qualified Data.List.NonEmpty as NE
@@ -248,16 +245,6 @@ class Container t where
     elem = Foldable.elem
     {-# INLINE elem #-}
 
-    maximum :: Ord (Element t) => t -> Element t
-    default maximum :: (Foldable f, t ~ f a, Element t ~ a, Ord (Element t)) => t -> Element t
-    maximum = Foldable.maximum
-    {-# INLINE maximum #-}
-
-    minimum :: Ord (Element t) => t -> Element t
-    default minimum :: (Foldable f, t ~ f a, Element t ~ a, Ord (Element t)) => t -> Element t
-    minimum = Foldable.minimum
-    {-# INLINE minimum #-}
-
     foldMap :: Monoid m => (Element t -> m) -> t -> m
     foldMap f = foldr (mappend . f) mempty
     {-# INLINE foldMap #-}
@@ -270,26 +257,6 @@ class Container t where
     foldr' f z0 xs = foldl f' id xs z0
       where f' k x z = k $! f x z
     {-# INLINE foldr' #-}
-
-    foldr1 :: (Element t -> Element t -> Element t) -> t -> Element t
-    foldr1 f xs =
-      fromMaybe (errorWithoutStackTrace "foldr1: empty structure")
-                (foldr mf Nothing xs)
-      where
-        mf x m = Just (case m of
-                           Nothing -> x
-                           Just y  -> f x y)
-    {-# INLINE foldr1 #-}
-
-    foldl1 :: (Element t -> Element t -> Element t) -> t -> Element t
-    foldl1 f xs =
-      fromMaybe (errorWithoutStackTrace "foldl1: empty structure")
-                (foldl mf Nothing xs)
-      where
-        mf m y = Just (case m of
-                           Nothing -> y
-                           Just x  -> f x y)
-    {-# INLINE foldl1 #-}
 
     notElem :: Eq (Element t) => Element t -> t -> Bool
     notElem x = not . elem x
@@ -317,6 +284,43 @@ class Container t where
     safeHead = foldr (\x _ -> Just x) Nothing
     {-# INLINE safeHead #-}
 
+    safeMaximum :: Ord (Element t) => t -> Maybe (Element t)
+    default safeMaximum
+      :: (Foldable f, t ~ f a, Element t ~ a, Ord (Element t))
+      => t -> Maybe (Element t)
+    safeMaximum = checkingNotNull Foldable.maximum
+    {-# INLINE safeMaximum #-}
+
+    safeMinimum :: Ord (Element t) => t -> Maybe (Element t)
+    default safeMinimum
+      :: (Foldable f, t ~ f a, Element t ~ a, Ord (Element t))
+      => t -> Maybe (Element t)
+    safeMinimum = checkingNotNull Foldable.minimum
+    {-# INLINE safeMinimum #-}
+
+    safeFoldr1 :: (Element t -> Element t -> Element t) -> t -> Maybe (Element t)
+    safeFoldr1 f xs = foldr mf Nothing xs
+      where
+        mf x m = Just (case m of
+                           Nothing -> x
+                           Just y  -> f x y)
+    {-# INLINE safeFoldr1 #-}
+
+    safeFoldl1 :: (Element t -> Element t -> Element t) -> t -> Maybe (Element t)
+    safeFoldl1 f xs = foldl mf Nothing xs
+      where
+        mf m y = Just (case m of
+                           Nothing -> y
+                           Just x  -> f x y)
+    {-# INLINE safeFoldl1 #-}
+
+-- | Helper for lifting operations which require container to be not empty.
+checkingNotNull :: Container t => (t -> Element t) -> t -> Maybe (Element t)
+checkingNotNull f t
+  | null t = Nothing
+  | otherwise = Just $ f t
+{-# INLINE checkingNotNull #-}
+
 ----------------------------------------------------------------------------
 -- Instances for monomorphic containers
 ----------------------------------------------------------------------------
@@ -333,18 +337,18 @@ instance Container T.Text where
     {-# INLINE foldl #-}
     foldl' = T.foldl'
     {-# INLINE foldl' #-}
-    foldr1 = T.foldr1
-    {-# INLINE foldr1 #-}
-    foldl1 = T.foldl1
-    {-# INLINE foldl1 #-}
+    safeFoldr1 f = checkingNotNull (T.foldr1 f)
+    {-# INLINE safeFoldr1 #-}
+    safeFoldl1 f = checkingNotNull (T.foldl1 f)
+    {-# INLINE safeFoldl1 #-}
     length = T.length
     {-# INLINE length #-}
     elem c = T.isInfixOf (T.singleton c)  -- there are rewrite rules for this
     {-# INLINE elem #-}
-    maximum = T.maximum
-    {-# INLINE maximum #-}
-    minimum = T.minimum
-    {-# INLINE minimum #-}
+    safeMaximum = checkingNotNull T.maximum
+    {-# INLINE safeMaximum #-}
+    safeMinimum = checkingNotNull T.minimum
+    {-# INLINE safeMinimum #-}
     all = T.all
     {-# INLINE all #-}
     any = T.any
@@ -366,19 +370,19 @@ instance Container TL.Text where
     {-# INLINE foldl #-}
     foldl' = TL.foldl'
     {-# INLINE foldl' #-}
-    foldr1 = TL.foldr1
-    {-# INLINE foldr1 #-}
-    foldl1 = TL.foldl1
-    {-# INLINE foldl1 #-}
+    safeFoldr1 f = checkingNotNull (TL.foldr1 f)
+    {-# INLINE safeFoldr1 #-}
+    safeFoldl1 f = checkingNotNull (TL.foldl1 f)
+    {-# INLINE safeFoldl1 #-}
     length = fromIntegral . TL.length
     {-# INLINE length #-}
     -- will be okay thanks to rewrite rules
     elem c s = TL.isInfixOf (TL.singleton c) s
     {-# INLINE elem #-}
-    maximum = TL.maximum
-    {-# INLINE maximum #-}
-    minimum = TL.minimum
-    {-# INLINE minimum #-}
+    safeMaximum = checkingNotNull TL.maximum
+    {-# INLINE safeMaximum #-}
+    safeMinimum = checkingNotNull TL.minimum
+    {-# INLINE safeMinimum #-}
     all = TL.all
     {-# INLINE all #-}
     any = TL.any
@@ -400,20 +404,20 @@ instance Container BS.ByteString where
     {-# INLINE foldl #-}
     foldl' = BS.foldl'
     {-# INLINE foldl' #-}
-    foldr1 = BS.foldr1
-    {-# INLINE foldr1 #-}
-    foldl1 = BS.foldl1
-    {-# INLINE foldl1 #-}
+    safeFoldr1 f = checkingNotNull (BS.foldr1 f)
+    {-# INLINE safeFoldr1 #-}
+    safeFoldl1 f = checkingNotNull (BS.foldl1 f)
+    {-# INLINE safeFoldl1 #-}
     length = BS.length
     {-# INLINE length #-}
     elem = BS.elem
     {-# INLINE elem #-}
     notElem = BS.notElem
     {-# INLINE notElem #-}
-    maximum = BS.maximum
-    {-# INLINE maximum #-}
-    minimum = BS.minimum
-    {-# INLINE minimum #-}
+    safeMaximum = checkingNotNull BS.maximum
+    {-# INLINE safeMaximum #-}
+    safeMinimum = checkingNotNull BS.minimum
+    {-# INLINE safeMinimum #-}
     all = BS.all
     {-# INLINE all #-}
     any = BS.any
@@ -435,20 +439,20 @@ instance Container BSL.ByteString where
     {-# INLINE foldl #-}
     foldl' = BSL.foldl'
     {-# INLINE foldl' #-}
-    foldr1 = BSL.foldr1
-    {-# INLINE foldr1 #-}
-    foldl1 = BSL.foldl1
-    {-# INLINE foldl1 #-}
+    safeFoldr1 f = checkingNotNull (BSL.foldr1 f)
+    {-# INLINE safeFoldr1 #-}
+    safeFoldl1 f = checkingNotNull (BSL.foldl1 f)
+    {-# INLINE safeFoldl1 #-}
     length = fromIntegral . BSL.length
     {-# INLINE length #-}
     elem = BSL.elem
     {-# INLINE elem #-}
     notElem = BSL.notElem
     {-# INLINE notElem #-}
-    maximum = BSL.maximum
-    {-# INLINE maximum #-}
-    minimum = BSL.minimum
-    {-# INLINE minimum #-}
+    safeMaximum = checkingNotNull BSL.maximum
+    {-# INLINE safeMaximum #-}
+    safeMinimum = checkingNotNull BSL.minimum
+    {-# INLINE safeMinimum #-}
     all = BSL.all
     {-# INLINE all #-}
     any = BSL.any
@@ -474,10 +478,10 @@ instance Container IntSet where
     {-# INLINE length #-}
     elem = IS.member
     {-# INLINE elem #-}
-    maximum = IS.findMax
-    {-# INLINE maximum #-}
-    minimum = IS.findMin
-    {-# INLINE minimum #-}
+    safeMaximum = checkingNotNull IS.findMax
+    {-# INLINE safeMaximum #-}
+    safeMinimum = checkingNotNull IS.findMin
+    {-# INLINE safeMinimum #-}
     safeHead = fmap fst . IS.minView
     {-# INLINE safeHead #-}
 

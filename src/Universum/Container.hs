@@ -7,5 +7,5 @@ module Universum.Container
        , module Universum.Container.Reexport
        ) where
 
-import Universum.Container.Class
+import Universum.Container.Class hiding (checkingNotNull)
 import Universum.Container.Reexport

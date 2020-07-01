@@ -1,6 +1,11 @@
 Unreleased
 =====
 
+* [#221](https://github.com/serokell/universum/issues/221):
+  Add safe versions of `minimum`, `maximum`, `minimumBy`, `maximumBy`, `foldr1`, `foldl1` functions for `NonEmpty` list.
+  Old their versions from `Container` typeclass now return `Maybe` and have
+  `safe` prefix in name (e.g. `safeMinimum`).
+  Add unsafe versions of those functions to `Unsafe` module.
 * [#185](https://github.com/serokell/universum/issues/185):
   Enable more warnings, fix all warnings.
 

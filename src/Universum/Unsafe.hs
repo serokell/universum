@@ -22,9 +22,16 @@ module Universum.Unsafe
        , at
        , (!!)
        , fromJust
+       , foldr1
+       , foldl1
+       , minimum
+       , maximum
+       , minimumBy
+       , maximumBy
        ) where
 
-import Data.List (head, init, last, tail, (!!))
+import Data.List (foldl1, foldr1, head, init, last, maximum, maximumBy, minimum, minimumBy, tail,
+                  (!!))
 import Data.Maybe (fromJust)
 
 import Universum.Base (Int)
