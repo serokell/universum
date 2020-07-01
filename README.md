@@ -143,6 +143,7 @@ Gotchas [↑](#structure-of-this-tutorial)
   `OverloadedStrings` is enabled – it happens because the compiler doesn't know what
   type to infer for the string. Use `putTextLn` in this case.
 * Since `show` doesn't come from `Show` anymore, you can't write `Show` instances easily.
+See [migration guide](#migration-guide-from-prelude-) for details.
 * You can't call some `Foldable` methods over `Maybe` and some other types.
   `Foldable` generalization is useful but
   [potentially error-prone](https://www.reddit.com/r/haskell/comments/60r9hu/proposal_suggest_explicit_type_application_for/).
@@ -341,6 +342,10 @@ This section describes what you need to change to make your code compile with `u
    + Use `toText/toLText/toString` functions to convert to `Text/LazyText/String` types.
    + Use `encodeUtf8/decodeUtf8` to convert to/from `ByteString`.
 8. Run `hlint` using `.hlint.yaml` file from `universum` package to cleanup code and imports.
+9. Since vanilla `show` from the `Show` class is not available, your custom `Show` instances will fail to compile.
+You can `import qualified Text.Show` to bring vanilla `show` to scope with qualified name.
+It will not conflict with `show` from `universum` and your `Show` instances will compile successfully.
+
 
 Projects that use Universum [↑](#structure-of-this-tutorial)
 ---------------------------
