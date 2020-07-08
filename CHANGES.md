@@ -1,4 +1,4 @@
-Unreleased
+1.7.0
 =====
 
 * [#221](https://github.com/serokell/universum/issues/221):
