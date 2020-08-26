@@ -7,10 +7,13 @@
 module Universum.Applicative
        ( module Control.Applicative
        , pass
+       , someNE
        ) where
 
 import Control.Applicative (Alternative (..), Applicative (..), Const (..), ZipList (..), liftA2,
                             liftA3, optional, (<**>))
+import Data.Functor (fmap)
+import qualified Data.List.NonEmpty as NE
 
 -- $setup
 -- >>> import Universum.Monad (Maybe)
@@ -21,6 +24,11 @@ import Control.Applicative (Alternative (..), Applicative (..), Const (..), ZipL
 -- Just ()
 pass :: Applicative f => f ()
 pass = pure ()
+
+-- | Similar to 'some', but reflects in types that a non-empty list
+-- is returned.
+someNE :: Alternative f => f a -> f (NE.NonEmpty a)
+someNE x = fmap NE.fromList (some x)
 
 {-
 orAlt :: (Alternative f, Monoid a) => f a -> f a
