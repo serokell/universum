@@ -1,3 +1,10 @@
+1.7.1
+=====
+
+* [#230](https://github.com/serokell/universum/issues/230):
+  Add `hoistMaybe` and `hoistEither` functions 
+  similar to [relude](https://hackage.haskell.org/package/relude-0.7.0.0/docs/Relude-Monad-Trans.html#v:hoistMaybe)
+
 1.7.0
 =====
 
