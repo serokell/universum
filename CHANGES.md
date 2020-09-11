@@ -1,6 +1,8 @@
 Unreleased
 =====
 
+* [#236](https://github.com/serokell/universum/issues/236):
+  Add `updateMVar'` and `updateTVar'`.
 * [#244](https://github.com/serokell/universum/issues/244)
   Add `ToPairs` instances for `[(k, v)]` and `NonEmpty (k, v)`.
 
