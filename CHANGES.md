@@ -1,6 +1,7 @@
-Unreleased
+1.7.2
 =====
 
+* Permit `text-1.2.4.1`.
 * [#233](https://github.com/serokell/universum/issues/223):
   Add `someNE`.
 
