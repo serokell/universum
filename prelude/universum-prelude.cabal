@@ -1,0 +1,54 @@
+cabal-version:       2.2
+name:                universum-prelude
+version:             1.0
+synopsis:            Allows implicit Universum importing.
+description:         This package exports Prelude module that is just a re-export of Universum.
+                     Can be used with base-noprelude package to implicitly import Universum.
+                     Most suitable for medium-sized projects.
+homepage:            https://github.com/serokell/universum
+license:             MIT
+license-file:        LICENSE
+author:              @serokell
+maintainer:          Serokell <hi@serokell.io>
+copyright:           2021 Serokell
+category:            Prelude
+stability:           stable
+build-type:          Simple
+bug-reports:         https://github.com/serokell/universum/issues
+extra-doc-files:     CHANGES.md
+                   , README.md
+
+source-repository head
+  type:     git
+  location: git@github.com:serokell/universum.git
+
+common common-options
+  build-depends:       base >= 4.8 && < 5
+  ghc-options:
+                       -- Source: https://medium.com/mercury-bank/enable-all-the-warnings-a0517bc081c3
+                       -Weverything
+                       -Wno-missing-exported-signatures
+                       -Wno-missing-import-lists
+                       -Wno-missed-specialisations
+                       -Wno-all-missed-specialisations
+                       -Wno-unsafe
+                       -Wno-safe
+                       -Wno-missing-local-signatures
+                       -Wno-monomorphism-restriction
+                       -Wno-implicit-prelude
+  if impl(ghc >= 8.10.1)
+    ghc-options:       -Wno-prepositive-qualified-module
+                       -Wno-inferred-safe-imports
+
+  default-language:    Haskell2010
+
+library
+  import:              common-options
+  hs-source-dirs:      src
+  exposed-modules:
+                       Prelude
+                       Unsafe
+
+  build-depends:       universum
+  ghc-options:         -Wimplicit-prelude
+  default-extensions:  NoImplicitPrelude
