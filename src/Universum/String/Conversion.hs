@@ -180,7 +180,21 @@ explanation in the comment below.
 
 {- [Note toString-toText-rewritting]
 
-We can do even better if take rules defined in 'Data.Text' into account.
+We can do even better than above if take rules defined in 'Data.Text' into
+account.
+
+Note ON MAINTENANCE: whenever you need to update the used version of @text@ package,
+you have to check whether the comment below is still valid.
+However, you can cut down by looking at the diff between versions of @text@, and
+seeing if implementation of any of these functions have changed:
+  * pack
+  * unpack
+  * streamList
+  * unstreamList
+  * safe
+  * any RULES definition (if some is added, this counts)
+If none of mentioned have changed, then it is safe to assume that everything
+is still fine.
 
 Quoting investigation of @int-index:
 
@@ -259,7 +273,7 @@ we still have "pack/unpack" rule. Hopefully, one of them will fire.
 -}
 
 {- The opposite rule is safe to have because 'T.safe' /is/ the identity
-function for strings made up from valid characters, and text is guaranteed
+function for strings made up from valid characters, and 'Text' is guaranteed
 to have only valid ones.
 However, for this case there is no @unstream (stream s) = id@ rule,
 so we don't delve deep into internals. As long as @stream@ and @unstream@

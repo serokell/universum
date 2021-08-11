@@ -151,7 +151,7 @@ See [migration guide](#migration-guide-from-prelude-) for details.
   [`Container` type class](https://github.com/serokell/universum/blob/b6353285859e9ed3544bddbf55d70237330ad64a/src/Universum/Container/Class.hs#L180)
   but that restricts the usage of functions like `length` over `Maybe`, `Either`, `Identity` and tuples.
   We're also using _GHC 8_ feature of
-  [custom compile-time errors](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html#custom-compile-time-errors)
+  [custom compile-time errors](https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/type_errors.html)
   to produce
   [more helpful messages](https://github.com/serokell/universum/blob/54a742c10720f11c739f2d268365d723924b83a9/src/Containers.hs#L474).
 * As a consequence of previous point, some functions like `traverse_`, `forM_`, `sequenceA_`, etc.
