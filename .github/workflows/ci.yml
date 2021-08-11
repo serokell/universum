@@ -77,7 +77,7 @@ jobs:
 
     - name: Test
       run: |
-        cabal test --project-file=cabal.project.ci all
+        cabal test --project-file=cabal.project.ci all --enable-tests
 
     - name: Haddock
       # Run haddock for all components
