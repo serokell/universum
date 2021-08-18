@@ -11,6 +11,7 @@
 {-# LANGUAGE UndecidableInstances    #-}
 
 {-# OPTIONS_GHC -fno-warn-unticked-promoted-constructors #-}
+{-# OPTIONS_GHC -Wno-unused-type-patterns #-}
 
 -- | Reimagined approach for 'Foldable' type hierarchy. Forbids usages
 -- of 'length' function and similar over 'Maybe' and other potentially unsafe
@@ -22,6 +23,7 @@
 module Universum.Container.Class
        ( -- * Foldable-like classes and methods
          ToPairs   (..)
+       , FromList  (..)
        , Container (..)
        , checkingNotNull
 
@@ -47,13 +49,14 @@ import Data.Kind (Type)
 import Prelude hiding (all, and, any, elem, foldMap, foldl, foldr, mapM_, notElem, null, or, print,
                 product, sequence_, sum)
 
-import Universum.Applicative (Alternative (..), Const, ZipList, pass)
-import Universum.Base (Word8)
+import Universum.Applicative (Alternative (..), Const, ZipList (..), pass)
+import Universum.Base (HasCallStack, Word8)
 import Universum.Container.Reexport (HashMap, HashSet, Hashable, IntMap, IntSet, Map, Seq, Set,
                                      Vector)
 import Universum.Functor (Identity)
 import Universum.Monoid (All (..), Any (..), Dual, First (..), Last, Product, Sum)
 
+import qualified GHC.Exts as Exts
 import GHC.TypeLits (ErrorMessage (..), Symbol, TypeError)
 
 import qualified Data.List.NonEmpty as NE
@@ -163,6 +166,68 @@ instance ToPairs (Map k v) where
     {-# INLINE keys #-}
     elems   = M.elems
     {-# INLINE elems #-}
+
+----------------------------------------------------------------------------
+-- FromList
+----------------------------------------------------------------------------
+
+-- | Type class for data types that can be constructed from a list.
+class FromList l where
+  type ListElement l :: Type
+  type ListElement l = Exts.Item l
+
+  type FromListC l :: Exts.Constraint
+  type FromListC l = ()
+
+  {- | Make a value from list.
+
+  For simple types like '[]' and 'Set':
+
+  @
+  'toList' . 'fromList' ≡ id
+  'fromList' . 'toList' ≡ id
+  @
+
+  For map-like types:
+
+  @
+  'toPairs' . 'fromList' ≡ id
+  'fromList' . 'toPairs' ≡ id
+  @
+
+  -}
+  fromList :: FromListC l => [ListElement l] -> l
+  default fromList
+    :: (Exts.IsList l, Exts.Item l ~ a, ListElement l ~ a)
+    => [ListElement l] -> l
+  fromList = Exts.fromList
+
+instance FromList [a]
+instance FromList (Vector a)
+instance FromList (Seq a)
+instance FromList (ZipList a) where
+    type ListElement (ZipList a) = a
+    fromList = ZipList
+instance FromList (NonEmpty a) where
+    type FromListC (NonEmpty a) = HasCallStack
+    fromList l = case l of
+      []     -> error "empty list"
+      x : xs -> x NE.:| xs
+
+instance FromList IntSet
+instance Ord a => FromList (Set a)
+instance (Eq k, Hashable k) => FromList (HashMap k v)
+instance FromList (IntMap v)
+instance Ord k => FromList (Map k v)
+
+instance FromList T.Text
+instance FromList TL.Text
+instance FromList BS.ByteString where
+    type ListElement BS.ByteString = Word8
+    fromList = BS.pack
+instance FromList BSL.ByteString where
+    type ListElement BSL.ByteString = Word8
+    fromList = BSL.pack
 
 ----------------------------------------------------------------------------
 -- Containers (e.g. tuples and Maybe aren't containers)
