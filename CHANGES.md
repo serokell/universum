@@ -1,6 +1,9 @@
 Unreleased
 =====
 
+* [#245](https://github.com/serokell/universum/issues/245)
+  Change `length` signature in `Universum.Container.Class.Container` from `t -> Int` to `t -> Natural`.
+
 * [#238](https://github.com/serokell/universum/pull/238):
   Add `fromList`.
 
