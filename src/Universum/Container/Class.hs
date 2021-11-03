@@ -50,7 +50,7 @@ import Prelude hiding (all, and, any, elem, foldMap, foldl, foldr, mapM_, notEle
                 product, sequence_, sum)
 
 import Universum.Applicative (Alternative (..), Const, ZipList (..), pass)
-import Universum.Base (HasCallStack, Word8)
+import Universum.Base (HasCallStack, Word8, Natural)
 import Universum.Container.Reexport (HashMap, HashSet, Hashable, IntMap, IntSet, Map, Seq, Set,
                                      Vector)
 import Universum.Functor (Identity)
@@ -296,9 +296,9 @@ class Container t where
     foldl' = Foldable.foldl'
     {-# INLINE foldl' #-}
 
-    length :: t -> Int
-    default length :: (Foldable f, t ~ f a) => t -> Int
-    length = Foldable.length
+    length :: t -> Natural
+    default length :: (Foldable f, t ~ f a) => t -> Natural
+    length = fromIntegral . Foldable.length
     {-# INLINE length #-}
 
     elem :: Eq (Element t) => Element t -> t -> Bool
@@ -406,7 +406,7 @@ instance Container T.Text where
     {-# INLINE safeFoldr1 #-}
     safeFoldl1 f = checkingNotNull (T.foldl1 f)
     {-# INLINE safeFoldl1 #-}
-    length = T.length
+    length = fromIntegral . T.length
     {-# INLINE length #-}
     elem c = T.isInfixOf (T.singleton c)  -- there are rewrite rules for this
     {-# INLINE elem #-}
@@ -473,7 +473,7 @@ instance Container BS.ByteString where
     {-# INLINE safeFoldr1 #-}
     safeFoldl1 f = checkingNotNull (BS.foldl1 f)
     {-# INLINE safeFoldl1 #-}
-    length = BS.length
+    length = fromIntegral . BS.length
     {-# INLINE length #-}
     elem = BS.elem
     {-# INLINE elem #-}
@@ -539,7 +539,7 @@ instance Container IntSet where
     {-# INLINE foldl #-}
     foldl' = IS.foldl'
     {-# INLINE foldl' #-}
-    length = IS.size
+    length = fromIntegral . IS.size
     {-# INLINE length #-}
     elem = IS.member
     {-# INLINE elem #-}
