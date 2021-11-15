@@ -167,6 +167,18 @@ instance ToPairs (Map k v) where
     elems   = M.elems
     {-# INLINE elems #-}
 
+instance ToPairs [(k, v)] where
+    type Key [(k, v)] = k
+    type Val [(k, v)] = v
+    toPairs = id
+    {-# INLINE toPairs #-}
+
+instance ToPairs (NonEmpty (k, v)) where
+    type Key (NonEmpty (k, v)) = k
+    type Val (NonEmpty (k, v)) = v
+    toPairs = NE.toList
+    {-# INLINE toPairs #-}
+
 ----------------------------------------------------------------------------
 -- FromList
 ----------------------------------------------------------------------------

@@ -1,6 +1,9 @@
 Unreleased
 =====
 
+* [#244](https://github.com/serokell/universum/issues/244)
+  Add `ToPairs` instances for `[(k, v)]` and `NonEmpty (k, v)`.
+
 * [#238](https://github.com/serokell/universum/pull/238):
   Add `fromList`.
 
