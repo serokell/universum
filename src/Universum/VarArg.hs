@@ -1,6 +1,5 @@
 {-# LANGUAGE FlexibleInstances      #-}
 {-# LANGUAGE FunctionalDependencies #-}
-{-# LANGUAGE IncoherentInstances    #-}
 {-# LANGUAGE MultiParamTypeClasses  #-}
 {-# LANGUAGE Safe                   #-}
 {-# LANGUAGE TypeFamilies           #-}
@@ -49,12 +48,12 @@ class SuperComposition a b c | a b -> c where
 
 infixl 8 ...
 
-instance (a ~ c, r ~ b) =>
+instance {-# INCOHERENT #-} (a ~ c, r ~ b) =>
          SuperComposition (a -> b) c r where
     f ... g = f g
     {-# INLINE (...) #-}
 
-instance (SuperComposition (a -> b) d r1, r ~ (c -> r1)) =>
+instance {-# INCOHERENT #-} (SuperComposition (a -> b) d r1, r ~ (c -> r1)) =>
          SuperComposition (a -> b) (c -> d) r where
     (f ... g) c = f ... g c
     {-# INLINE (...) #-}
