@@ -99,6 +99,43 @@ How to use Universum [↑](#structure-of-this-tutorial)
 Okay, enough philosophy. If you want to just start using `universum` and
 explore it with the help of compiler, set everything up according to the instructions below.
 
+There are three primary ways.
+
+### Implicit path
+
+Add a dependency on `universum-prelude` that provides `Prelude` with all the `universum` functionality.
+
+Also, replace `base` dependency with `base-noprelude` to avoid conflicts.
+
+### Modern implicit path
+
+Using [mixins](https://cabal.readthedocs.io/en/3.4/cabal-package.html#pkg-field-mixins) feature to provide `Universum` module as `Prelude`. In the configuration this may look like:
+
+```cabal
+mixins:
+  base hiding (Prelude),
+  universum (Universum as Prelude, Universum.Unsafe as Unsafe)
+```
+
+for `.cabal` file and
+
+```yaml
+dependencies:
+  - name: base
+    mixin: [hiding (Prelude)]
+    version: "< 4.15"
+  - name: universum
+    mixin: [(Universum as Prelude), (Universum.Unsafe as Unsafe)]
+```
+
+for `package.yaml`.
+
+Note that at the moment, the mixins feature is not widely supported by the Haskell ecosystem.
+
+### Explicit path
+
+This path for the case when you prefer using explicit `Universum` imports.
+
 Disable the built-in prelude at the top of your file:
 
 ```haskell

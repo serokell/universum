@@ -1,1 +1,5 @@
 resolver: lts-15.11
+
+packages:
+- .
+- prelude
