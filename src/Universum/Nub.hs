@@ -1,4 +1,5 @@
 {-# LANGUAGE Safe #-}
+{-# LANGUAGE CPP #-}
 
 {-| Functions to remove duplicates from a list.
 
@@ -30,7 +31,9 @@ module Universum.Nub
        , unstableNub
        ) where
 
+#if !MIN_VERSION_hashable(1,4,0)
 import Data.Eq (Eq)
+#endif
 import Data.Hashable (Hashable)
 import Data.HashSet as HashSet
 import Data.Ord (Ord)
@@ -55,7 +58,11 @@ ordNub = go Set.empty
 --
 -- >>> hashNub [3, 3, 3, 2, 2, -1, 1]
 -- [3,2,-1,1]
+#if MIN_VERSION_hashable(1,4,0)
+hashNub :: (Hashable a) => [a] -> [a]
+#else
 hashNub :: (Eq a, Hashable a) => [a] -> [a]
+#endif
 hashNub = go HashSet.empty
   where
     go _ []     = []
@@ -75,5 +82,9 @@ sortNub = Set.toList . Set.fromList
 --
 -- >>> unstableNub [3, 3, 3, 2, 2, -1, 1]
 -- [1,2,3,-1]
+#if MIN_VERSION_hashable(1,4,0)
+unstableNub :: (Hashable a) => [a] -> [a]
+#else
 unstableNub :: (Eq a, Hashable a) => [a] -> [a]
+#endif
 unstableNub = HashSet.toList . HashSet.fromList
