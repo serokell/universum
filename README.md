@@ -345,20 +345,3 @@ This section describes what you need to change to make your code compile with `u
 9. Since vanilla `show` from the `Show` class is not available, your custom `Show` instances will fail to compile.
 You can `import qualified Text.Show` to bring vanilla `show` to scope with qualified name.
 It will not conflict with `show` from `universum` and your `Show` instances will compile successfully.
-
-
-Projects that use Universum [↑](#structure-of-this-tutorial)
----------------------------
-
-Please submit a PR if you are using Universum!
-
-| λ |
-|---|
-| [cardano-report-server](https://github.com/input-output-hk/cardano-report-server) |
-| [cardano-sl](https://github.com/input-output-hk/cardano-sl) |
-| [importify](https://github.com/serokell/importify) |
-| [log-warper](https://github.com/serokell/log-warper) |
-| [orgstat](https://github.com/volhovm/orgstat) |
-| [tintin](https://github.com/theam/tintin) |
-| [require](https://theam.github.io/require/) |
-| [ariadne](https://github.com/serokell/ariadne) |
