@@ -12,7 +12,7 @@ module Universum.Exception
        , Bug (..)
        , bug
        , pattern Exc
-       , note
+       , validateJust
        ) where
 
 -- exceptions from safe-exceptions
@@ -47,8 +47,8 @@ bug e = Safe.impureThrow (Bug (Safe.toException e) callStack)
 -- To suppress redundant applicative constraint warning on GHC 8.0
 -- | Throws error for 'Maybe' if 'Data.Maybe.Nothing' is given.
 -- Operates over 'MonadError'.
-note :: (MonadError e m) => e -> Maybe a -> m a
-note err = maybe (throwError err) pure
+validateJust :: (MonadError e m) => e -> Maybe a -> m a
+validateJust err = maybe (throwError err) pure
 
 
 {- | Pattern synonym to easy pattern matching on exceptions. So intead of

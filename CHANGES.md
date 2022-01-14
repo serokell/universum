@@ -1,6 +1,9 @@
 Unreleased
 =====
 
+* [#176](https://github.com/serokell/universum/issues/176)
+  Renamed function `note` to `validateJust`.
+
 * [#244](https://github.com/serokell/universum/issues/244)
   Add `ToPairs` instances for `[(k, v)]` and `NonEmpty (k, v)`.
 
