@@ -92,7 +92,7 @@ jobs:
     strategy:
       matrix:
         stack: ["2.7"]
-        ghc: ["8.10.7"]
+        ghc: ["9.0.2"]
 
     steps:
     - uses: actions/checkout@v2
