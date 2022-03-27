@@ -10,8 +10,8 @@ module Universum.Monoid
 
 import Data.Monoid (All (..), Alt (..), Any (..), Dual (..), Endo (..), First (..), Last (..),
                     Monoid (..), Product (..), Sum (..))
-import Data.Semigroup (Option (..), Semigroup (sconcat, stimes, (<>)), WrappedMonoid, cycle1,
-                       mtimesDefault, stimesIdempotent, stimesIdempotentMonoid, stimesMonoid)
+import Data.Semigroup (Semigroup (sconcat, stimes, (<>)), WrappedMonoid, cycle1, mtimesDefault,
+                       stimesIdempotent, stimesIdempotentMonoid, stimesMonoid)
 
 import Universum.Monad.Reexport (Maybe, fromMaybe)
 
