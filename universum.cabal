@@ -126,7 +126,7 @@ test-suite universum-test
                      , text
                      , hedgehog
                      , tasty
-                     , tasty-hedgehog
+                     , tasty-hedgehog < 1.2.0.0
 
   if impl(ghc >= 8.10.1)
     ghc-options:         -Wno-missing-safe-haskell-mode
