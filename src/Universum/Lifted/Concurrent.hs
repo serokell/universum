@@ -1,4 +1,5 @@
-{-# LANGUAGE Safe #-}
+{-# LANGUAGE BangPatterns #-}
+{-# LANGUAGE Safe         #-}
 
 -- | Concurrency useful and common functions.
 
@@ -14,6 +15,7 @@ module Universum.Lifted.Concurrent
        , tryPutMVar
        , tryReadMVar
        , tryTakeMVar
+       , updateMVar'
 
          -- * STM
        , STM
@@ -22,6 +24,7 @@ module Universum.Lifted.Concurrent
        , newTVarIO
        , readTVarIO
        , STM.modifyTVar'
+       , updateTVar'
        , STM.newTVar
        , STM.readTVar
        , STM.writeTVar
@@ -29,14 +32,18 @@ module Universum.Lifted.Concurrent
 
 import Control.Concurrent.MVar (MVar)
 import Control.Concurrent.STM.TVar (TVar)
+import Control.Monad (return)
 import Control.Monad.STM (STM)
+import Control.Monad.State (StateT (..))
 import Control.Monad.Trans (MonadIO, liftIO)
 import Data.Bool (Bool)
 import Data.Function (($), (.))
 import Data.Maybe (Maybe)
+import System.IO (IO)
 
-import qualified Control.Concurrent.MVar as CCM (newEmptyMVar, newMVar, putMVar, readMVar, swapMVar,
-                                                 takeMVar, tryPutMVar, tryReadMVar, tryTakeMVar)
+import qualified Control.Concurrent.MVar as CCM (modifyMVar, newEmptyMVar, newMVar, putMVar,
+                                                 readMVar, swapMVar, takeMVar, tryPutMVar,
+                                                 tryReadMVar, tryTakeMVar)
 import qualified Control.Concurrent.STM.TVar as STM (modifyTVar', newTVar, newTVarIO, readTVar,
                                                      readTVarIO, writeTVar)
 import qualified Control.Monad.STM as STM (atomically)
@@ -108,3 +115,26 @@ newTVarIO = liftIO . STM.newTVarIO
 readTVarIO :: MonadIO m => TVar a -> m a
 readTVarIO = liftIO . STM.readTVarIO
 {-# INLINE readTVarIO #-}
+
+----------------------------------------------------------------------------
+-- Common helpers
+----------------------------------------------------------------------------
+
+-- | Like 'modifyMVar', but modification is specified as a 'State' computation.
+--
+-- This method is strict in produced @s@ value.
+updateMVar' :: MonadIO m => MVar s -> StateT s IO a -> m a
+updateMVar' var (StateT f) =
+  liftIO . CCM.modifyMVar var $ \s -> do
+    (a, !s') <- f s
+    return (s', a)
+{-# INLINE updateMVar' #-}
+
+-- | Like 'modifyTVar\'', but modification is specified as a 'State' monad.
+updateTVar' :: TVar s -> StateT s STM a -> STM a
+updateTVar' var (StateT f) = do
+  s <- STM.readTVar var
+  (a, !s') <- f s
+  STM.writeTVar var s'
+  return a
+{-# INLINE updateTVar' #-}
