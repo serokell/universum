@@ -1,6 +1,9 @@
 Unreleased
 =====
 
+1.7.3
+=====
+
 * [#236](https://github.com/serokell/universum/issues/236):
   Add `updateMVar'` and `updateTVar'`.
 * [#244](https://github.com/serokell/universum/issues/244)
