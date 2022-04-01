@@ -66,8 +66,8 @@ PR can be merged only if the corresponding `feature` issue is in the upcoming mi
 However, 4 approvals (at least 3 from Serokell) are necessary for inclusion into a milestone.
 2 disapprovals from Serokell or 4 disapprovals in total are enough to prevent the issue from getting into a milestone.
 If an issue is about removal of something (`x`), it should be done in two steps.
-The first step is deprecation of `x` which happens in a `breaking` release.
-The second step is deprecation of `x` which happens in another `breaking` release after deprecation of `x`.
+The first step is to deprecate `x` which happens in a `breaking` release.
+The second step is to delete `x` which happens in another `breaking` release after deprecating `x`.
 There can't be more than one breaking release in less than 5 weeks.
 
 Note: approval of any PR implies that the person who approves it confirms that the PR corresponds to the issue mentioned there and the issue has a correct type.
