@@ -58,7 +58,7 @@ import System.IO (FilePath, Handle, IOMode (..), stderr, stdin, stdout)
 
 -- Base typeclasses
 import Data.Eq (Eq (..))
-import Data.Foldable (Foldable, concat, concatMap, foldlM, foldrM)
+import Data.Foldable (Foldable, concat, foldlM, foldrM)
 import Data.Kind (Constraint, Type)
 import Data.Ord (Down (..), Ord (..), Ordering (..), comparing)
 import Data.Traversable (Traversable (..), fmapDefault, foldMapDefault, forM, mapAccumL, mapAccumR)
