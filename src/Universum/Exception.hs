@@ -47,6 +47,7 @@ bug e = Safe.impureThrow (Bug (Safe.toException e) callStack)
 -- To suppress redundant applicative constraint warning on GHC 8.0
 -- | Throws error for 'Maybe' if 'Data.Maybe.Nothing' is given.
 -- Operates over 'MonadError'.
+{-# DEPRECATED note "Don't use this function. Use 'maybeToRight' instead" #-}
 note :: (MonadError e m) => e -> Maybe a -> m a
 note err = maybe (throwError err) pure
 
