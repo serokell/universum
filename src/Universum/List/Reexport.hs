@@ -9,10 +9,10 @@ module Universum.List.Reexport
        ) where
 
 import Data.List (break, cycle, drop, dropWhile, filter, genericDrop, genericLength,
-                  genericReplicate, genericSplitAt, genericTake, group, inits, intercalate,
+                  genericReplicate, genericSplitAt, genericTake, inits, intercalate,
                   intersperse, isPrefixOf, iterate, permutations, repeat, replicate, reverse, scanl,
                   scanr, sort, sortBy, sortOn, splitAt, subsequences, tails, take, takeWhile,
                   transpose, unfoldr, unzip, unzip3, zip, zip3, zipWith, (++))
-import Data.List.NonEmpty (NonEmpty (..), head, init, last, nonEmpty, tail)
+import Data.List.NonEmpty (NonEmpty (..), group, groupAllWith, groupBy, groupWith, head, init, last, nonEmpty, tail)
 
 import GHC.Exts (sortWith)

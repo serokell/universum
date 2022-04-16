@@ -72,7 +72,7 @@ bgroupList f name = bgroup name $
       ]
 
   groupSort :: [a] -> [a]
-  groupSort = map Unsafe.head . group . sort
+  groupSort = map NonEmpty.head . group . sort
 
   safeSort :: [a] -> [a]
   safeSort = map NonEmpty.head . NonEmpty.group . sort
