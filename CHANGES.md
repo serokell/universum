@@ -1,6 +1,9 @@
 Unreleased
 =====
 
+* [#222](https://github.com/serokell/universum/issues/222):
+  Attach `CallStack` to all functions from `Universum.Unsafe`.
+
 1.7.3
 =====
 
