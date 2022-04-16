@@ -4,6 +4,11 @@ Unreleased
 * [#176](https://github.com/serokell/universum/issues/176):
   Deprecate `note`.
 
+* [#206](https://github.com/serokell/universum/issues/206):
+  Remove `listToMaybe`.
+  _Migration guide:_ use `safeHead` directly with functions from
+  `Universum.Container` instead.
+
 1.7.3
 =====
 

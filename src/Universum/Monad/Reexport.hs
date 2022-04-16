@@ -57,7 +57,7 @@ import Control.Monad.Trans.Identity (IdentityT (runIdentityT))
 import Control.Monad.Trans.Maybe (MaybeT (..), exceptToMaybeT, maybeToExceptT)
 
 -- Maybe
-import Data.Maybe (Maybe (..), catMaybes, fromMaybe, isJust, isNothing, listToMaybe, mapMaybe,
+import Data.Maybe (Maybe (..), catMaybes, fromMaybe, isJust, isNothing, mapMaybe,
                    maybe, maybeToList)
 
 -- Either
