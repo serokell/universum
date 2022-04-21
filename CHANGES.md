@@ -1,6 +1,9 @@
 Unreleased
 =====
 
+* [#176](https://github.com/serokell/universum/issues/176):
+  Deprecate `note`.
+
 1.7.3
 =====
 
