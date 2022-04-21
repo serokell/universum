@@ -149,6 +149,10 @@ test-suite universum-doctest
 
   if impl(ghc >= 8.10.1)
     ghc-options:         -Wno-missing-safe-haskell-mode
+  -- https://github.com/sol/doctest/issues/327
+  -- TODO: re-enable when the issue is resolved
+  if impl(ghc >= 9.0.0)
+    buildable: False
 
   ghc-options:         -threaded
 
