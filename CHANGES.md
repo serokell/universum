@@ -1,6 +1,9 @@
 Unreleased
 =====
 
+* [#252](https://github.com/serokell/universum/pull/252):
+  Remove `Option` re-export. Use `Maybe` instead.
+
 * [#176](https://github.com/serokell/universum/issues/176):
   Deprecate `note`.
 
