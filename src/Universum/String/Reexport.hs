@@ -24,4 +24,4 @@ import Data.Text.Encoding (decodeUtf8', decodeUtf8With)
 import Data.Text.Encoding.Error (OnDecodeError, OnError, UnicodeException, lenientDecode,
                                  strictDecode)
 import Data.Text.Lazy (fromStrict, toStrict)
-import Text.Read (Read, readMaybe, reads)
+import Text.Read (Read, reads)

@@ -15,6 +15,10 @@ Unreleased
 * [#182](https://github.com/serokell/universum/issues/182):
   Deprecate `microlens` and `microlens-mtl` dependencies.
 
+* [#165](https://github.com/serokell/universum/issues/165):
+  Change the type of `readMaybe` from `readMaybe :: Read a => String -> Maybe a`
+  to it's polymorphic version `readMaybe :: forall b a. (ToString a, Read b) => a -> Maybe b`.
+
 1.7.3
 =====
 

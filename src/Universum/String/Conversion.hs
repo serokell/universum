@@ -25,12 +25,14 @@ module Universum.String.Conversion
 
          -- * Show and read functions
        , readEither
+       , readMaybe
        , show
        ) where
 
 import Data.Bifunctor (first)
 import Data.Either (Either)
 import Data.Function (id, (.))
+import Data.Maybe (Maybe)
 import Data.String (String)
 import qualified Data.Text.Internal as T
 import qualified Data.Text.Internal.Fusion.Common as TF
@@ -47,7 +49,7 @@ import qualified Data.Text.Encoding as T
 import qualified Data.Text.Encoding.Error as T
 import qualified Data.Text.Lazy as LT
 import qualified Data.Text.Lazy.Encoding as LT
-import qualified Text.Read (readEither)
+import qualified Text.Read (readEither, readMaybe)
 
 import qualified GHC.Show as Show (Show (show))
 
@@ -292,6 +294,15 @@ be safe to collapse.
 -- Left "Prelude.read: no parse"
 readEither :: (ToString a, Read b) => a -> Either Text b
 readEither = first toText . Text.Read.readEither . toString
+
+-- | Polymorhpic version of 'Text.Read.readMaybe'.
+--
+-- >>> readMaybe @Int @Text "123"
+-- Just 123
+-- >>> readMaybe @Int @Text "aa"
+-- Nothing
+readMaybe :: forall b a. (ToString a, Read b) => a -> Maybe b
+readMaybe = Text.Read.readMaybe . toString
 
 -- | Generalized version of 'Prelude.show'.
 show :: forall b a . (Show.Show a, IsString b) => a -> b
