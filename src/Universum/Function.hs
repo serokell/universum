@@ -6,4 +6,4 @@ module Universum.Function
        ( module Data.Function
        ) where
 
-import Data.Function (const, fix, flip, id, on, ($), (.))
+import Data.Function (const, fix, flip, id, on, ($), (.), (&))

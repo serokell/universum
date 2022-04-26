@@ -1,4 +1,5 @@
 {-# LANGUAGE Trustworthy #-}
+{-# LANGUAGE RankNTypes #-}
 
 {- | Main module that reexports all functionality allowed to use
 without importing any other modules. Just add next lines to your
@@ -80,8 +81,26 @@ module Universum
        , module Universum.VarArg
 
          -- * Lenses
-       , module Lens.Micro
-       , module Lens.Micro.Mtl
+       , Lens
+       , Lens'
+       , Traversal
+       , Traversal'
+       , over
+       , set
+       , (%~)
+       , (.~)
+       , (^.)
+       , (^..)
+       , (^?)
+       , _1
+       , _2
+       , _3
+       , _4
+       , _5
+       , preuse
+       , preview
+       , use
+       , view
        ) where
 
 import Universum.Applicative
@@ -104,6 +123,95 @@ import Universum.TypeOps
 import Universum.VarArg
 
 -- Lenses
-import Lens.Micro (Lens, Lens', Traversal, Traversal', over, set, (%~), (&), (.~), (<&>), (^.),
-                   (^..), (^?), _1, _2, _3, _4, _5)
-import Lens.Micro.Mtl (preuse, preview, use, view)
+import qualified Lens.Micro (ASetter, Getting, over, set, (%~), (.~), (^.),
+                             (^..), (^?), _1, _2, _3, _4, _5)
+import qualified Lens.Micro.Mtl (preuse, preview, use, view)
+import Lens.Micro.Internal (Field1, Field2, Field3, Field4, Field5)
+
+{-# DEPRECATED
+    Lens
+  , Lens'
+  , Traversal
+  , Traversal'
+  , over
+  , set
+  , (%~)
+  , (.~)
+  , (^.)
+  , (^..)
+  , (^?)
+  , _1
+  , _2
+  , _3
+  , _4
+  , _5
+  , preuse
+  , preview
+  , use
+  , view
+  "Use corresponding function from 'lens' or 'microlens' package"
+#-}
+
+type Lens s t a b = forall f. Functor f => (a -> f b) -> s -> f t
+type Lens' s a = Lens s s a a
+
+type Traversal s t a b = forall f. Applicative f => (a -> f b) -> s -> f t
+type Traversal' s a = Traversal s s a a
+
+over :: Lens.Micro.ASetter s t a b -> (a -> b) -> s -> t
+over = Lens.Micro.over
+
+set :: Lens.Micro.ASetter s t a b -> b -> s -> t
+set = Lens.Micro.set
+
+(%~) :: Lens.Micro.ASetter s t a b -> (a -> b) -> s -> t
+(%~) = (Lens.Micro.%~)
+
+infixr 4 %~
+
+(.~) :: Lens.Micro.ASetter s t a b -> b -> s -> t
+(.~) = (Lens.Micro..~)
+
+infixr 4 .~
+
+(^.) :: s -> Lens.Micro.Getting a s a -> a
+(^.) = (Lens.Micro.^.)
+
+infixl 8 ^.
+
+(^..) :: s -> Lens.Micro.Getting (Endo [a]) s a -> [a]
+(^..) = (Lens.Micro.^..)
+
+infixl 8 ^..
+
+(^?) :: s -> Lens.Micro.Getting (First a) s a -> Maybe a
+(^?) = (Lens.Micro.^?)
+
+infixl 8 ^?
+
+_1 :: Field1 s t a b => Lens s t a b
+_1 = Lens.Micro._1
+
+_2 :: Field2 s t a b => Lens s t a b
+_2 = Lens.Micro._2
+
+_3 :: Field3 s t a b => Lens s t a b
+_3 = Lens.Micro._3
+
+_4 :: Field4 s t a b => Lens s t a b
+_4 = Lens.Micro._4
+
+_5 :: Field5 s t a b => Lens s t a b
+_5 = Lens.Micro._5
+
+preuse :: MonadState s m => Lens.Micro.Getting (First a) s a -> m (Maybe a)
+preuse = Lens.Micro.Mtl.preuse
+
+preview :: MonadReader s m => Lens.Micro.Getting (First a) s a -> m (Maybe a)
+preview = Lens.Micro.Mtl.preview
+
+use :: MonadState s m => Lens.Micro.Getting a s a -> m a
+use = Lens.Micro.Mtl.use
+
+view :: MonadReader s m => Lens.Micro.Getting a s a -> m a
+view = Lens.Micro.Mtl.view

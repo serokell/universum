@@ -12,6 +12,9 @@ Unreleased
   _Migration guide:_ use `safeHead` directly with functions from
   `Universum.Container` instead.
 
+* [#182](https://github.com/serokell/universum/issues/182):
+  Deprecate `microlens` and `microlens-mtl` dependencies.
+
 1.7.3
 =====
 

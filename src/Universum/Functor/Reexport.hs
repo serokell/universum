@@ -12,6 +12,6 @@ module Universum.Functor.Reexport
 
 import Control.Arrow ((&&&))
 import Data.Bifunctor (Bifunctor (..))
-import Data.Functor (Functor (..), void, ($>), (<$>))
+import Data.Functor (Functor (..), void, ($>), (<$>), (<&>))
 import Data.Functor.Compose (Compose (..))
 import Data.Functor.Identity (Identity (..))
