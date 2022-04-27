@@ -121,7 +121,9 @@ test-suite universum-test
   hs-source-dirs:      test
   main-is:             Spec.hs
 
-  other-modules:       Test.Universum.Property
+  other-modules:
+                       Test.Universum.Issue208
+                       Test.Universum.Property
 
   build-depends:       universum
                      , bytestring
