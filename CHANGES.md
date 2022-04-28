@@ -23,6 +23,9 @@ Unreleased
   Change type of `concatMap` from `concatMap :: Foldable f => (a -> [b]) -> t a -> [b]`
   to `concatMap :: Container c => (Element c -> [b]) -> c -> [b]`.
 
+* [250](https://github.com/serokell/universum/issues):
+  Replace `group` export from `Data.List` with `group`, `groupBy`, `groupWith` and `groupAllWith` from `Data.List.NonEmpty`.
+
 1.7.3
 =====
 
