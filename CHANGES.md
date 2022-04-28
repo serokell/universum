@@ -19,6 +19,10 @@ Unreleased
   Change the type of `readMaybe` from `readMaybe :: Read a => String -> Maybe a`
   to it's polymorphic version `readMaybe :: forall b a. (ToString a, Read b) => a -> Maybe b`.
 
+* [#199](https://github.com/serokell/universum/issues/199):
+  Change type of `concatMap` from `concatMap :: Foldable f => (a -> [b]) -> t a -> [b]`
+  to `concatMap :: Container c => (Element c -> [b]) -> c -> [b]`.
+
 1.7.3
 =====
 

@@ -39,6 +39,7 @@ module Universum.Container.Class
        , sequenceA_
        , sequence_
        , asum
+       , concatMap
 
          -- * Others
        , One(..)
@@ -46,7 +47,7 @@ module Universum.Container.Class
 
 import Data.Coerce (Coercible, coerce)
 import Data.Kind (Type)
-import Prelude hiding (all, and, any, elem, foldMap, foldl, foldr, mapM_, notElem, null, or, print,
+import Prelude hiding (all, and, any, concatMap, elem, foldMap, foldl, foldr, mapM_, notElem, null, or, print,
                 product, sequence_, sum)
 
 import Universum.Applicative (Alternative (..), Const, ZipList (..), pass)
@@ -68,6 +69,8 @@ import qualified Data.Sequence as SEQ
 
 import qualified Data.ByteString as BS
 import qualified Data.ByteString.Lazy as BSL
+
+import qualified Data.List (concatMap)
 
 import qualified Data.Text as T
 import qualified Data.Text.Lazy as TL
@@ -745,6 +748,16 @@ asum
     => t -> f a
 asum = foldr (<|>) empty
 {-# INLINE asum #-}
+
+{- | Version of 'Data.Foldable.concatMap' constrained to 'Container'.
+
+>>> concatMap (\x -> [x + 1, x + 2]) [1, 2, 3]
+[2,3,3,4,4,5]
+
+-}
+concatMap :: Container c => (Element c -> [b]) -> c -> [b]
+concatMap f = Data.List.concatMap f . toList
+{-# INLINE concatMap #-}
 
 ----------------------------------------------------------------------------
 -- Disallowed instances
