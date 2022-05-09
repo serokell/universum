@@ -272,9 +272,9 @@ Finally, we can move to part describing the new cool features we bring with `uni
 * Variadic composition operator `(...)`. So you can write:
 
   ```haskell
-  ghci> (show ... (+)) 1 2
+  ghci> (show ... (+)) (1 :: Int) 2
   "3"
-  ghci> show ... 5
+  ghci> show ... 5 :: String
   "5"
   ghci> (null ... zip5) [1] [2] [3] [] [5]
   True
