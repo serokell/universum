@@ -1,6 +1,10 @@
 Unreleased
 =====
 
+* [#265](https://github.com/serokell/universum/issues/265):
+  Make `SuperComposition` inference less brittle, and give it four
+  type parameters.
+
 * [#252](https://github.com/serokell/universum/pull/252):
   Remove `Option` re-export. Use `Maybe` instead.
 

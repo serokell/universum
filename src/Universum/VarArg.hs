@@ -19,16 +19,20 @@ module Universum.VarArg
 -- >>> import Data.List (zip5)
 
 -- | This type class allows to implement variadic composition operator.
-class SuperComposition a b c | a b -> c where
+class SuperComposition x y b r | x y b -> r where
     -- | Allows to apply function to result of another function with multiple
     -- arguments.
     --
-    -- >>> (show ... (+)) 1 2
+    -- >>> (show ... (+)) (1 :: Int) 2
     -- "3"
-    -- >>> show ... 5
+    -- >>> show ... (5 :: Int)
     -- "5"
     -- >>> (null ... zip5) [1] [2] [3] [] [5]
     -- True
+    --
+    -- Note that the arity of the second argument must be apparent to the type
+    -- checker, which is why the above examples require type annotations for numeric
+    -- literals.
     --
     -- Inspired by <http://stackoverflow.com/questions/9656797/variadic-compose-function>.
     --
@@ -45,16 +49,16 @@ class SuperComposition a b c | a b -> c where
     -- disappear due to very general inferred type. However, functions without type
     -- specification but with applied @INLINE@ pragma are fast again.
     --
-    (...) :: a -> b -> c
+    (...) :: (x -> y) -> b -> r
 
 infixl 8 ...
 
-instance {-# INCOHERENT #-} (a ~ c, r ~ b) =>
-         SuperComposition (a -> b) c r where
+instance {-# OVERLAPPABLE #-} (x ~ b, y ~ r) =>
+         SuperComposition x y b r where
     f ... g = f g
     {-# INLINE (...) #-}
 
-instance {-# INCOHERENT #-} (SuperComposition (a -> b) d r1, r ~ (c -> r1)) =>
-         SuperComposition (a -> b) (c -> d) r where
+instance {-# OVERLAPPING #-} (SuperComposition x y d r1, r ~ (c -> r1)) =>
+         SuperComposition x y (c -> d) r where
     (f ... g) c = f ... g c
     {-# INLINE (...) #-}

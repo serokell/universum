@@ -112,7 +112,7 @@ bgroupSuperComposition = bgroup "(...)"
  where
   super10 :: [()] -> Bool
   super10 = null
-        ... ((: []) ... Unsafe.head ... pure ... Unsafe.head
+        ... ((: []) ... Unsafe.head ... (:[]) ... Unsafe.head
         ... (: [(), (), (), ()]) ... Unsafe.head ... (: []) ... Unsafe.head
         ... (: [()]) ... Unsafe.head ... (: [(), ()]) ... Unsafe.head :: [()] -> [()])
 
