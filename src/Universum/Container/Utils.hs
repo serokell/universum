@@ -20,7 +20,7 @@ import Universum.Container.Class
 -- >>> import Data.Text (toLower)
 
 -- | Variation of 'groupByKey' that accepts the comparison function on keys
--- explicitly.
+-- explicitly. This function must define a (computable) equivalence relation.
 --
 -- Among multiple keys appearing in the same group it will pick the leftmost
 -- one as the representer of the equivalence class.
