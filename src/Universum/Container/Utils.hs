@@ -6,10 +6,12 @@ module Universum.Container.Utils
        ( groupByFst
        , groupByKey
        , groupByKeyBy
+
+       , groupOn
        ) where
 
 import Data.Function (id, on, (.))
-import Data.List.NonEmpty (NonEmpty (..))
+import Data.List.NonEmpty (NonEmpty (..), groupBy)
 
 import Universum.Base
 import Universum.Container.Class
@@ -77,3 +79,16 @@ groupByKey = groupByKeyBy (==)
 -- [(1,"a" :| ["b"]),(2,"c" :| []),(1,"d" :| [])]
 groupByFst :: Eq a => [(a, b)] -> [(a, NonEmpty b)]
 groupByFst = groupByKey id
+
+-- | Variation of 'group' that matches mapped valued on equality.
+--
+-- >>> groupOn toLower ["A", "a", "b"]
+-- ["A" :| ["a"],"b" :| []]
+--
+-- @
+-- 'groupOn' f ≡ 'groupBy' ((==) `on` f)
+-- @
+groupOn
+  :: (Container t, Eq a')
+  => (Element t -> a') -> t -> [NonEmpty (Element t)]
+groupOn f = groupBy ((==) `on` f) . toList
