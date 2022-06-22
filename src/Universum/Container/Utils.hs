@@ -8,7 +8,7 @@ module Universum.Container.Utils
        , groupByKeyBy
        ) where
 
-import Data.Function (id, (.))
+import Data.Function (id, on, (.))
 import Data.List.NonEmpty (NonEmpty (..))
 
 import Universum.Base
@@ -25,8 +25,8 @@ import Universum.Container.Class
 -- Among multiple keys appearing in the same group it will pick the leftmost
 -- one as the representer of the equivalence class.
 --
--- >>> groupByKeyBy ((==) `on` toLower) id [("A", 1), ("a", 2), ("b", 3)]
--- [("A",1 :| [2]),("b",3 :| [])]
+-- >>> groupByKeyBy (<=) id [(1, 10), (2, 11), (0, 12), (1, 13), (3, 14)]
+-- [(1,10 :| [11]),(0,12 :| [13,14])]
 groupByKeyBy
   :: Container t
   => (k -> k -> Bool) -> (Element t -> (k, v)) -> t -> [(k, NonEmpty v)]
@@ -47,8 +47,21 @@ groupByKeyBy kcmp split = start . toList
          else let (vs, ws) = go kn as
                  in ([], (kn, v :| vs) : ws)
 
--- | Operates like 'groupByFst', but uses the provided getters
--- for the key to group by and the value.
+-- | Variation of 'groupByKey' that matches mapped keys on equality.
+--
+-- >>> groupByKeyOn toLower id [("A", 1), ("a", 2), ("b", 3)]
+-- [("A",1 :| [2]),("b",3 :| [])]
+--
+-- @
+-- 'groupByKeyOn' f ≡ 'groupByKeyBy' ((==) `on` f)
+-- @
+groupByKeyOn
+  :: (Container t, Eq k')
+  => (k -> k') -> (Element t -> (k, v)) -> t -> [(k, NonEmpty v)]
+groupByKeyOn f = groupByKeyBy ((==) `on` f)
+
+-- | Operates like 'groupByFst', but uses the provided getter
+-- for the key to group by and for the value.
 --
 -- >>> groupByKey (\x -> (x `mod` 5, x)) [1, 6, 7, 2, 12, 11]
 -- [(1,1 :| [6]),(2,7 :| [2,12]),(1,11 :| [])]
