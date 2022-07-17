@@ -124,7 +124,10 @@ test-suite universum-test
   other-modules:
                        Tree
                        Test.Universum.Issue208
-                       Test.Universum.Property
+                       Test.Universum.StringProps
+                       Test.Universum.UtfProps
+                       Test.Universum.ListProps
+                       Test.Universum.BoolMProps
 
   build-depends:       universum
                      , bytestring
