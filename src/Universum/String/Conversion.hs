@@ -3,7 +3,6 @@
 {-# LANGUAGE FlexibleInstances     #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE Trustworthy           #-}
-{-# LANGUAGE TypeSynonymInstances  #-}
 {-# OPTIONS_GHC -Wno-orphans  #-}
 
 -- | This module implements type class which allow to have conversion to and
@@ -292,6 +291,8 @@ be safe to collapse.
 -- Right 123
 -- >>> readEither @Text @Int "aa"
 -- Left "Prelude.read: no parse"
+--
+-- @since 1.8.0
 readEither :: (ToString a, Read b) => a -> Either Text b
 readEither = first toText . Text.Read.readEither . toString
 

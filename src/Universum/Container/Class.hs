@@ -47,8 +47,8 @@ module Universum.Container.Class
 
 import Data.Coerce (Coercible, coerce)
 import Data.Kind (Type)
-import Prelude hiding (all, and, any, concatMap, elem, foldMap, foldl, foldr, mapM_, notElem, null, or, print,
-                product, sequence_, sum)
+import Prelude hiding (all, and, any, concatMap, elem, foldMap, foldl, foldr, mapM_, notElem, null,
+                or, print, product, sequence_, sum)
 
 import Universum.Applicative (Alternative (..), Const, ZipList (..), pass)
 import Universum.Base (HasCallStack, Word8)
@@ -754,6 +754,7 @@ asum = foldr (<|>) empty
 >>> concatMap (\x -> [x + 1, x + 2]) [1, 2, 3]
 [2,3,3,4,4,5]
 
+@since 1.8.0
 -}
 concatMap :: Container c => (Element c -> [b]) -> c -> [b]
 concatMap f = Data.List.concatMap f . toList
