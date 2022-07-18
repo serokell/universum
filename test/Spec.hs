@@ -2,10 +2,8 @@ module Main
   ( main
   ) where
 
-import Test.Tasty (defaultMain)
-
-import Test.Universum.Property (hedgehogTestTree)
+import Test.Tasty
+import Tree (tests)
 
 main :: IO ()
-main = do
-    defaultMain hedgehogTestTree
+main = tests >>= defaultMain

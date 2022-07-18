@@ -1,6 +1,6 @@
 cabal-version:       2.2
 name:                universum
-version:             1.8.0
+version:             1.8.1
 synopsis:            Custom prelude used in Serokell
 description:         See README.md file for more details.
 homepage:            https://github.com/serokell/universum
@@ -122,15 +122,21 @@ test-suite universum-test
   main-is:             Spec.hs
 
   other-modules:
+                       Tree
                        Test.Universum.Issue208
-                       Test.Universum.Property
+                       Test.Universum.StringProps
+                       Test.Universum.UtfProps
+                       Test.Universum.ListProps
+                       Test.Universum.BoolMProps
 
   build-depends:       universum
                      , bytestring
                      , text
                      , hedgehog
                      , tasty
-                     , tasty-hedgehog < 1.2.0.0
+                     , tasty-hedgehog
+  build-tool-depends:
+      tasty-discover:tasty-discover
 
   if impl(ghc >= 8.10.1)
     ghc-options:         -Wno-missing-safe-haskell-mode
