@@ -23,7 +23,7 @@ jobs:
     - uses: actions/checkout@v2
     - uses: serokell/xrefcheck-action@v1
       with:
-        xrefcheck-version: 0.1.2
+        xrefcheck-version: 0.2
 
   cabal:
     name: ${{ matrix.os }} / ghc ${{ matrix.ghc }}
