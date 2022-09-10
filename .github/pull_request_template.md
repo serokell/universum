@@ -30,6 +30,9 @@ checkmark indicating that you are sure it is dealt with (be that by irrelevance)
 - [ ] If your PR fixes/relates to an open issue then the description should
       reference this issue. See also [auto linking on
       github](https://help.github.com/articles/autolinked-references-and-urls/).
+- [ ] If I added/removed/deprecated functions/re-exports,
+      I checked whether these changes impact the [`.hlint.yaml`](../tree/master/.hlint.yaml) rules
+      and updated them if needed.
 
 #### Related changes (conditional)
 
