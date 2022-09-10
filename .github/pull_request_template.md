@@ -44,12 +44,12 @@ checkmark indicating that you are sure it is dealt with (be that by irrelevance)
 
   I checked whether I should update the docs and did so if necessary:
 
-  - [ ] [README](/README.md)
+  - [ ] [README](../tree/master/README.md)
   - [ ] Haddock
 
 - Record your changes
 
-  - [ ] I added an entry to the [changelog](/CHANGES.md) if my changes are visible to the users
+  - [ ] I added an entry to the [changelog](../tree/master/CHANGES.md) if my changes are visible to the users
         and
   - [ ] provided a migration guide for breaking changes if possible
 
