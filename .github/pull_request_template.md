@@ -17,6 +17,7 @@ For example
 - Fixed #1 by adding lenses to exported items
 -->
 
+Fixed #
 
 ## ✓ Checklist for your Pull Request
 
@@ -27,9 +28,6 @@ checkmark indicating that you are sure it is dealt with (be that by irrelevance)
 
 - [ ] I made sure my PR addresses a single concern, or multiple concerns which
       are inextricably linked. Otherwise I should open multiple PR's.
-- [ ] If your PR fixes/relates to an open issue then the description should
-      reference this issue. See also [auto linking on
-      github](https://help.github.com/articles/autolinked-references-and-urls/).
 - [ ] If I added/removed/deprecated functions/re-exports,
       I checked whether these changes impact the [`.hlint.yaml`](../tree/master/.hlint.yaml) rules
       and updated them if needed.
