@@ -2,46 +2,10 @@
 #
 # SPDX-License-Identifier: Unlicense
 
-# Parameters of repository traversal.
-traversal:
-  # Files and folders which we pretend do not exist
-  # (so they are neither analyzed nor can be referenced).
-  ignored:
-    # Git files
-    - .git
-
-    # Stack files
-    - .stack-work
-
-
 # Verification parameters.
 verification:
-  # On 'anchor not found' error, how much similar anchors should be displayed as
-  # hint. Number should be between 0 and 1, larger value means stricter filter.
-  anchorSimilarityThreshold: 0.5
-
-  # When checking external references, how long to wait on request before
-  # declaring "Response timeout".
-  externalRefCheckTimeout: 10s
-
-  # Prefixes of files, references in which should not be analyzed.
-  notScanned:
-    - .github/pull_request_template.md
-    - .github/issue_template.md
-    - .github/PULL_REQUEST_TEMPLATE
-    - .github/ISSUE_TEMPLATE
-
-  # Glob patterns describing the files which do not physically exist in the
-  # repository but should be treated as existing nevertheless.
-  virtualFiles:
-    - ../../../issues
-    - ../../../issues/*
-    - ../../../pulls
-    - ../../../pulls/*
-
   # POSIX extended regular expressions that match external references
   # that have to be ignored (not verified).
-  # It is an optional parameter, so it can be omitted.
   ignoreRefs:
     # Note: For some reason, running `curl -I https://opensource.org/licenses/MIT` from within
     # a GitHub Action's agent returns a 503.
