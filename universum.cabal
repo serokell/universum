@@ -105,7 +105,7 @@ library
                      , stm
                      -- Make sure that "toString-toText-rewritting" note
                      -- is still valid when bumping this constraint.
-                     , text >= 1.0.0.0 && <= 1.2.5.0
+                     , text >= 1.0.0.0 && <= 2.0.1
                      , transformers
                      , unordered-containers
                      , utf8-string

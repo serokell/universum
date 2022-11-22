@@ -4,6 +4,9 @@ Unreleased
 1.8.0
 =====
 
+* [#282](https://github.com/serokell/universum/pull/282):
+  Bump version bound on `text` to `2.0.1`.
+
 * [#252](https://github.com/serokell/universum/pull/252):
   Remove `Option` re-export. Use `Maybe` instead.
 

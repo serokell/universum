@@ -248,7 +248,7 @@ Aha, so it's mapping some codepoints to @'\xfffd'@!
 There's a comment on top of it to explain this:
 
 ```
--- UTF-16 surrogate code points are not included in the set of Unicode
+-- Unicode 'Data.Char.Surrogate' code points are not included in the set of Unicode
 -- scalar values, but are unfortunately admitted as valid 'Char'
 -- values by Haskell.  They cannot be represented in a 'Text'.  This
 -- function remaps those code points to the Unicode replacement
