@@ -164,6 +164,26 @@ instance ToString T.Text where
 instance ToString LT.Text where
     toString = LT.unpack
 
+{- [Note toString-toText-rewritting]
+
+Note ON MAINTENANCE of rewrite rules below.
+
+Whenever you want to allow a newer version of @text@ package, check:
+* The @text conversions@ benchmark, that the numbers with and without the rules
+are still the expected ones (see the comments there for what to expect).
+* You may optionally check whether any changes to `pack` and `unpack` functions
+and their `INLINE`/`NOINLINE` annotations took place.
+The current rewrite rules match with what happens in `text` package
+at the e5644b663c32c01a1de7299a5e711216755e01bc commit, and next time
+you can just check `git diff <that commit>..HEAD`.
+
+If these points hold, it should be safe to raise the upper bound on `text` version.
+
+If not, first do the necessary changes (preserving the backward compatibility),
+update the commit id above if you checked the code of the `text` package.
+Then bump the version constraint.
+-}
+
 {-
 
 @toString . toText@ pattern may occur quite often after inlining because
@@ -171,33 +191,21 @@ we tend to use 'Text' rather than 'String' in function signatures, but
 there are still some libraries which use 'String's and thus make us perform
 conversions back and forth.
 
-Note that @toString . toText@ is not strictly equal to identity function, see
-explanation in the comment below.
+Note that, as documentation for 'T.pack' function mentions, @toString . toText@
+is not strictly equal to the identity function. Thus, replacing @toString . toText@
+with @id@ will result in losing transformation of surrogate code points.
+But in the most cases this is what the user wants.
 -}
 
 {-# RULES "pack/unpack" [~0]
     forall s. T.unpack (T.pack s) = s
 #-}
 
-{- [Note toString-toText-rewritting]
+#if !MIN_VERSION_text(2,0,2)
+{-
 
 We can do even better than above if take rules defined in 'Data.Text' into
 account.
-
-Note ON MAINTENANCE: whenever you need to update the used version of @text@ package,
-you have to check whether the comment below is still valid.
-However, you can cut down by looking at the diff between versions of @text@, and
-seeing if implementation of any of these functions have changed:
-  * pack
-  * unpack
-  * streamList
-  * unstreamList
-  * safe
-  * any RULES definition (if some is added, this counts)
-Also check the @text conversions@ benchmark, that the numbers with and without
-the rules are still the expected ones
-If none of mentioned have changed, then it is safe to assume that everything
-is still fine.
 
 Quoting investigation of @int-index:
 
@@ -269,6 +277,7 @@ So, eventually, we add the following rule:
 {-# RULES "pack/unpack internal" [1]
     forall s. TF.unstreamList (TF.map T.safe (TF.streamList s)) = s
 #-}
+#endif
 
 {- In case if GHC didn't manage to inline and rewrite everything in
 the remaining phases (@Data.Text.pack@ is inlined at 1-st phase),
