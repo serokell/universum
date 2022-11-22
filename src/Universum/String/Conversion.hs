@@ -194,6 +194,8 @@ seeing if implementation of any of these functions have changed:
   * unstreamList
   * safe
   * any RULES definition (if some is added, this counts)
+Also check the @text conversions@ benchmark, that the numbers with and without
+the rules are still the expected ones
 If none of mentioned have changed, then it is safe to assume that everything
 is still fine.
 
