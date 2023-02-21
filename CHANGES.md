@@ -1,5 +1,14 @@
-Unreleased
+1.8.1.1
+=======
+
+* [#282](https://github.com/serokell/universum/pull/282):
+  Bump version bound on `text` to `2.0.1`.
+
+1.8.1
 =====
+
+* [#271](https://github.com/serokell/universum/pull/271):
+  Add compatibility with tasty-hedgehog 1.2.0.0
 
 1.8.0
 =====

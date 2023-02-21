@@ -180,11 +180,8 @@ bgroupFold = do
 bgroupTextConversion :: Benchmark
 bgroupTextConversion =
   bgroup "text conversions"
-    [ let str = replicate 100000 'a'
-          countLength x = length (toString x)
-      in bench "toString . toText" $ whnf (countLength . toText) str
-
-    , let txt = T.replicate 100000 (T.singleton 'a')
-          countLength x = length (toText x)
-      in bench "toText . toString" $ whnf (countLength . toString) txt
+    [ -- With @toText . toString -> id@ rewrite rules we expect ~10ns
+      -- Without the rules: >10ms
+      let txt = T.replicate 10000000 (T.singleton 'a')
+      in bench "toText . toString" $ whnf (toText . toString) txt
     ]
