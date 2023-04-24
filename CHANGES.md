@@ -13,6 +13,12 @@
 1.8.0
 =====
 
+* [#265](https://github.com/serokell/universum/issues/265):
+  Make `SuperComposition` inference less brittle, and give it four type
+  parameters. Applications may require more or different type annotations in
+  some cases and fewer in others. Details of the constraint resolution process
+  should no longer affect which applications successfully typecheck.
+
 * [#252](https://github.com/serokell/universum/pull/252):
   Remove `Option` re-export. Use `Maybe` instead.
 
