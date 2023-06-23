@@ -1,9 +1,11 @@
+{-# LANGUAGE CPP                    #-}
 {-# LANGUAGE FlexibleContexts       #-}
 {-# LANGUAGE FlexibleInstances      #-}
 {-# LANGUAGE FunctionalDependencies #-}
 {-# LANGUAGE MultiParamTypeClasses  #-}
 {-# LANGUAGE Safe                   #-}
 {-# LANGUAGE TypeFamilies           #-}
+{-# LANGUAGE TypeOperators          #-}
 {-# LANGUAGE UndecidableInstances   #-}
 
 -- | Provides operator of variable-arguments function composition.
@@ -11,6 +13,10 @@
 module Universum.VarArg
        ( SuperComposition(..)
        ) where
+
+#if MIN_VERSION_base(4,17,0)
+import Data.Type.Equality (type (~))
+#endif
 
 -- $setup
 -- >>> import Universum.Base ((+))

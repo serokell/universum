@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP          #-}
 {-# LANGUAGE Trustworthy  #-}
 {-# LANGUAGE TypeFamilies #-}
 
@@ -18,6 +19,9 @@ import Control.Applicative (Applicative (pure))
 import Data.Function ((.))
 import Data.Traversable (Traversable (traverse))
 import Prelude (Bool (..), Monoid, flip)
+#if MIN_VERSION_base(4,17,0)
+import Data.Type.Equality (type (~))
+#endif
 
 import Universum.Base (IO)
 import Universum.Container (Container, Element, fold, toList)

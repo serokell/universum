@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP          #-}
 {-# LANGUAGE BangPatterns #-}
 {-# LANGUAGE Unsafe       #-}
 
@@ -24,6 +25,9 @@ module Universum.Base
        , module Data.Proxy
        , module Data.Typeable
        , module Data.Void
+#if MIN_VERSION_base(4,17,0)
+       , module Data.Type.Equality
+#endif
 
        , module GHC.Base
        , module GHC.Enum
@@ -67,6 +71,9 @@ import Data.Traversable (Traversable (..), fmapDefault, foldMapDefault, forM, ma
 import Data.Proxy (Proxy (..))
 import Data.Typeable (Typeable)
 import Data.Void (Void, absurd, vacuous)
+#if MIN_VERSION_base(4,17,0)
+import Data.Type.Equality (type (~))
+#endif
 
 import GHC.Base (String, asTypeOf, maxInt, minInt, ord, seq)
 import GHC.Enum (Bounded (..), Enum (..), boundedEnumFrom, boundedEnumFromThen)

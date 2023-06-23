@@ -48,6 +48,8 @@ common common-options
 
   default-language:    Haskell2010
 
+  default-extensions:  TypeOperators
+
 library
   import:              common-options
   hs-source-dirs:      src
