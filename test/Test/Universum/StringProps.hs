@@ -28,9 +28,7 @@ hprop_StringToTextAndBack = property $ do
   str <- forAll unicodeAllString
   toString (toText str) === str
 
--- | See comment to this function:
--- <http://hackage.haskell.org/package/text-1.2.3.1/docs/src/Data.Text.Internal.html#safe>
---
+-- |
 -- While 'String' may contain surrogate UTF-16 code points, actually UTF-8
 -- doesn't allow them, as well as 'Text'. 'Data.Text.pack' replaces invalid
 -- characters with unicode replacement character, so by default
@@ -41,7 +39,8 @@ hprop_StringToTextAndBack = property $ do
 hprop_StringToTextAndBackSurrogate :: Property
 hprop_StringToTextAndBackSurrogate = property $ do
   -- Surrogate character like this one should remain intact
-  -- Without rewrite rule this string would be transformed to "\9435"
+  -- Without the rewrite rule this string would be transformed to some other,
+  -- valid string
   let str = "\xD800"
   toString (toText str) === str
 
