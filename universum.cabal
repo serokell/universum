@@ -15,8 +15,8 @@ build-type:          Simple
 bug-reports:         https://github.com/serokell/universum/issues
 tested-with:         GHC == 8.8.4
                    , GHC == 8.10.7
-                   , GHC == 9.0.1
-                   , GHC == 9.2.2
+                   , GHC == 9.0.2
+                   , GHC == 9.2.8
                    , GHC == 9.4.5
 extra-doc-files:     CHANGES.md
                    , CONTRIBUTING.md
