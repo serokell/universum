@@ -49,7 +49,7 @@ checkmark indicating that you are sure it is dealt with (be that by irrelevance)
 
 - Record your changes
 
-  - [ ] I added an entry to the [changelog](https://github.com/serokell/universum/tree/master/CHANGES.md) if my changes are visible to the users
+  - [ ] I added an entry to the [changelog](https://github.com/serokell/universum/tree/master/CHANGES.md) (creating the `Unreleased` section if necessary) if my changes are visible to the users
         and
   - [ ] provided a migration guide for breaking changes if possible
 
