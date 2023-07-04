@@ -31,29 +31,33 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macOS-latest, windows-latest]
-        cabal: ["3.6"]
+        cabal: ["3.8"]
         # If you update this list of supported compiler versions,
         # make sure to update the `tested-with` section of `universum.cabal`.
         ghc:
-          - "8.6.5"
           - "8.8.4"
           - "8.10.7"
-          - "9.0.1"
-          - "9.2.2"
+          - "9.0.2"
+          - "9.2.8"
+          - "9.4.5"
         # Use only the latest compiler on non-Linux
         exclude:
           - os: macOS-latest
-            ghc: 9.0.1
+            ghc: 9.2.8
+          - os: macOS-latest
+            ghc: 9.0.2
           - os: macOS-latest
             ghc: 8.8.4
           - os: macOS-latest
-            ghc: 8.6.5
+            ghc: 8.10.7
           - os: windows-latest
-            ghc: 9.0.1
+            ghc: 9.2.8
+          - os: windows-latest
+            ghc: 9.0.2
           - os: windows-latest
             ghc: 8.8.4
           - os: windows-latest
-            ghc: 8.6.5
+            ghc: 8.10.7
 
     steps:
     - uses: actions/checkout@v3
@@ -91,8 +95,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        stack: ["2.7"]
-        ghc: ["9.0.2"]
+        stack: ["2.9.3"]
+        ghc: ["9.4.5"]
 
     steps:
     - uses: actions/checkout@v3

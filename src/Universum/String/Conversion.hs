@@ -34,7 +34,10 @@ import Data.Function (id, (.))
 import Data.Maybe (Maybe)
 import Data.String (String)
 import qualified Data.Text.Internal as T
+
+#if !MIN_VERSION_text(2,0,2)
 import qualified Data.Text.Internal.Fusion.Common as TF
+#endif
 
 import Universum.Functor ((<$>))
 import Universum.String.Reexport (ByteString, IsString, Read, Text, fromString)

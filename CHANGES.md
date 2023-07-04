@@ -1,8 +1,17 @@
+1.8.2
+=====
+
+* [#289](https://github.com/serokell/universum/pull/289):
+  Make universum work with LTS-21.0.
+  * Re-export `(~)` type operator.
+* [#283](https://github.com/serokell/universum/pull/283):
+  Bump the upper version bound on `text` to `2.0.2`.
+
 1.8.1.1
 =======
 
 * [#282](https://github.com/serokell/universum/pull/282):
-  Bump version bound on `text` to `2.0.1`.
+  Bump the upper version bound on `text` to `2.0.1`.
 
 1.8.1
 =====

@@ -231,9 +231,13 @@ instance FromList (NonEmpty a) where
 
 instance FromList IntSet
 instance Ord a => FromList (Set a)
-instance (Eq k, Hashable k) => FromList (HashMap k v)
 instance FromList (IntMap v)
 instance Ord k => FromList (Map k v)
+#if MIN_VERSION_hashable(1,4,0)
+instance (Hashable k) => FromList (HashMap k v)
+#else
+instance (Eq k, Hashable k) => FromList (HashMap k v)
+#endif
 
 instance FromList T.Text
 instance FromList TL.Text
@@ -575,7 +579,11 @@ instance Ord v => Container (Set v) where
     notElem = Set.notMember
     {-# INLINE notElem #-}
 
+#if MIN_VERSION_hashable(1,4,0)
+instance (Hashable v) => Container (HashSet v) where
+#else
 instance (Eq v, Hashable v) => Container (HashSet v) where
+#endif
     elem = HashSet.member
     {-# INLINE elem #-}
 
