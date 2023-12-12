@@ -20,7 +20,7 @@ jobs:
     name: Verify cross references
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: serokell/xrefcheck-action@v1
       with:
         xrefcheck-version: 0.2.2
@@ -60,7 +60,7 @@ jobs:
             ghc: 8.10.7
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       if: github.event.action == 'opened' || github.event.action == 'synchronize' || github.event.ref == 'refs/heads/master'
 
     - uses: haskell/actions/setup@v2
@@ -99,7 +99,7 @@ jobs:
         ghc: ["9.4.5"]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       if: github.event.action == 'opened' || github.event.action == 'synchronize' || github.event.ref == 'refs/heads/master'
 
     - uses: haskell/actions/setup@v2
