@@ -178,7 +178,11 @@ Then, some commonly used types: `Map/HashMap/IntMap`, `Set/HashSet/IntSet`, `Seq
 `deepseq` is exported. For instance, if you want to force deep evaluation of some value (in IO),
 you can write `evaluateNF a`. WHNF evaluation is possible with `evaluateWHNF a`.
 
-We also reexport big chunks of these libraries: `mtl`, `stm`, `microlens`, `microlens-mtl`.
+`(.^)`, `(.~)` and some other optics-related functions and operators are exported in
+`Universum.Lens` module.
+This module is not included in `Universum` module so it requires explicit `import`.
+
+We also reexport big chunks of `mtl`, `stm`.
 
 [`Bifunctor`](http://hackage.haskell.org/package/base-4.9.1.0/docs/Data-Bifunctor.html)
 type class with useful instances is exported.

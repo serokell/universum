@@ -70,6 +70,7 @@ library
                            Universum.Functor
                                Universum.Functor.Fmap
                                Universum.Functor.Reexport
+                           Universum.Lens
                            Universum.Lifted
                                Universum.Lifted.Concurrent
                                Universum.Lifted.Env
