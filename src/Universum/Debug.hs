@@ -1,4 +1,5 @@
 {-# LANGUAGE CPP                #-}
+{-# LANGUAGE DataKinds          #-}
 {-# LANGUAGE DeriveDataTypeable #-}
 {-# LANGUAGE DeriveGeneric      #-}
 {-# LANGUAGE DerivingStrategies #-}
@@ -8,7 +9,6 @@
 {-# LANGUAGE PolyKinds          #-}
 {-# LANGUAGE RankNTypes         #-}
 {-# LANGUAGE Trustworthy        #-}
-{-# LANGUAGE TypeInType         #-}
 
 -- | Functions for debugging. If you left these functions in your code
 -- then warning is generated to remind you about left usages. Also, some
