@@ -13,8 +13,7 @@ category:            Prelude
 stability:           stable
 build-type:          Simple
 bug-reports:         https://github.com/serokell/universum/issues
-tested-with:         GHC == 8.8.4
-                   , GHC == 8.10.7
+tested-with:         GHC == 8.10.7
                    , GHC == 9.0.2
                    , GHC == 9.2.8
                    , GHC == 9.4.5
@@ -40,8 +39,7 @@ common common-options
                        -Wno-missing-local-signatures
                        -Wno-monomorphism-restriction
                        -Wno-implicit-prelude
-  if impl(ghc >= 8.10.1)
-    ghc-options:       -Wno-prepositive-qualified-module
+                       -Wno-prepositive-qualified-module
                        -Wno-inferred-safe-imports
   if impl(ghc >= 9.2.0)
     ghc-options:         -Wno-missing-kind-signatures
@@ -140,9 +138,7 @@ test-suite universum-test
   build-tool-depends:
       tasty-discover:tasty-discover
 
-  if impl(ghc >= 8.10.1)
-    ghc-options:         -Wno-missing-safe-haskell-mode
-
+  ghc-options:         -Wno-missing-safe-haskell-mode
   ghc-options:         -threaded
 
 test-suite universum-doctest
@@ -157,14 +153,12 @@ test-suite universum-doctest
   build-depends:       doctest
                      , Glob
 
-  if impl(ghc >= 8.10.1)
-    ghc-options:         -Wno-missing-safe-haskell-mode
+  ghc-options:         -Wno-missing-safe-haskell-mode
+  ghc-options:         -threaded
   -- https://github.com/sol/doctest/issues/327
   -- TODO: re-enable when the issue is resolved
   if impl(ghc >= 9.0.0)
     buildable: False
-
-  ghc-options:         -threaded
 
 benchmark universum-benchmark
   import:              common-options
@@ -179,8 +173,7 @@ benchmark universum-benchmark
                      , text
                      , unordered-containers
 
-  if impl(ghc >= 8.10.1)
-    ghc-options:         -Wno-missing-safe-haskell-mode
+  ghc-options:         -Wno-missing-safe-haskell-mode
 
   default-extensions:  NoImplicitPrelude
                        ScopedTypeVariables
