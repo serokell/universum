@@ -177,7 +177,7 @@ are still the expected ones (see the comments there for what to expect).
 * You may optionally check whether any changes to `pack` and `unpack` functions
 and their `INLINE`/`NOINLINE` annotations took place.
 The current rewrite rules match with what happens in `text` package
-at the e5644b663c32c01a1de7299a5e711216755e01bc commit, and next time
+at the c826a6cb3d29242ce3632b490670ae7997689eaa commit, and next time
 you can just check `git diff <that commit>..HEAD`.
 
 If these points hold, it should be safe to raise the upper bound on `text` version.

@@ -18,6 +18,7 @@ tested-with:         GHC == 8.10.7
                    , GHC == 9.2.8
                    , GHC == 9.4.5
                    , GHC == 9.6.3
+                   , GHC == 9.8.1
 extra-doc-files:     CHANGES.md
                    , CONTRIBUTING.md
                    , README.md
@@ -106,7 +107,7 @@ library
                      , stm
                      -- Make sure that "toString-toText-rewritting" note
                      -- is still valid when bumping this constraint.
-                     , text >= 1.0.0.0 && <= 2.0.2
+                     , text >= 1.0.0.0 && <= 2.1.1
                      , transformers
                      , unordered-containers
                      , utf8-string

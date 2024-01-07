@@ -1,12 +1,13 @@
-{-# LANGUAGE ConstraintKinds    #-}
-{-# LANGUAGE DataKinds          #-}
-{-# LANGUAGE ExplicitNamespaces #-}
-{-# LANGUAGE KindSignatures     #-}
-{-# LANGUAGE NoImplicitPrelude  #-}
-{-# LANGUAGE PolyKinds          #-}
-{-# LANGUAGE Safe               #-}
-{-# LANGUAGE TypeFamilies       #-}
-{-# LANGUAGE TypeOperators      #-}
+{-# LANGUAGE ConstraintKinds          #-}
+{-# LANGUAGE DataKinds                #-}
+{-# LANGUAGE ExplicitNamespaces       #-}
+{-# LANGUAGE KindSignatures           #-}
+{-# LANGUAGE NoImplicitPrelude        #-}
+{-# LANGUAGE PolyKinds                #-}
+{-# LANGUAGE Safe                     #-}
+{-# LANGUAGE TypeFamilies             #-}
+{-# LANGUAGE StandaloneKindSignatures #-}
+{-# LANGUAGE TypeOperators            #-}
 
 -- | Type operators for writing convenient type signatures.
 
@@ -25,6 +26,7 @@ import Data.Kind (Constraint)
 -- =
 -- f :: Either String (Maybe Int)
 -- @
+type ($) :: (k2 -> k1) -> k2 -> k1
 type f $ a = f a
 infixr 2 $
 
@@ -66,4 +68,5 @@ type family Each (c :: [k -> Constraint]) (as :: [k]) where
 -- =
 -- a :: (Show a, Read a) => a -> a
 -- @
+type With :: [k -> Constraint] -> k -> Constraint
 type With a b = a <+> b
