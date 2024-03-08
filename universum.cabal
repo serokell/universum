@@ -176,6 +176,8 @@ benchmark universum-benchmark
                      , unordered-containers
 
   ghc-options:         -Wno-missing-safe-haskell-mode
+  if impl(ghc >= 9.8.0)
+    ghc-options:         -Wno-x-partial
 
   default-extensions:  NoImplicitPrelude
                        ScopedTypeVariables
