@@ -1,3 +1,8 @@
+-- Some tests in this module have a caveat: they depend on compiler
+-- optimizations and will likely fail if compiled with -O0.
+-- That's because they depend on rewrite rules (and test these rules),
+-- and these rules are usually not triggered without certain optimizations.
+
 module Test.Universum.StringProps
   ( hprop_StringToTextAndBack
   , hprop_StringToTextAndBackSurrogate

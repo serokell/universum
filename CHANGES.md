@@ -1,3 +1,10 @@
+1.8.2.1
+=======
+
+* [#293](https://github.com/serokell/universum/pull/293)
+  * Add explicit kind signatures for custom operators.
+  * Bump some dependency constraints to support GHC-9.8.
+
 1.8.2
 =====
 
