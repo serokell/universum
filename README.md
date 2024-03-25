@@ -4,8 +4,7 @@ Universum
 [![GitHub CI](https://github.com/serokell/universum/workflows/CI/badge.svg)](https://github.com/serokell/universum/actions)
 [![Hackage](https://img.shields.io/hackage/v/universum.svg)](https://hackage.haskell.org/package/universum)
 [![Stackage LTS](http://stackage.org/package/universum/badge/lts)](http://stackage.org/lts/package/universum)
-<!-- TODO [#288]: re-enable once the package is back to nightly -->
-<!-- [![Stackage Nightly](http://stackage.org/package/universum/badge/nightly)](http://stackage.org/nightly/package/universum) -->
+[![Stackage Nightly](http://stackage.org/package/universum/badge/nightly)](http://stackage.org/nightly/package/universum)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 `universum` is a custom prelude used in @Serokell that has:
