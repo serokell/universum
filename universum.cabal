@@ -179,6 +179,8 @@ benchmark universum-benchmark
   ghc-options:         -Wno-missing-safe-haskell-mode
   if impl(ghc >= 9.8.0)
     ghc-options:         -Wno-x-partial
+  -- TODO (#298): migrate from gauge to something
+  buildable: False
 
   default-extensions:  NoImplicitPrelude
                        ScopedTypeVariables
