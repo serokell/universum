@@ -54,8 +54,7 @@ to replace default `Prelude` with an alternative. All we had to do is to impleme
 new basic set of defaults. There already were plenty of [preludes](https://guide.aelve.com/haskell/alternative-preludes-zr69k1hc),
 so we didn't plan to implement everything from scratch.
 After some long, hot discussions, our team decided to base our custom prelude on
-[`protolude`](https://github.com/sdiehl/protolude). If you're not familiar with it,
-you can read [a tutorial about `protolude`](http://www.stephendiehl.com/posts/protolude.html).
+[`protolude`](https://github.com/protolude/protolude).
 
 The next section explains why we've made this choice and what we are willing to do.
 This tutorial doesn't cover the differences from `protolude`. Instead, it explains how Universum is different from regular `Prelude`.
