@@ -19,6 +19,7 @@ tested-with:         GHC == 8.10.7
                    , GHC == 9.4.5
                    , GHC == 9.6.3
                    , GHC == 9.8.1
+                   , GHC == 9.10.1
 extra-doc-files:     CHANGES.md
                    , CONTRIBUTING.md
                    , README.md

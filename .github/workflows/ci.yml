@@ -41,8 +41,11 @@ jobs:
           - "9.4.5"
           - "9.6.3"
           - "9.8.1"
+          - "9.10.1"
         # Use only the "main" (usually latest) compiler version on non-Linux
         exclude:
+          - os: macOS-latest
+            ghc: 9.10.1
           - os: macOS-latest
             ghc: 9.8.1
           - os: macOS-latest
@@ -53,6 +56,8 @@ jobs:
             ghc: 9.0.2
           - os: macOS-latest
             ghc: 8.10.7
+          - os: windows-latest
+            ghc: 9.10.1
           - os: windows-latest
             ghc: 9.8.1
           - os: windows-latest
