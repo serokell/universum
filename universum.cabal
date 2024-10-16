@@ -16,9 +16,9 @@ bug-reports:         https://github.com/serokell/universum/issues
 tested-with:         GHC == 8.10.7
                    , GHC == 9.0.2
                    , GHC == 9.2.8
-                   , GHC == 9.4.5
-                   , GHC == 9.6.3
-                   , GHC == 9.8.1
+                   , GHC == 9.4.8
+                   , GHC == 9.6.6
+                   , GHC == 9.8.2
                    , GHC == 9.10.1
 extra-doc-files:     CHANGES.md
                    , CONTRIBUTING.md
