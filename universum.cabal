@@ -1,6 +1,6 @@
 cabal-version:       2.2
 name:                universum
-version:             1.8.2.1
+version:             1.8.2.2
 synopsis:            Custom prelude used in Serokell
 description:         See README.md file for more details.
 homepage:            https://github.com/serokell/universum
@@ -16,9 +16,10 @@ bug-reports:         https://github.com/serokell/universum/issues
 tested-with:         GHC == 8.10.7
                    , GHC == 9.0.2
                    , GHC == 9.2.8
-                   , GHC == 9.4.5
-                   , GHC == 9.6.3
-                   , GHC == 9.8.1
+                   , GHC == 9.4.8
+                   , GHC == 9.6.6
+                   , GHC == 9.8.2
+                   , GHC == 9.10.1
 extra-doc-files:     CHANGES.md
                    , CONTRIBUTING.md
                    , README.md
@@ -178,6 +179,8 @@ benchmark universum-benchmark
   ghc-options:         -Wno-missing-safe-haskell-mode
   if impl(ghc >= 9.8.0)
     ghc-options:         -Wno-x-partial
+  -- TODO (#298): migrate from gauge to something
+  buildable: False
 
   default-extensions:  NoImplicitPrelude
                        ScopedTypeVariables

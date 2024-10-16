@@ -48,6 +48,9 @@ module Universum.Container.Class
 import Data.Coerce (Coercible, coerce)
 import Data.Kind (Type)
 import Prelude hiding (all, and, any, concatMap, elem, foldMap, foldl, foldr, mapM_, notElem, null,
+#if __GLASGOW_HASKELL__ >= 910
+                foldl',
+#endif
                 or, print, product, sequence_, sum)
 
 import Universum.Applicative (Alternative (..), Const, ZipList (..), pass)
