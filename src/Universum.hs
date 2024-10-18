@@ -43,6 +43,9 @@ Below is a short description of what you can find under different modules:
 * __"Universum.Function"__: almost everything from "Data.Function" module.
 * __"Universum.Functor"__: reexports from "Data.Functor", "Data.Bifunctor",
   other useful 'Functor' combinators.
+* __"Universum.Lens"__: Some operators and functions for using lenses.
+  Not exported by "Universum" module by default, so, if more functionality is needed,
+  @microlens@ or @lens@ packages can be used without conflicts of names.
 * __"Universum.Lifted"__: lifted to 'MonadIO' functions to work with console,
   files, 'IORef's, 'MVar's, etc.
 * __"Universum.List"__: big chunk of "Data.List", 'NonEmpty' type and
@@ -80,18 +83,7 @@ module Universum
        , module Universum.TypeOps
        , module Universum.VarArg
 
-         -- * Lenses
-       , Lens
-       , Lens'
-       , Traversal
-       , Traversal'
-       , over
-       , set
-       , (%~)
-       , (.~)
-       , (^.)
-       , (^..)
-       , (^?)
+         -- * Lenses, see also __"Universum.Lens"__
        , _1
        , _2
        , _3
@@ -123,24 +115,12 @@ import Universum.TypeOps
 import Universum.VarArg
 
 -- Lenses
-import qualified Lens.Micro (ASetter, Getting, over, set, (%~), (.~), (^.),
-                             (^..), (^?), _1, _2, _3, _4, _5)
+import qualified Lens.Micro (Getting, Lens, _1, _2, _3, _4, _5)
 import qualified Lens.Micro.Mtl (preuse, preview, use, view)
 import Lens.Micro.Internal (Field1, Field2, Field3, Field4, Field5)
 
 {-# DEPRECATED
-    Lens
-  , Lens'
-  , Traversal
-  , Traversal'
-  , over
-  , set
-  , (%~)
-  , (.~)
-  , (^.)
-  , (^..)
-  , (^?)
-  , _1
+    _1
   , _2
   , _3
   , _4
@@ -152,56 +132,19 @@ import Lens.Micro.Internal (Field1, Field2, Field3, Field4, Field5)
   "Use corresponding function from 'lens' or 'microlens' package"
 #-}
 
-type Lens s t a b = forall f. Functor f => (a -> f b) -> s -> f t
-type Lens' s a = Lens s s a a
-
-type Traversal s t a b = forall f. Applicative f => (a -> f b) -> s -> f t
-type Traversal' s a = Traversal s s a a
-
-over :: Lens.Micro.ASetter s t a b -> (a -> b) -> s -> t
-over = Lens.Micro.over
-
-set :: Lens.Micro.ASetter s t a b -> b -> s -> t
-set = Lens.Micro.set
-
-(%~) :: Lens.Micro.ASetter s t a b -> (a -> b) -> s -> t
-(%~) = (Lens.Micro.%~)
-
-infixr 4 %~
-
-(.~) :: Lens.Micro.ASetter s t a b -> b -> s -> t
-(.~) = (Lens.Micro..~)
-
-infixr 4 .~
-
-(^.) :: s -> Lens.Micro.Getting a s a -> a
-(^.) = (Lens.Micro.^.)
-
-infixl 8 ^.
-
-(^..) :: s -> Lens.Micro.Getting (Endo [a]) s a -> [a]
-(^..) = (Lens.Micro.^..)
-
-infixl 8 ^..
-
-(^?) :: s -> Lens.Micro.Getting (First a) s a -> Maybe a
-(^?) = (Lens.Micro.^?)
-
-infixl 8 ^?
-
-_1 :: Field1 s t a b => Lens s t a b
+_1 :: Field1 s t a b => Lens.Micro.Lens s t a b
 _1 = Lens.Micro._1
 
-_2 :: Field2 s t a b => Lens s t a b
+_2 :: Field2 s t a b => Lens.Micro.Lens s t a b
 _2 = Lens.Micro._2
 
-_3 :: Field3 s t a b => Lens s t a b
+_3 :: Field3 s t a b => Lens.Micro.Lens s t a b
 _3 = Lens.Micro._3
 
-_4 :: Field4 s t a b => Lens s t a b
+_4 :: Field4 s t a b => Lens.Micro.Lens s t a b
 _4 = Lens.Micro._4
 
-_5 :: Field5 s t a b => Lens s t a b
+_5 :: Field5 s t a b => Lens.Micro.Lens s t a b
 _5 = Lens.Micro._5
 
 preuse :: MonadState s m => Lens.Micro.Getting (First a) s a -> m (Maybe a)
