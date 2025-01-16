@@ -2,11 +2,11 @@
 #
 # SPDX-License-Identifier: Unlicense
 
-# Verification parameters.
-verification:
+# Exclusion parameters.
+exclusions:
   # POSIX extended regular expressions that match external references
   # that have to be ignored (not verified).
-  ignoreRefs:
+  ignoreExternalRefsTo:
     # Note: For some reason, running `curl -I https://opensource.org/licenses/MIT` from within
     # a GitHub Action's agent returns a 503.
     # For this reason, we're temporarily disabling this check.

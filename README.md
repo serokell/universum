@@ -76,8 +76,7 @@ While creating and maintaining a custom prelude, we are pursuing the following g
    Instead, we reexport common and well-known things from `base` and some other
    libraries that are used in everyday production programming in _Haskell_.
    > **Note**: well, we did end up inventing _some_ new things.
-4. Export more useful and commonly used functions. [Hello, my name is Dmitry. I was
-   coding _Haskell_ for 3 years but still hoogling which module `liftIO` comes from.](https://twitter.com/magnars/status/834683466130345984)
+4. Export more useful and commonly used functions.
    Things like `liftIO`, `ReaderT` type, `MVar`-related functions have unambiguous names,
    are used in almost every non-trivial project, and it's really tedious to import them
    manually every time.
