@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE Trustworthy #-}
 {-# LANGUAGE RankNTypes #-}
 
@@ -126,7 +127,11 @@ import Universum.VarArg
 import qualified Lens.Micro (ASetter, Getting, over, set, (%~), (.~), (^.),
                              (^..), (^?), _1, _2, _3, _4, _5)
 import qualified Lens.Micro.Mtl (preuse, preview, use, view)
+#if MIN_VERSION_microlens(0,5,0)
+import Lens.Micro (Field1, Field2, Field3, Field4, Field5)
+#else
 import Lens.Micro.Internal (Field1, Field2, Field3, Field4, Field5)
+#endif
 
 {-# DEPRECATED
     Lens
