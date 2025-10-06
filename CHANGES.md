@@ -1,3 +1,11 @@
+1.8.3
+=======
+
+* [#301](https://github.com/serokell/universum/pull/301)
+  * Relax the upper bound on `text`.
+* [#300](https://github.com/serokell/universum/pull/300)
+  * Fix building with microlens-0.5.
+
 1.8.2.2
 =======
 
