@@ -31,7 +31,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macOS-latest, windows-latest]
-        cabal: ["3.12"]
+        cabal: ["3.16"]
         # If you update this list of supported compiler versions,
         # make sure to update the `tested-with` section of `universum.cabal`.
         ghc:
@@ -111,7 +111,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        stack: ["3.1.1"]
+        stack: ["3.7.1"]
         ghc: ["9.10.3"]
 
     steps:
