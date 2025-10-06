@@ -167,26 +167,6 @@ instance ToString T.Text where
 instance ToString LT.Text where
     toString = LT.unpack
 
-{- [Note toString-toText-rewritting]
-
-Note ON MAINTENANCE of rewrite rules below.
-
-Whenever you want to allow a newer version of @text@ package, check:
-* The @text conversions@ benchmark, that the numbers with and without the rules
-are still the expected ones (see the comments there for what to expect).
-* You may optionally check whether any changes to `pack` and `unpack` functions
-and their `INLINE`/`NOINLINE` annotations took place.
-The current rewrite rules match with what happens in `text` package
-at the c826a6cb3d29242ce3632b490670ae7997689eaa commit, and next time
-you can just check `git diff <that commit>..HEAD`.
-
-If these points hold, it should be safe to raise the upper bound on `text` version.
-
-If not, first do the necessary changes (preserving the backward compatibility),
-update the commit id above if you checked the code of the `text` package.
-Then bump the version constraint.
--}
-
 {-
 
 @toString . toText@ pattern may occur quite often after inlining because
@@ -204,6 +184,9 @@ But in the most cases this is what the user wants.
     forall s. T.unpack (T.pack s) = s
 #-}
 
+-- This applies when `text` is older than 2.0.2, the oldest GHC version
+-- with such `text` is 9.4.4
+-- TODO: remove once we stop supporting GHC 9.4 and older.
 #if !MIN_VERSION_text(2,0,2)
 {-
 
