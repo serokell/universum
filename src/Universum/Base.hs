@@ -38,7 +38,6 @@ module Universum.Base
        , module GHC.Real
        , module GHC.Show
        , module GHC.TypeNats
-       , module GHC.Types
        , module GHC.OverloadedLabels
        , module GHC.ExecutionStack
        , module GHC.Stack
@@ -75,7 +74,7 @@ import Data.Void (Void, absurd, vacuous)
 import Data.Type.Equality (type (~))
 #endif
 
-import GHC.Base (String, asTypeOf, maxInt, minInt, ord, seq)
+import GHC.Base (Bool, Char, Coercible, IO, Int, Ordering, String, Word, asTypeOf, maxInt, minInt, ord, seq)
 import GHC.Enum (Bounded (..), Enum (..), boundedEnumFrom, boundedEnumFromThen)
 import GHC.ExecutionStack (getStackTrace, showStackTrace)
 import GHC.Exts (FunPtr, Ptr)
@@ -88,7 +87,6 @@ import GHC.Show (Show)
 import GHC.Stack (CallStack, HasCallStack, callStack, currentCallStack, getCallStack,
                   prettyCallStack, prettySrcLoc, withFrozenCallStack)
 import GHC.TypeNats (CmpNat, KnownNat, Nat, SomeNat (..), natVal, someNatVal)
-import GHC.Types (Bool, Char, Coercible, IO, Int, Ordering, Word)
 
 -- $setup
 -- >>> import Universum.Function (const, ($))

@@ -27,7 +27,7 @@ extra-doc-files:     CHANGES.md
 
 source-repository head
   type:     git
-  location: git@github.com:serokell/universum.git
+  location: https://github.com/serokell/universum.git
 
 common common-options
   build-depends:       base >= 4.8 && < 5
@@ -100,7 +100,6 @@ library
   build-depends:       bytestring
                      , containers
                      , deepseq
-                     , ghc-prim >= 0.4.0.0
                      , hashable
                      , microlens
                      , microlens-mtl
