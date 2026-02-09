@@ -798,8 +798,6 @@
         , lhs: Data.Maybe.isJust, rhs: Universum.isJust }
 - warn: { name: "Use 'isNothing' from Universum"
         , lhs: Data.Maybe.isNothing, rhs: Universum.isNothing }
-- warn: { name: "Use 'listToMaybe' from Universum"
-        , lhs: Data.Maybe.listToMaybe, rhs: Universum.listToMaybe }
 - warn: { name: "Use 'mapMaybe' from Universum"
         , lhs: Data.Maybe.mapMaybe, rhs: Universum.mapMaybe }
 - warn: { name: "Use 'maybeToList' from Universum"
