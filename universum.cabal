@@ -1,6 +1,6 @@
 cabal-version:       2.2
 name:                universum
-version:             1.8.3
+version:             1.8.3.1
 synopsis:            Custom prelude used in Serokell
 description:         See README.md file for more details.
 homepage:            https://github.com/serokell/universum
@@ -17,10 +17,11 @@ tested-with:         GHC == 8.10.7
                    , GHC == 9.0.2
                    , GHC == 9.2.8
                    , GHC == 9.4.8
-                   , GHC == 9.6.6
-                   , GHC == 9.8.2
-                   , GHC == 9.10.1
+                   , GHC == 9.6.7
+                   , GHC == 9.8.4
+                   , GHC == 9.10.3
                    , GHC == 9.12.2
+                   , GHC == 9.14.1
 extra-doc-files:     CHANGES.md
                    , CONTRIBUTING.md
                    , README.md
@@ -47,6 +48,9 @@ common common-options
                        -Wno-inferred-safe-imports
   if impl(ghc >= 9.2.0)
     ghc-options:         -Wno-missing-kind-signatures
+
+  if impl(ghc >= 9.14.0)
+    ghc-options:         -Wno-pattern-namespace-specifier
 
   default-language:    Haskell2010
 
