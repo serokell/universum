@@ -1,3 +1,9 @@
+1.8.3.1
+=======
+
+* [#304](https://github.com/serokell/universum/pull/304)
+  * Add support for GHC-9.14 without any user-visible changes.
+
 1.8.3
 =======
 
