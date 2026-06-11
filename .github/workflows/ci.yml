@@ -26,7 +26,7 @@ jobs:
         xrefcheck-version: 0.3.1
 
   cabal:
-    name: ${{ matrix.os }} / ghc ${{ matrix.ghc }}
+    name: ${{ matrix.job-name || format('{0} / ghc {1}', matrix.os, matrix.ghc) }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -44,6 +44,16 @@ jobs:
           - "9.10.3"
           - "9.12.2"
           - "9.14.1"
+        include:
+          - os: ubuntu-latest
+            ghc: "9.14.1"
+            job-name: "Ubuntu / GHC latest"
+          - os: ubuntu-latest
+            ghc: "9.12.2"
+            job-name: "Ubuntu / GHC latest HLS-powered"
+          - os: ubuntu-latest
+            ghc: "9.6.7"
+            job-name: "Ubuntu / GHC recommended by GHCup"
         # Use only the "main" (usually latest or pre-latest) compiler version on non-Linux
         exclude:
           - os: macOS-latest
